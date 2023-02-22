@@ -124,7 +124,6 @@ class StoreRepositories {
         apiResponse.msg = body['message'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
-          print(body['data']);
           apiResponse.data = body['data'];
         }
       } else {
