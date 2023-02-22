@@ -32,6 +32,17 @@ class VerifyPage extends StatefulWidget {
 class _VerifyPageState extends State<VerifyPage> {
   final TextEditingController _pinController = TextEditingController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AuthBloc>().state is AuthAuthenticated) {
+        GoRouter.of(context).pushReplacement('/');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
       width: 56,

@@ -61,7 +61,17 @@ class FirebaseAuthService {
         String firebaseToken = await user.getIdToken();
         String uid = user.uid;
         if (isLogin) {
-          String? fmc = await FirebaseMessaging.instance.getToken();
+          String? fmc;
+          await FirebaseMessaging.instance
+              .requestPermission(alert: true, sound: true)
+              .then((value) async {
+            if (value.authorizationStatus == AuthorizationStatus.authorized) {
+              fmc = await FirebaseMessaging.instance.getToken();
+            }
+          }).timeout(
+            const Duration(seconds: 5),
+            onTimeout: () => fmc = null,
+          );
           ApiResponse apiResponse = await UserRepositories.login(
               phone: Utils.convertToDB(phoneNumber),
               fcM_Firebase: fmc ?? '',

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -23,7 +24,33 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late SidebarXController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = SidebarXController(selectedIndex: 0, extended: true);
+    controller.addListener(() {
+      if (controller.selectedIndex == 0) {
+        setState(() {
+          tiltie = "Trang Chủ";
+        });
+      }
+      if (controller.selectedIndex == 1) {
+        setState(() {
+          tiltie = "Quản lý sản phẩm";
+        });
+      }
+      if (controller.selectedIndex == 2) {
+        setState(() {
+          tiltie = "Trò chuyện";
+        });
+      }
+    });
+  }
+
+  String tiltie = "Trang Chủ";
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -33,26 +60,33 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Trang chủ',
+                tiltie,
                 style: AppStyle.apptitle,
               ),
               backgroundColor: AppStyle.appColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               actions: [
-                ElevatedButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(UserLoggedOut());
-                    },
-                    style: AppStyle.myButtonStyle.copyWith(
-                        shape: MaterialStateProperty
-                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: const BorderSide(color: Colors.white)))),
+                TextButton(
+                    onPressed: () =>
+                        context.read<AuthBloc>().add(UserLoggedOut()),
                     child: Text(
                       'Đăng xuất',
                       style: AppStyle.buttom,
                     )),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       context.read<AuthBloc>().add(UserLoggedOut());
+                //     },
+                //     style: AppStyle.myButtonStyle.copyWith(
+                //         shape: MaterialStateProperty
+                //             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(18.0),
+                //                 side: const BorderSide(color: Colors.white)))),
+                //     child: Text(
+                //       'Đăng xuất',
+                //       style: AppStyle.buttom,
+                //     )),
               ],
             ),
             body: Center(
@@ -90,7 +124,6 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, state) {
                           if (state is ShopCreated) {
                             Store store = state.store;
-                            inspect(store);
                             if (store.store_Status.item_StatusID == 1) {
                               return shopView(context, state.store);
                             } else {
@@ -279,7 +312,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget shopView(BuildContext context, Store store) {
-    final controller = SidebarXController(selectedIndex: 0, extended: true);
     return Row(
       children: [
         SideBarWigdet(
@@ -294,6 +326,8 @@ class _HomePageState extends State<HomePage> {
               case 0:
                 return const DashboardPage();
               case 1:
+                return const ItemPage();
+              case 2:
                 return const ChatPage();
               default:
                 return const DashboardPage();

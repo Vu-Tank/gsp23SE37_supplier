@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    log(context.read<AuthBloc>().state.toString());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AuthBloc>().state is AuthAuthenticated) {
+        GoRouter.of(context).pushReplacement('/');
+      }
+    });
   }
 
   final TextEditingController _phoneController = TextEditingController();

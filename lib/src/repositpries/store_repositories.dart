@@ -56,7 +56,6 @@ class StoreRepositories {
         apiResponse.msg = body['message'];
         apiResponse.isSuccess = body['success'];
         if (apiResponse.isSuccess!) {
-          print(body['data']);
           apiResponse.data = Store.fromMap(body['data']);
         }
       } else {

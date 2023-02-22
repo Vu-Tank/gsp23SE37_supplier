@@ -44,6 +44,11 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AuthBloc>().state is AuthAuthenticated) {
+        GoRouter.of(context).pushReplacement('/');
+      }
+    });
   }
 
   @override

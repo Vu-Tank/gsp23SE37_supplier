@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +34,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
   Ward? _ward;
   XFile? _image;
   late User user;
-
+  bool isfirst = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +45,12 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
         GoRouter.of(context).push(AppRouterConstants.loginRouteName);
       } else if (state is AuthAuthenticated) {
         user = state.user;
-        inspect(user);
+        if (user.storeID != -1) {
+          GoRouter.of(context).push(AppRouterConstants.loginRouteName);
+        }
+        _email.text = user.email;
+        _email.selection = TextSelection.collapsed(offset: _email.text.length);
+        isfirst = true;
       }
     });
   }
@@ -76,6 +79,17 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
               builder: (context, provinceState) {
                 if (provinceState is ProvinceLoaded) {
                   _province ??= provinceState.province.first;
+                  if (isfirst) {
+                    for (Province element in provinceState.province) {
+                      if (element.value.compareTo(user.addresses[0].province) ==
+                          0) {
+                        _province = element;
+                        context
+                            .read<DistrictCubit>()
+                            .selectedProvince(element.key);
+                      }
+                    }
+                  }
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -227,6 +241,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                   if (value != null) {
                                     setState(() {
                                       _province = value;
+                                      isfirst = false;
                                       if (value.key != '-1') {
                                         context
                                             .read<DistrictCubit>()
@@ -269,6 +284,19 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                     } else if (state is DistrictLoaded) {
                                       _district =
                                           _district ?? state.districts.first;
+                                      if (isfirst) {
+                                        for (District element
+                                            in state.districts) {
+                                          if (element.value.compareTo(
+                                                  user.addresses[0].district) ==
+                                              0) {
+                                            _district = element;
+                                            context
+                                                .read<WardCubit>()
+                                                .selectDistrict(element.key);
+                                          }
+                                        }
+                                      }
                                       return DropdownButtonFormField(
                                         value: _district,
                                         icon: const Icon(Icons.arrow_downward),
@@ -292,6 +320,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                           if (value != null) {
                                             setState(() {
                                               _district = value;
+                                              isfirst = false;
                                               if (value.key != '-1') {
                                                 context
                                                     .read<WardCubit>()
@@ -339,6 +368,15 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                       );
                                     } else if (wardState is WardLoaded) {
                                       _ward ??= wardState.ward.first;
+                                      if (isfirst) {
+                                        for (Ward element in wardState.ward) {
+                                          if (element.value.compareTo(
+                                                  user.addresses[0].ward) ==
+                                              0) {
+                                            _ward = element;
+                                          }
+                                        }
+                                      }
                                       return DropdownButtonFormField(
                                         value: _ward,
                                         icon: const Icon(Icons.arrow_downward),
@@ -361,6 +399,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         onChanged: (Ward? value) {
                                           setState(() {
                                             _ward = value;
+                                            isfirst = false;
                                           });
                                         },
                                         items: wardState.ward
@@ -447,7 +486,15 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                               province: _province,
                                               district: _district,
                                               ward: _ward,
-                                              onSuccess: () {}));
+                                              onSuccess: () {
+                                                context
+                                                    .read<AuthBloc>()
+                                                    .add(AppLoaded());
+                                                GoRouter.of(context)
+                                                    .pushReplacementNamed(
+                                                        AppRouterConstants
+                                                            .homeRouteName);
+                                              }));
                                     },
                               style: AppStyle.myButtonStyle,
                               child: (state is RegisterStoreing)
