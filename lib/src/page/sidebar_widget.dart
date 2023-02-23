@@ -31,7 +31,7 @@ class SideBarWigdet extends StatelessWidget {
         )),
       ),
       extendedTheme: SidebarXTheme(
-          width: 300,
+          width: 250,
           textStyle: AppStyle.h2,
           selectedTextStyle: AppStyle.h2.copyWith(color: Colors.blue)),
       items: const [
