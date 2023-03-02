@@ -17,7 +17,8 @@ class AppStyle {
   static TextStyle errorStyle = h2.copyWith(
     color: Colors.red,
   );
-  static Color appColor = const Color(0xFFb6e8f3);
+  static Color appColor = const Color(0xFFeb6440);
+  static Color bntColor = const Color(0xFF3d5a98);
   static TextStyle buttom = const TextStyle(
     color: Colors.black,
     fontSize: 18,
@@ -27,4 +28,6 @@ class AppStyle {
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20))),
   );
+  static String sologon = "Chào Mừng Bạn Đến Với Chúng Tôi";
+  static String sologon2 = "Tham gia ngay ngay cùng hàng nghìn đối tác";
 }
