@@ -14,10 +14,6 @@ class SideBarWigdet extends StatelessWidget {
     return SidebarX(
       controller: controller,
       theme: SidebarXTheme(
-        itemTextPadding: const EdgeInsets.only(
-          left: 30,
-        ),
-        selectedItemTextPadding: const EdgeInsets.only(left: 30),
         decoration: BoxDecoration(
           color: AppStyle.appColor,
         ),
@@ -26,33 +22,21 @@ class SideBarWigdet extends StatelessWidget {
       footerDivider: const Divider(
         color: Colors.white,
       ),
-      headerBuilder: (context, extended) => Column(
-        children: [
-          const SizedBox(
-            height: 8.0,
-          ),
-          ClipOval(
-              child: SizedBox.fromSize(
-            size: const Size.fromRadius(50),
-            child: Image.network(store.image.path),
-          )),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            store.storeName,
-            style: AppStyle.h2,
-            maxLines: 1,
-            overflow: TextOverflow.fade,
-          )
-        ],
+      headerBuilder: (context, extended) => Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: ClipOval(
+            child: SizedBox.fromSize(
+          size: const Size.fromRadius(75),
+          child: Image.network(store.image.path, fit: BoxFit.cover),
+        )),
       ),
       extendedTheme: SidebarXTheme(
-          width: 200,
+          width: 250,
           textStyle: AppStyle.h2,
           selectedTextStyle: AppStyle.h2.copyWith(color: Colors.blue)),
       items: const [
         SidebarXItem(icon: Icons.home, label: 'Trang chủ'),
+        SidebarXItem(icon: Icons.settings, label: 'Quản lý sản phẩm'),
         SidebarXItem(icon: Icons.chat_outlined, label: 'Tin nhắn')
       ],
     );

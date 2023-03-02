@@ -23,4 +23,14 @@ class AppUrl {
   static const String getPriceActice = '$baseUrl/Store/get_price_actice';
 
   static const String storePayment = '$baseUrl/Payment/momo_store_pay';
+
+  static const String getCategory = '$baseUrl/Category';
+
+  static const String getSpecification = '$baseUrl/Specification/sub_category';
+
+  static const String getBrand = '$baseUrl/Brand';
+
+  static const String addItem = '$baseUrl/Item';
+
+  static const String getItem = '$baseUrl/Item/store';
 }

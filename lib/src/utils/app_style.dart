@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppStyle {
   static TextStyle apptitle = const TextStyle(
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 25,
     fontWeight: FontWeight.bold,
   );
@@ -14,12 +14,12 @@ class AppStyle {
   static TextStyle h2 = h1.copyWith(
     fontSize: 18,
   );
-  static TextStyle errorStyle = h1.copyWith(
+  static TextStyle errorStyle = h2.copyWith(
     color: Colors.red,
   );
-  static Color appColor = const Color(0xFFeb6440);
+  static Color appColor = const Color(0xFFb6e8f3);
   static TextStyle buttom = const TextStyle(
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 18,
   );
   static ButtonStyle myButtonStyle = ElevatedButton.styleFrom(
