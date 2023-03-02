@@ -1,0 +1,28 @@
+^E:\FLUTTER\GSP23SE37_SUPPLIER\BUILD\WINDOWS\CMAKEFILES\F274F00A996C78110071159A150050AC\FLUTTER_WINDOWS.DLL.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env FLUTTER_ROOT=E:\flutter\flutter_windows_3.7.1-stable\flutter PROJECT_DIR=E:\flutter\gsp23SE37_supplier FLUTTER_ROOT=E:\flutter\flutter_windows_3.7.1-stable\flutter FLUTTER_EPHEMERAL_DIR=E:\flutter\gsp23SE37_supplier\windows\flutter\ephemeral PROJECT_DIR=E:\flutter\gsp23SE37_supplier FLUTTER_TARGET=E:\flutter\gsp23SE37_supplier\lib\main.dart DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ== DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false PACKAGE_CONFIG=E:\flutter\gsp23SE37_supplier\.dart_tool\package_config.json E:/flutter/flutter_windows_3.7.1-stable/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\FLUTTER\GSP23SE37_SUPPLIER\BUILD\WINDOWS\CMAKEFILES\003FEBB47AF9CF5FC4D7121D149C90E9\FLUTTER_ASSEMBLE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\FLUTTER\GSP23SE37_SUPPLIER\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/flutter/gsp23SE37_supplier/windows -BE:/flutter/gsp23SE37_supplier/build/windows --check-stamp-file E:/flutter/gsp23SE37_supplier/build/windows/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
