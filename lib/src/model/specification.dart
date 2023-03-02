@@ -5,10 +5,12 @@ class Specification {
   final int specificationID;
   final String specificationName;
   final bool isActive;
+  final List<String>? suggestValues;
   Specification({
     required this.specificationID,
     required this.specificationName,
     required this.isActive,
+    this.suggestValues,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +18,7 @@ class Specification {
       'specificationID': specificationID,
       'specificationName': specificationName,
       'isActive': isActive,
+      'suggestValues': suggestValues,
     };
   }
 
@@ -24,6 +27,9 @@ class Specification {
       specificationID: map['specificationID'] as int,
       specificationName: map['specificationName'] as String,
       isActive: map['isActive'] as bool,
+      suggestValues: map['suggestValues'] != null
+          ? List<String>.from((map['suggestValues'] as List))
+          : null,
     );
   }
 
@@ -33,6 +39,7 @@ class Specification {
       Specification.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'Specification(specificationID: $specificationID, specificationName: $specificationName, isActive: $isActive)';
+  String toString() {
+    return 'Specification(specificationID: $specificationID, specificationName: $specificationName, isActive: $isActive, suggestValues: $suggestValues)';
+  }
 }

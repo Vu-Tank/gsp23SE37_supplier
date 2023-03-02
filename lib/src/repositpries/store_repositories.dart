@@ -55,6 +55,7 @@ class StoreRepositories {
         var body = json.decode(responseData);
         apiResponse.msg = body['message'];
         apiResponse.isSuccess = body['success'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
           apiResponse.data = Store.fromMap(body['data']);
         }

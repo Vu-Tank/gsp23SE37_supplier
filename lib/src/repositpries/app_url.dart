@@ -27,5 +27,10 @@ class AppUrl {
   static const String getCategory = '$baseUrl/Category';
 
   static const String getSpecification = '$baseUrl/Specification/sub_category';
+
   static const String getBrand = '$baseUrl/Brand';
+
+  static const String addItem = '$baseUrl/Item';
+
+  static const String getItem = '$baseUrl/Item/store';
 }

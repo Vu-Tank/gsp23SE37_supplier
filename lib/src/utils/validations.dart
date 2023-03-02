@@ -113,4 +113,85 @@ class Validations {
     }
     return validationItem;
   }
+
+  static String? valItemName(String? value) {
+    if (value == null) return 'Vui lòng nhập tên cho sản phẩm';
+    if (value.isEmpty) return 'Vui lòng nhập tên cho sản phẩm';
+    if (value.length <= 5) {
+      return 'Tên sản phẩm phải dài hơn 5 ký tự';
+    }
+    return null;
+  }
+
+  static String? valItemDescription(String? value) {
+    if (value == null) return 'Vui lòng nhập thông tin cho sản phẩm';
+    if (value.isEmpty) return 'Vui lòng nhập thông tin cho sản phẩm';
+    if (value.length <= 10) {
+      return 'Mô tả sản phẩm phải dài hơn 10 ký tự';
+    }
+    return null;
+  }
+
+  static String? valSpecificationString(String? value) {
+    if (value == null) return 'Không thể bỏ trống';
+    if (value.isEmpty) return 'Không thể bỏ trống';
+    // if (value.length <= 5) {
+    //   return 'Phải dài hơn 5 ký tự';
+    // }
+    return null;
+  }
+
+  static String? valPrice(String? value) {
+    if (value == null) return 'Vui lòng nhập giá';
+    if (value.isEmpty) return 'Vui lòng nhập giá';
+    try {
+      value = value.replaceAll('VNĐ', '').replaceAll('.', '').trim();
+      double price = double.parse(value);
+      if (price <= 0) return 'Giá sản phẩm phải lơn hơn 0';
+      if (price >= 50000000) return 'Giá sản phẩm phải nhỏ hơn 50 triệu';
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valAmount(String? value) {
+    if (value == null) return 'Vui lòng nhập số lượng';
+    if (value.isEmpty) return 'Vui lòng nhập số lượng';
+    try {
+      int amount = int.parse(value);
+      if (amount <= 0) return 'Số lượng sản phẩm phải lơn hơn 0';
+      if (amount >= 50000000) return 'Giá sản phẩm phải nhỏ hơn 50 triệu';
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valDiscount(String? value) {
+    if (value == null) return 'Vui lòng Khuyến mãi (0-100)';
+    if (value.isEmpty) return 'Vui lòng Khuyến mãi (0-100)';
+    try {
+      double price = double.parse(value);
+      if (price < 0) return 'Khuyến mãi của sản phẩm phải lơn hơn hoặc bằng 0';
+      if (price > 100) return 'Khuyến mãi của sản phẩm phải nhỏ hơn 100';
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valWeight(String? value) {
+    if (value == null) return 'Vui lòng nhập khối lượng';
+    if (value.isEmpty) return 'Vui lòng nhập khối lượng';
+    try {
+      value = value.replaceAll('grams', '').replaceAll('.', '').trim();
+      double price = double.parse(value);
+      if (price <= 0) return 'Khối lượng sản phẩm phải lơn hơn 0';
+      if (price >= 5000000) return 'Khối lượng sản phẩm phải nhỏ hơn 5 tấn';
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
 }

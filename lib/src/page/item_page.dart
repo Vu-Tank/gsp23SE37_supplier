@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gsp23se37_supplier/src/page/item/add_item_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/all_item_page.dart';
+import 'package:gsp23se37_supplier/src/page/item/item_pending_approval_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/items_block_page.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 
@@ -13,30 +14,58 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 3,
-        child: Column(
-          children: [
-            Container(
-              color: AppStyle.appColor,
-              child: TabBar(
-                isScrollable: false,
-                tabs: const [
-                  Tab(text: 'Tất cả sản phẩm'),
-                  Tab(text: 'Thêm sản phẩm'),
-                  Tab(text: 'Sản phẩm Vi phạm'),
-                ],
+    return Scaffold(
+      body: DefaultTabController(
+          length: 4,
+          child: Column(
+            children: [
+              Container(
+                color: AppStyle.appColor,
+                child: TabBar(
+                  labelStyle: AppStyle.buttom,
+                  isScrollable: false,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        'Tất cả sản phẩm',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                        child: Text(
+                      'Thêm sản phẩm',
+                      style: AppStyle.buttom,
+                    )),
+                    Tab(
+                        child: Text(
+                      'Sản phẩm chờ duyệt',
+                      style: AppStyle.buttom,
+                    )),
+                    Tab(
+                        child: Text(
+                      'Sản phẩm Vi phạm',
+                      style: AppStyle.buttom,
+                    )),
+                  ],
+                ),
               ),
-            ),
-            const Expanded(
-              child: TabBarView(children: [
-                AllItemPage(),
-                AddItemPage(),
-                ItemBlockPage(),
-              ]),
-            ),
-          ],
-        ));
+              const Expanded(
+                child: TabBarView(children: [
+                  AllItemPage(),
+                  AddItemPage(),
+                  ItemPendingApprovalPage(),
+                  ItemBlockPage(),
+                ]),
+              ),
+            ],
+          )),
+    );
   }
 }

@@ -7,13 +7,24 @@ part 'specification_state.dart';
 
 class SpecificationCubit extends Cubit<SpecificationState> {
   SpecificationCubit() : super(SpecificationInitial());
+  bool _isDisposed = false;
+  void dispose() {
+    _isDisposed = true;
+    close();
+  }
+
   loadSpecification({required int subCategoryID}) async {
+    if (_isDisposed) {
+      return;
+    }
     emit(SpecificationLoading());
     ApiResponse apiResponse = await SpecificationRepositories.getSpecification(
         subCategory: subCategoryID);
     if (apiResponse.isSuccess!) {
+      if (isClosed) return;
       emit(SpecificationLoaded(apiResponse.data));
     } else {
+      if (isClosed) return;
       emit(SpecificationLoadFailed(apiResponse.msg!));
     }
   }

@@ -2,8 +2,8 @@
 part of 'sub_item_cubit.dart';
 
 class SubItemState extends Equatable {
-  List<SubItemRequest> listSub;
-  SubItemState({
+  final List<SubItemRequest> listSub;
+  const SubItemState({
     required this.listSub,
   });
 
@@ -12,7 +12,15 @@ class SubItemState extends Equatable {
 }
 
 class SubItemLoading extends SubItemState {
-  SubItemLoading({required super.listSub});
+  const SubItemLoading({required super.listSub});
+}
+
+class SubItemPickImageFailed extends SubItemState {
+  final int index;
+  final String msg;
+  const SubItemPickImageFailed(
+      {required this.index, required this.msg, required super.listSub});
   @override
-  List<Object> get props => [listSub];
+  // TODO: implement props
+  List<Object> get props => [index, msg, listSub];
 }
