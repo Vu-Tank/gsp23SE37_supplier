@@ -81,7 +81,7 @@ class UserRepositories {
         apiResponse.msg = body['message'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
-          apiResponse.data = User.fromMap(body['data']);
+          // apiResponse.data = User.fromMap(body['data']);
         }
       } else {
         apiResponse.isSuccess = false;

@@ -51,8 +51,8 @@ class StoreRepositories {
           filename: file.name));
       var response = await request.send();
       if (response.statusCode == 200) {
-        var responseData = await response.stream.bytesToString(utf8);
-        var body = json.decode(responseData);
+        var reponseData = await http.Response.fromStream(response);
+        var body = json.decode(reponseData.body);
         apiResponse.msg = body['message'];
         apiResponse.isSuccess = body['success'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
@@ -60,9 +60,8 @@ class StoreRepositories {
           apiResponse.data = Store.fromMap(body['data']);
         }
       } else {
-        var responseData = await response.stream.toBytes();
-        var responseString = String.fromCharCodes(responseData);
-        var body = json.decode(responseString);
+        var reponseData = await http.Response.fromStream(response);
+        var body = json.decode(reponseData.body);
         apiResponse.msg = response.statusCode.toString();
         apiResponse.isSuccess = false;
       }

@@ -381,7 +381,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         ),
                                       );
                                     } else if (wardState is WardLoaded) {
-                                      _ward = wardState.ward.first;
+                                      _ward ??= wardState.ward.first;
                                       return DropdownButtonFormField(
                                         value: _ward,
                                         icon: const Icon(Icons.arrow_downward),

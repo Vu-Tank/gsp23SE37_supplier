@@ -99,8 +99,17 @@ class RegisterSupplierBloc
               firebaseID: event.uid,
               fcMFirebase: fmc ?? '');
           if (apiResponse.isSuccess!) {
-            User user = apiResponse.data as User;
-            event.onSuccess(user);
+            apiResponse = await UserRepositories.login(
+                phone: Utils.convertToDB(event.phone),
+                fcM_Firebase: fmc ?? '',
+                token: event.token);
+            if (apiResponse.isSuccess!) {
+              User user = apiResponse.data as User;
+              event.onSuccess(user);
+            } else {
+              emit(RegisterSupplierFailed.fromOldState(state,
+                  msg: apiResponse.msg));
+            }
           } else {
             emit(RegisterSupplierFailed.fromOldState(state,
                 msg: apiResponse.msg));
