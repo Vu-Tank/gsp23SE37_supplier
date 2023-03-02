@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
-
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
 import '../model/store.dart';
@@ -318,64 +318,65 @@ class _HomePageState extends State<HomePage> {
                 child: const CircularProgressIndicator()),
           );
         } else {
-          return Scaffold(
-            body: Center(
-              child: Container(
-                height: 500,
-                width: 500,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              GoRouter.of(context)
-                                  .pushNamed(AppRouterConstants.loginRouteName);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppStyle.appColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                            ),
-                            child: Text(
-                              'Đăng nhập',
-                              style: AppStyle.buttom,
-                            )),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              GoRouter.of(context).pushNamed(
-                                  AppRouterConstants.registerRouteName);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppStyle.appColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                            ),
-                            child: Text(
-                              'Đăng ký',
-                              style: AppStyle.buttom,
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
+          return const FirstPage();
+          // return Scaffold(
+          //   body: Center(
+          //     child: Container(
+          //       height: 500,
+          //       width: 500,
+          //       decoration: BoxDecoration(
+          //         border: Border.all(color: Colors.black),
+          //       ),
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //           children: [
+          //             SizedBox(
+          //               width: double.infinity,
+          //               height: 56,
+          //               child: ElevatedButton(
+          //                   onPressed: () {
+          //                     GoRouter.of(context)
+          //                         .pushNamed(AppRouterConstants.loginRouteName);
+          //                   },
+          //                   style: ElevatedButton.styleFrom(
+          //                     backgroundColor: AppStyle.appColor,
+          //                     shape: const RoundedRectangleBorder(
+          //                         borderRadius:
+          //                             BorderRadius.all(Radius.circular(8))),
+          //                   ),
+          //                   child: Text(
+          //                     'Đăng nhập',
+          //                     style: AppStyle.buttom,
+          //                   )),
+          //             ),
+          //             SizedBox(
+          //               width: double.infinity,
+          //               height: 56,
+          //               child: ElevatedButton(
+          //                   onPressed: () {
+          //                     GoRouter.of(context).pushNamed(
+          //                         AppRouterConstants.registerRouteName);
+          //                   },
+          //                   style: ElevatedButton.styleFrom(
+          //                     backgroundColor: AppStyle.appColor,
+          //                     shape: const RoundedRectangleBorder(
+          //                         borderRadius:
+          //                             BorderRadius.all(Radius.circular(8))),
+          //                   ),
+          //                   child: Text(
+          //                     'Đăng ký',
+          //                     style: AppStyle.buttom,
+          //                   )),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // );
         }
       },
     );
