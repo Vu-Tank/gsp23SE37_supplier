@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/api_response.dart';
 import '../../model/store.dart';
@@ -33,20 +36,18 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     });
     on<ShopPayment>((event, emit) async {
       emit(ShopLoading());
-      ApiResponse apiResponse = await StoreRepositories.storeLogin(
-          userId: event.storeID, token: event.token);
+      ApiResponse apiResponse = await StoreRepositories.storePayment(
+          storeID: event.storeID, token: event.token);
       if (apiResponse.isSuccess!) {
-        Store store = apiResponse.data;
-        if (store.store_Status.item_StatusID == 1) {
-          emit(ShopCreated(apiResponse.data, 0));
-        } else {
-          apiResponse = await SystemRepositories.getPriceActice();
-          if (apiResponse.isSuccess!) {
-            emit(ShopCreated(store, apiResponse.data));
-          } else {
-            emit(ShopPaymentFailed(apiResponse.msg!, store.storeID));
-          }
+        try {
+          // await launchUrl(Uri.parse(apiResponse.data),
+          //     mode: LaunchMode.platformDefault);
+          event.onSuccess(apiResponse.data);
+        } catch (e) {
+          emit(ShopPaymentFailed(e.toString(), event.storeID));
         }
+      } else {
+        emit(ShopPaymentFailed(apiResponse.msg!, event.storeID));
       }
     });
   }

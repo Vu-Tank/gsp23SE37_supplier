@@ -62,10 +62,17 @@ class RegisterSupplierBloc
       if (isAgree.error != null) check = false;
       if (check) {
         try {
-          String? fcm = await FirebaseMessaging.instance.getToken();
-          if (fcm == null) {
-            throw Exception('Không thể lấy mã thông báo');
-          }
+          String? fmc;
+          await FirebaseMessaging.instance
+              .requestPermission(alert: true, sound: true)
+              .then((value) async {
+            if (value.authorizationStatus == AuthorizationStatus.authorized) {
+              fmc = await FirebaseMessaging.instance.getToken();
+            }
+          }).timeout(
+            const Duration(seconds: 5),
+            onTimeout: () => fmc = null,
+          );
           String? placeID = await GoongRepositories().getPlaceIdFromText(
               '${event.address}, ${event.province.value}, ${event.district!.value}, ${event.ward!.value}');
           if (placeID == null) throw Exception('Không thể lấy địa chỉ');
@@ -90,7 +97,7 @@ class RegisterSupplierBloc
               district: event.district!.value,
               ward: event.ward!.value,
               firebaseID: event.uid,
-              fcMFirebase: fcm);
+              fcMFirebase: fmc ?? '');
           if (apiResponse.isSuccess!) {
             User user = apiResponse.data as User;
             event.onSuccess(user);

@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
+
+import 'dart:js' as js;
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
 import '../model/store.dart';
@@ -22,7 +23,33 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late SidebarXController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = SidebarXController(selectedIndex: 0, extended: true);
+    controller.addListener(() {
+      if (controller.selectedIndex == 0) {
+        setState(() {
+          tiltie = "Trang Chủ";
+        });
+      }
+      if (controller.selectedIndex == 1) {
+        setState(() {
+          tiltie = "Quản lý sản phẩm";
+        });
+      }
+      if (controller.selectedIndex == 2) {
+        setState(() {
+          tiltie = "Trò chuyện";
+        });
+      }
+    });
+  }
+
+  String tiltie = "Trang Chủ";
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -32,26 +59,33 @@ class _HomePageState extends State<HomePage> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Trang chủ',
+                tiltie,
                 style: AppStyle.apptitle,
               ),
               backgroundColor: AppStyle.appColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               actions: [
-                ElevatedButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(UserLoggedOut());
-                    },
-                    style: AppStyle.myButtonStyle.copyWith(
-                        shape: MaterialStateProperty
-                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: const BorderSide(color: Colors.white)))),
+                TextButton(
+                    onPressed: () =>
+                        context.read<AuthBloc>().add(UserLoggedOut()),
                     child: Text(
                       'Đăng xuất',
                       style: AppStyle.buttom,
                     )),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       context.read<AuthBloc>().add(UserLoggedOut());
+                //     },
+                //     style: AppStyle.myButtonStyle.copyWith(
+                //         shape: MaterialStateProperty
+                //             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(18.0),
+                //                 side: const BorderSide(color: Colors.white)))),
+                //     child: Text(
+                //       'Đăng xuất',
+                //       style: AppStyle.buttom,
+                //     )),
               ],
             ),
             body: Center(
@@ -89,121 +123,9 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, state) {
                           if (state is ShopCreated) {
                             Store store = state.store;
-                            inspect(store);
                             if (store.store_Status.item_StatusID == 1) {
                               return shopView(context, state.store);
                             } else {
-                              // return BlocProvider(
-                              //   create: (context) => ShopPaymentCubit(),
-                              //   child: BlocBuilder<ShopPaymentCubit,
-                              //       ShopPaymentState>(
-                              //     builder: (context, shopPaymentState) {
-                              //       if (shopPaymentState
-                              //           is ShopPaymentLoadFaild) {
-                              //         return Column(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: <Widget>[
-                              //             Text(
-                              //               shopPaymentState.msg,
-                              //               style: AppStyle.h2
-                              //                   .copyWith(color: Colors.red),
-                              //             ),
-                              //             const SizedBox(
-                              //               height: 8.0,
-                              //             ),
-                              //             SizedBox(
-                              //               height: 56.0,
-                              //               width: 300,
-                              //               child: ElevatedButton(
-                              //                 onPressed: (shopPaymentState
-                              //                         is ShopPaymentLoading)
-                              //                     ? null
-                              //                     : () {
-                              //                         context
-                              //                             .read<
-                              //                                 ShopPaymentCubit>()
-                              //                             .loadPaymentDialog();
-                              //                       },
-                              //                 style: AppStyle.myButtonStyle,
-                              //                 child: (shopPaymentState
-                              //                         is ShopPaymentLoading)
-                              //                     ? const CircularProgressIndicator()
-                              //                     : Text(
-                              //                         'Thử lại',
-                              //                         style: AppStyle.buttom,
-                              //                       ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         );
-                              //       }
-                              //       if (shopPaymentState is ShopPaymentLoaded) {
-                              //         return Column(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: <Widget>[
-                              //             Text(
-                              //               'Bạn chưa trả phí tham gia vào hệ thống ESMP',
-                              //               style: AppStyle.h2,
-                              //             ),
-                              //             const SizedBox(
-                              //               height: 8.0,
-                              //             ),
-                              //             SizedBox(
-                              //               height: 56.0,
-                              //               width: 300,
-                              //               child: ElevatedButton(
-                              //                 onPressed: () {},
-                              //                 style: AppStyle.myButtonStyle,
-                              //                 child: Text(
-                              //                   'Thanh toán',
-                              //                   style: AppStyle.buttom,
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         );
-                              //       }
-                              //       return Column(
-                              //         mainAxisAlignment:
-                              //             MainAxisAlignment.center,
-                              //         children: <Widget>[
-                              //           Text(
-                              //             'Bạn chưa trả phí tham gia vào hệ thống ESMP',
-                              //             style: AppStyle.h2,
-                              //           ),
-                              //           const SizedBox(
-                              //             height: 8.0,
-                              //           ),
-                              //           SizedBox(
-                              //             height: 56.0,
-                              //             width: 300,
-                              //             child: ElevatedButton(
-                              //               onPressed: (shopPaymentState
-                              //                       is ShopPaymentLoading)
-                              //                   ? null
-                              //                   : () {
-                              //                       context
-                              //                           .read<
-                              //                               ShopPaymentCubit>()
-                              //                           .loadPaymentDialog();
-                              //                     },
-                              //               style: AppStyle.myButtonStyle,
-                              //               child: (shopPaymentState
-                              //                       is ShopPaymentLoading)
-                              //                   ? const CircularProgressIndicator()
-                              //                   : Text(
-                              //                       'Thanh toán',
-                              //                       style: AppStyle.buttom,
-                              //                     ),
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       );
-                              //     },
-                              //   ),
-                              // );
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -226,11 +148,15 @@ class _HomePageState extends State<HomePage> {
                                     width: 300,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        context.read<ShopBloc>().add(
-                                            ShopPayment(
+                                        context
+                                            .read<ShopBloc>()
+                                            .add(ShopPayment(
                                                 storeID: store.storeID,
                                                 token: user.token,
-                                                onSuccess: () {}));
+                                                onSuccess: (String url) {
+                                                  js.context.callMethod(
+                                                      'open', [url, '_self']);
+                                                }));
                                       },
                                       style: AppStyle.myButtonStyle,
                                       child: Text(
@@ -291,7 +217,10 @@ class _HomePageState extends State<HomePage> {
                                         .add(ShopPayment(
                                             storeID: state.storeID,
                                             token: user.token,
-                                            onSuccess: () {})),
+                                            onSuccess: (String url) {
+                                              js.context.callMethod(
+                                                  'open', [url, '_self']);
+                                            })),
                                     style: AppStyle.myButtonStyle,
                                     child: Text(
                                       'Thử lại',
@@ -383,7 +312,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget shopView(BuildContext context, Store store) {
-    final controller = SidebarXController(selectedIndex: 0, extended: true);
     return Row(
       children: [
         SideBarWigdet(
@@ -398,6 +326,10 @@ class _HomePageState extends State<HomePage> {
               case 0:
                 return const DashboardPage();
               case 1:
+                return ItemPage(
+                  key: widget.key,
+                );
+              case 2:
                 return const ChatPage();
               default:
                 return const DashboardPage();
