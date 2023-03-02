@@ -36,10 +36,8 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
   Ward? _ward;
   XFile? _image;
   late User user;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AuthState state = context.read<AuthBloc>().state;
@@ -47,35 +45,58 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
         GoRouter.of(context).push(AppRouterConstants.loginRouteName);
       } else if (state is AuthAuthenticated) {
         user = state.user;
-        inspect(user);
+        if (user.storeID != -1) {
+          GoRouter.of(context).push(AppRouterConstants.loginRouteName);
+        }
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Đăng ký cửa hàng',
-          style: AppStyle.apptitle,
-        ),
-        centerTitle: true,
-        backgroundColor: AppStyle.appColor,
-      ),
-      body: Center(
-          child: SingleChildScrollView(
-        child: BlocConsumer<RegisterStoreBloc, RegisterStoreState>(
-          listener: (context, state) {
-            if (state is RegisterStoreFailed && state.msg != null) {
-              MyDialog.showSnackBar(context, state.msg!);
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticated && state.user.storeID != -1) {
+          GoRouter.of(context)
+              .pushReplacementNamed(AppRouterConstants.homeRouteName);
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else {
+          if (state is AuthAuthenticated) {
+            user = state.user;
+            if (user.storeID != -1) {
+              GoRouter.of(context).push(AppRouterConstants.loginRouteName);
             }
-          },
-          builder: (context, state) {
-            return BlocBuilder<ProvinceCubit, ProvinceState>(
-              builder: (context, provinceState) {
-                if (provinceState is ProvinceLoaded) {
-                  _province ??= provinceState.province.first;
+            _email.text = user.email;
+            _email.selection =
+                TextSelection.collapsed(offset: _email.text.length);
+            // _address.text = user.addresses[0].context;
+            // _address.selection =
+            //     TextSelection.collapsed(offset: _address.text.length);
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Đăng ký cửa hàng',
+                style: AppStyle.apptitle,
+              ),
+              centerTitle: true,
+              backgroundColor: AppStyle.appColor,
+            ),
+            body: Center(
+                child: SingleChildScrollView(
+              child: BlocConsumer<RegisterStoreBloc, RegisterStoreState>(
+                listener: (context, state) {
+                  if (state is RegisterStoreFailed && state.msg != null) {
+                    MyDialog.showSnackBar(context, state.msg!);
+                  }
+                },
+                builder: (context, state) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -206,51 +227,72 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                             //tinh
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
-                              child: DropdownButtonFormField(
-                                value: _province,
-                                icon: const Icon(Icons.arrow_downward),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: Colors.grey, width: 2),
-                                      borderRadius: BorderRadius.circular(40)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: AppStyle.appColor, width: 2),
-                                      borderRadius: BorderRadius.circular(40)),
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                                isExpanded: true,
-                                elevation: 16,
-                                style: AppStyle.h2,
-                                onChanged: (Province? value) {
-                                  if (value != null) {
-                                    setState(() {
-                                      _province = value;
-                                      if (value.key != '-1') {
-                                        context
-                                            .read<DistrictCubit>()
-                                            .selectedProvince(value.key);
-                                      }
-                                      _district = null;
-
-                                      _ward = null;
-                                    });
+                              child: BlocBuilder<ProvinceCubit, ProvinceState>(
+                                builder: (context, provinceState) {
+                                  if (provinceState is ProvinceLoaded) {
+                                    _province ??= provinceState.province.first;
+                                    log(111.toString());
+                                    return DropdownButtonFormField(
+                                      value: _province,
+                                      icon: const Icon(Icons.arrow_downward),
+                                      decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.grey, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(40)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppStyle.appColor,
+                                                width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(40)),
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      isExpanded: true,
+                                      elevation: 16,
+                                      style: AppStyle.h2,
+                                      onChanged: (Province? value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            _province = value;
+                                            if (value.key != '-1') {
+                                              context
+                                                  .read<DistrictCubit>()
+                                                  .selectedProvince(value.key);
+                                            }
+                                            _district = null;
+                                            _ward = null;
+                                          });
+                                        }
+                                      },
+                                      items: provinceState.province
+                                          .map<DropdownMenuItem<Province>>(
+                                              (Province value) {
+                                        return DropdownMenuItem<Province>(
+                                          value: value,
+                                          child: Text(
+                                            value.value,
+                                            style: AppStyle.h2,
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (provinceState is ProvinceError) {
+                                    return Text(
+                                      provinceState.msg,
+                                      style: AppStyle.h2
+                                          .copyWith(color: Colors.red),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
                                   }
                                 },
-                                items: provinceState.province
-                                    .map<DropdownMenuItem<Province>>(
-                                        (Province value) {
-                                  return DropdownMenuItem<Province>(
-                                    value: value,
-                                    child: Text(
-                                      value.value,
-                                      style: AppStyle.h2,
-                                    ),
-                                  );
-                                }).toList(),
                               ),
                             ),
+
                             // quan
                             if (_province != null && _province!.key != '-1')
                               Padding(
@@ -269,6 +311,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                     } else if (state is DistrictLoaded) {
                                       _district =
                                           _district ?? state.districts.first;
+
                                       return DropdownButtonFormField(
                                         value: _district,
                                         icon: const Icon(Icons.arrow_downward),
@@ -338,7 +381,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         ),
                                       );
                                     } else if (wardState is WardLoaded) {
-                                      _ward ??= wardState.ward.first;
+                                      _ward = wardState.ward.first;
                                       return DropdownButtonFormField(
                                         value: _ward,
                                         icon: const Icon(Icons.arrow_downward),
@@ -447,7 +490,15 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                               province: _province,
                                               district: _district,
                                               ward: _ward,
-                                              onSuccess: () {}));
+                                              onSuccess: () {
+                                                context
+                                                    .read<AuthBloc>()
+                                                    .add(AppLoaded());
+                                                GoRouter.of(context)
+                                                    .pushReplacementNamed(
+                                                        AppRouterConstants
+                                                            .homeRouteName);
+                                              }));
                                     },
                               style: AppStyle.myButtonStyle,
                               child: (state is RegisterStoreing)
@@ -460,21 +511,12 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                       ],
                     ),
                   );
-                } else if (provinceState is ProvinceError) {
-                  return Text(
-                    provinceState.msg,
-                    style: AppStyle.h2.copyWith(color: Colors.red),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            );
-          },
-        ),
-      )),
+                },
+              ),
+            )),
+          );
+        }
+      },
     );
   }
 

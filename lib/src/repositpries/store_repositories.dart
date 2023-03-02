@@ -55,8 +55,8 @@ class StoreRepositories {
         var body = json.decode(responseData);
         apiResponse.msg = body['message'];
         apiResponse.isSuccess = body['success'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
-          print(body['data']);
           apiResponse.data = Store.fromMap(body['data']);
         }
       } else {
@@ -124,7 +124,6 @@ class StoreRepositories {
         apiResponse.msg = body['message'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
-          print(body['data']);
           apiResponse.data = body['data'];
         }
       } else {

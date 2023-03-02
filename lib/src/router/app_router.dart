@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/first_page.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/login/login_bloc.dart';
@@ -18,7 +18,6 @@ import '../page/auth/register_page.dart';
 import '../page/auth/register_supplier_page.dart';
 import '../page/auth/verify_page.dart';
 import '../page/error_page.dart';
-import '../page/home_page.dart';
 import '../page/store/register_store_page.dart';
 import 'app_router_constants.dart';
 
@@ -35,7 +34,7 @@ class AppRouter {
                   value: BlocProvider.of<AuthBloc>(context),
                 )
               ],
-              child: const HomePage(),
+              child: const FirstPage(),
             );
           },
           routes: <GoRoute>[

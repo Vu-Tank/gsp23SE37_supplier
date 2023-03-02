@@ -66,7 +66,7 @@ class RegisterStoreBloc extends Bloc<RegisterStoreEvent, RegisterStoreState> {
             ).createUserCloud(
                 imageUrl: store.image.path, userName: store.storeName);
             emit(RegisterStoreSuccess());
-            event.onSuccess(store);
+            event.onSuccess();
           } else {
             emit(RegisterStoreFailed(msg: apiResponse.msg));
           }

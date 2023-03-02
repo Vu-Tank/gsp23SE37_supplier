@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -83,7 +82,6 @@ class UserRepositories {
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
           apiResponse.data = User.fromMap(body['data']);
-          inspect(body['data']);
         }
       } else {
         apiResponse.isSuccess = false;
