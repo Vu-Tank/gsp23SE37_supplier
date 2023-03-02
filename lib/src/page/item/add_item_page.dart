@@ -120,6 +120,7 @@ class _AddItemPageState extends State<AddItemPage> {
                 context.read<CategoryCubit>().loadCategory();
                 context.read<BrandCubit>().loadBrand();
                 context.read<SubItemCubit>().resetSubItem();
+                MyDialog.showSnackBar(context, 'Tạo sản phẩm thành công');
               }
             },
             builder: (context, addItemstate) {
@@ -1305,28 +1306,35 @@ class _AddItemPageState extends State<AddItemPage> {
                             width: double.infinity,
                             height: 56,
                             child: ElevatedButton(
-                              onPressed: () {
-                                bool check = _formKey.currentState!.validate();
-                                context.read<AddItemBloc>().add(AddItemPressed(
-                                    formVal: check,
-                                    name: _itemName.text.trim(),
-                                    description: _itemDescription.text.trim(),
-                                    discount: _itemDiscount.text.trim(),
-                                    storeID: store.storeID,
-                                    subCategoryID:
-                                        _selectedSubCategory?.sub_CategoryID ??
-                                            -1,
-                                    listImage: _listImages,
-                                    listSubItem: _subItem,
-                                    listSpecitication:
-                                        Utils.getSpecificationRequest(
-                                            listSpeci: _listSpecifi,
-                                            listValue: _specifi),
-                                    listModel: Utils.getListModel(
-                                        listModel: _listmodel),
-                                    listSpecificationCustom: const [],
-                                    token: user.token));
-                              },
+                              onPressed: (addItemstate is AddIteming)
+                                  ? null
+                                  : () {
+                                      bool check =
+                                          _formKey.currentState!.validate();
+                                      context.read<AddItemBloc>().add(
+                                          AddItemPressed(
+                                              formVal: check,
+                                              name: _itemName.text.trim(),
+                                              description:
+                                                  _itemDescription.text.trim(),
+                                              discount:
+                                                  _itemDiscount.text.trim(),
+                                              storeID: store.storeID,
+                                              subCategoryID:
+                                                  _selectedSubCategory
+                                                          ?.sub_CategoryID ??
+                                                      -1,
+                                              listImage: _listImages,
+                                              listSubItem: _subItem,
+                                              listSpecitication:
+                                                  Utils.getSpecificationRequest(
+                                                      listSpeci: _listSpecifi,
+                                                      listValue: _specifi),
+                                              listModel: Utils.getListModel(
+                                                  listModel: _listmodel),
+                                              listSpecificationCustom: const [],
+                                              token: user.token));
+                                    },
                               style: AppStyle.myButtonStyle,
                               child: (addItemstate is AddIteming)
                                   ? const CircularProgressIndicator()

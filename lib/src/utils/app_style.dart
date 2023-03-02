@@ -17,7 +17,7 @@ class AppStyle {
   static TextStyle errorStyle = h2.copyWith(
     color: Colors.red,
   );
-  static Color appColor = const Color(0xFFeb6440);
+  static Color appColor = const Color(0xFFb6e8f3);
   static Color bntColor = const Color(0xFF3d5a98);
   static TextStyle buttom = const TextStyle(
     color: Colors.black,

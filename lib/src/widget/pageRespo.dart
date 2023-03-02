@@ -69,7 +69,7 @@ class _PageRespoState extends State<PageRespo> with WidgetsBindingObserver {
                       AppStyle.sologon,
                       maxLines: 3,
                       style: AppStyle.h1
-                          .copyWith(color: Colors.white, fontSize: 50),
+                          .copyWith(color: Colors.white, fontSize: 40),
                     ),
                   ),
                   SizedBox(
