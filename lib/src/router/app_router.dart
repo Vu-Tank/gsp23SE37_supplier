@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gsp23se37_supplier/src/page/first_page.dart';
+import 'package:gsp23se37_supplier/src/page/home_page.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/login/login_bloc.dart';
@@ -34,7 +34,7 @@ class AppRouter {
                   value: BlocProvider.of<AuthBloc>(context),
                 )
               ],
-              child: const FirstPage(),
+              child: const HomePage(),
             );
           },
           routes: <GoRoute>[
