@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
 import 'package:gsp23se37_supplier/src/model/item.dart';
+import 'package:gsp23se37_supplier/src/model/item_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'api_setting.dart';
@@ -101,6 +102,37 @@ class ItemRepositories {
         if (apiResponse.isSuccess!) {
           apiResponse.data = List<Item>.from((body['data'] as List)
               .map<Item>((x) => Item.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> getItemDetail({required int itemID}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'itemID': itemID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.getItemDetail}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        // 'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = ItemDetail.fromMap(body['data']);
         }
       } else {
         apiResponse.isSuccess = false;

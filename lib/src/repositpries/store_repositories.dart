@@ -51,6 +51,7 @@ class StoreRepositories {
           filename: file.name));
       var response = await request.send();
       if (response.statusCode == 200) {
+        response.stream.asBroadcastStream();
         var reponseData = await http.Response.fromStream(response);
         var body = json.decode(reponseData.body);
         apiResponse.msg = body['message'];
@@ -60,8 +61,6 @@ class StoreRepositories {
           apiResponse.data = Store.fromMap(body['data']);
         }
       } else {
-        var reponseData = await http.Response.fromStream(response);
-        var body = json.decode(reponseData.body);
         apiResponse.msg = response.statusCode.toString();
         apiResponse.isSuccess = false;
       }

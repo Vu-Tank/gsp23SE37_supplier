@@ -67,18 +67,6 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          if (state is AuthAuthenticated) {
-            user = state.user;
-            if (user.storeID != -1) {
-              GoRouter.of(context).push(AppRouterConstants.loginRouteName);
-            }
-            _email.text = user.email;
-            _email.selection =
-                TextSelection.collapsed(offset: _email.text.length);
-            // _address.text = user.addresses[0].context;
-            // _address.selection =
-            //     TextSelection.collapsed(offset: _address.text.length);
-          }
           return Scaffold(
             appBar: AppBar(
               title: Text(

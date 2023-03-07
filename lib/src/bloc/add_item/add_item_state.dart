@@ -18,8 +18,11 @@ class AddItemFailde extends AddItemState {
   final String? msg;
   final String? imageError;
   final List<String?>? subImageError;
-  const AddItemFailde({this.msg, this.imageError, this.subImageError});
+  final String? selectedModelError;
+  const AddItemFailde(
+      {this.msg, this.imageError, this.subImageError, this.selectedModelError});
   @override
   // TODO: implement props
-  List<Object?> get props => [msg, imageError, subImageError];
+  List<Object?> get props =>
+      [msg, imageError, subImageError, selectedModelError];
 }

@@ -104,6 +104,7 @@ class RegisterSupplierBloc
                 fcM_Firebase: fmc ?? '',
                 token: event.token);
             if (apiResponse.isSuccess!) {
+              // emit(RegisterSupplierSuccess(user: user));
               User user = apiResponse.data as User;
               event.onSuccess(user);
             } else {

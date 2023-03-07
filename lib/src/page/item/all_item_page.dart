@@ -7,6 +7,7 @@ import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/item.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
+import 'package:gsp23se37_supplier/src/page/item/item_detail_widget.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:intl/intl.dart';
 
@@ -282,7 +283,12 @@ class _AllItemPageState extends State<AllItemPage> {
             ),
           ],
         ),
-        onTap: () async {},
+        onTap: () async {
+          showDialog(
+            context: context,
+            builder: (context) => ItemDetailWidget(itemId: item.itemID),
+          );
+        },
       ),
     );
   }

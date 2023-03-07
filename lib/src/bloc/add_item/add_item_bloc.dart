@@ -30,6 +30,9 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
           subImageError.add(null);
         }
       }
+      if (event.listModel.isEmpty) {
+        check = false;
+      }
       if (check) subImageError = null;
       if (check) {
         List<XFile> listSubItemImage = [];
@@ -79,7 +82,8 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
             imageError: (event.listImage.isEmpty)
                 ? 'Vui lòng chọn hình ảnh cho sản phẩm'
                 : null,
-            subImageError: subImageError));
+            subImageError: subImageError,
+            selectedModelError: (event.listModel.isEmpty)?'Vui lòng chọn phương tiện được hổ trợ':null));
       }
     });
   }

@@ -33,4 +33,6 @@ class AppUrl {
   static const String addItem = '$baseUrl/Item';
 
   static const String getItem = '$baseUrl/Item/store';
+
+  static const String getItemDetail = '$baseUrl/Item/item_detail';
 }

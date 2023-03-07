@@ -14,7 +14,6 @@ import 'package:gsp23se37_supplier/src/cubit/specification/specification_cubit.d
 import 'package:gsp23se37_supplier/src/cubit/sub_item/sub_item_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/brand.dart';
 import 'package:gsp23se37_supplier/src/model/category.dart';
-import 'package:gsp23se37_supplier/src/model/model_brand.dart';
 import 'package:gsp23se37_supplier/src/model/specification.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
 import 'package:gsp23se37_supplier/src/model/sub_category.dart';
@@ -26,6 +25,7 @@ import 'package:gsp23se37_supplier/src/utils/validations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../bloc/add_item/add_item_bloc.dart';
+import '../../model/model_brand.dart';
 import '../../utils/app_style.dart';
 
 class AddItemPage extends StatefulWidget {
@@ -160,179 +160,7 @@ class _AddItemPageState extends State<AddItemPage> {
                               }
                             },
                             builder: (context, pickImagesState) {
-                              return Column(
-                                children: [
-                                  (_listImageDatas.isNotEmpty &&
-                                          _listImages.isNotEmpty)
-                                      ? ScrollConfiguration(
-                                          behavior:
-                                              ScrollConfiguration.of(context)
-                                                  .copyWith(dragDevices: {
-                                            PointerDeviceKind.mouse,
-                                            PointerDeviceKind.touch,
-                                          }),
-                                          child: SingleChildScrollView(
-                                            physics:
-                                                const AlwaysScrollableScrollPhysics(),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 300,
-                                                  child: GridView.builder(
-                                                    shrinkWrap: true,
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                            crossAxisCount: 1),
-                                                    itemCount:
-                                                        _listImageDatas.length,
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemBuilder:
-                                                        (context, index) =>
-                                                            Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: SizedBox(
-                                                        width: 200,
-                                                        height: 200,
-                                                        child: Stack(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .topEnd,
-                                                          children: [
-                                                            Positioned.fill(
-                                                              child:
-                                                                  Image.memory(
-                                                                _listImageDatas[
-                                                                    index],
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                            IconButton(
-                                                                onPressed: () => context
-                                                                    .read<
-                                                                        PickImagesCubit>()
-                                                                    .deleteImage(
-                                                                        images:
-                                                                            _listImages,
-                                                                        datas:
-                                                                            _listImageDatas,
-                                                                        index:
-                                                                            index),
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.delete,
-                                                                  color: Colors
-                                                                      .red,
-                                                                )),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        context
-                                                            .read<
-                                                                PickImagesCubit>()
-                                                            .cleanAll();
-                                                      },
-                                                      style: AppStyle
-                                                          .myButtonStyle,
-                                                      child: Text(
-                                                        'Xoá tất cả',
-                                                        style: AppStyle.h2
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 20.0,
-                                                    ),
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        context
-                                                            .read<
-                                                                PickImagesCubit>()
-                                                            .pickImage(
-                                                                datas:
-                                                                    _listImageDatas,
-                                                                images:
-                                                                    _listImages);
-                                                      },
-                                                      style: AppStyle
-                                                          .myButtonStyle,
-                                                      child: Text(
-                                                        'Chọn thêm',
-                                                        style: AppStyle.h2
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: DottedBorder(
-                                            color: AppStyle.appColor,
-                                            dashPattern: const [6.7],
-                                            borderType: BorderType.RRect,
-                                            radius: const Radius.circular(12),
-                                            child: SizedBox(
-                                              height: 300,
-                                              width: 300,
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    const SizedBox(
-                                                      height: 20.0,
-                                                    ),
-                                                    Icon(
-                                                      Icons.image_outlined,
-                                                      color: AppStyle.appColor,
-                                                      size: 50,
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20.0,
-                                                    ),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          context
-                                                              .read<
-                                                                  PickImagesCubit>()
-                                                              .pickImage(
-                                                                  images: [],
-                                                                  datas: []);
-                                                        },
-                                                        child: Text(
-                                                          'Chọn ảnh',
-                                                          style: AppStyle.h2,
-                                                        )),
-                                                  ]),
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              );
+                              return _imageWidget(context);
                             },
                           ),
                           if (addItemstate is AddItemFailde &&
@@ -414,353 +242,11 @@ class _AddItemPageState extends State<AddItemPage> {
                                   ],
                                 );
                               } else if (categoryState is CategoryLoaded) {
-                                return Column(
-                                  children: [
-                                    DropdownButtonFormField(
-                                      value: categoryState.selected,
-                                      icon: const Icon(Icons.arrow_downward),
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: AppStyle.appColor,
-                                                width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(40)),
-                                        errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.red, width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(40)),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.grey, width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(40)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: AppStyle.appColor,
-                                                width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(40)),
-                                      ),
-                                      isExpanded: true,
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'Vui lòng chọn loại phụ tùng';
-                                        }
-                                        if (value.categoryID == -1) {
-                                          return 'Vui lòng chọn loại phụ tùng';
-                                        }
-                                        return null;
-                                      },
-                                      elevation: 16,
-                                      style: AppStyle.h2,
-                                      onChanged: (Category? value) {
-                                        if (value != null) {
-                                          context
-                                              .read<CategoryCubit>()
-                                              .selectedCategory(
-                                                  categoryState.list, value);
-                                        }
-                                      },
-                                      items: categoryState.list
-                                          .map<DropdownMenuItem<Category>>(
-                                              (Category value) {
-                                        return DropdownMenuItem<Category>(
-                                          value: value,
-                                          child: Text(
-                                            value.name,
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 1,
-                                            style: AppStyle.h2,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                    if (categoryState.selected.categoryID != -1)
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: DropdownButtonFormField(
-                                          value: categoryState.subCategory,
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Vui lòng chọn loại phụ tùng';
-                                            }
-                                            if (value.sub_CategoryID == -1) {
-                                              return 'Vui lòng chọn loại phụ tùng';
-                                            }
-                                            return null;
-                                          },
-                                          icon:
-                                              const Icon(Icons.arrow_downward),
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: AppStyle.appColor,
-                                                    width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            errorBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.red,
-                                                    width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: AppStyle.appColor,
-                                                    width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(40)),
-                                          ),
-                                          isExpanded: true,
-                                          elevation: 16,
-                                          style: AppStyle.h2,
-                                          onChanged: (SubCategory? value) {
-                                            if (value != null) {
-                                              context
-                                                  .read<CategoryCubit>()
-                                                  .selectedSubCategory(
-                                                      categoryState.list,
-                                                      categoryState.selected,
-                                                      value);
-                                              context
-                                                  .read<SpecificationCubit>()
-                                                  .loadSpecification(
-                                                      subCategoryID:
-                                                          value.sub_CategoryID);
-                                            }
-                                          },
-                                          items: categoryState.selected.listSub
-                                              .map<
-                                                      DropdownMenuItem<
-                                                          SubCategory>>(
-                                                  (SubCategory value) {
-                                            return DropdownMenuItem<
-                                                SubCategory>(
-                                              value: value,
-                                              child: Text(
-                                                value.sub_categoryName,
-                                                overflow: TextOverflow.fade,
-                                                maxLines: 1,
-                                                style: AppStyle.h2,
-                                              ),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    if (categoryState.subCategory != null &&
-                                        categoryState
-                                                .subCategory!.sub_CategoryID !=
-                                            -1)
-                                      // thông số kỹ thật
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: BlocBuilder<SpecificationCubit,
-                                            SpecificationState>(
-                                          builder:
-                                              (context, specificationState) {
-                                            if (specificationState
-                                                is SpecificationLoadFailed) {
-                                              return Column(
-                                                children: [
-                                                  Text(
-                                                    specificationState.msg,
-                                                    style: AppStyle.h2.copyWith(
-                                                        color: Colors.red),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 8.0,
-                                                  ),
-                                                  TextButton(
-                                                      onPressed: () => context
-                                                          .read<
-                                                              SpecificationCubit>()
-                                                          .loadSpecification(
-                                                              subCategoryID:
-                                                                  categoryState
-                                                                      .subCategory!
-                                                                      .sub_CategoryID),
-                                                      child: Text(
-                                                        'Thử lại',
-                                                        style: AppStyle.h2
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .blue),
-                                                      ))
-                                                ],
-                                              );
-                                            } else if (specificationState
-                                                is SpecificationLoaded) {
-                                              _listSpecifi =
-                                                  specificationState.list;
-                                              return Column(
-                                                children: [
-                                                  Text(
-                                                    'Thông số Kỹ thuật',
-                                                    style: AppStyle.h1,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 8.0,
-                                                  ),
-                                                  ListView.builder(
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    shrinkWrap: true,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    itemCount:
-                                                        specificationState
-                                                            .list.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return Autocomplete<
-                                                          String>(
-                                                        optionsBuilder:
-                                                            (TextEditingValue
-                                                                textEditingValue) {
-                                                          if (textEditingValue
-                                                                  .text ==
-                                                              '') {
-                                                            return const Iterable<
-                                                                String>.empty();
-                                                          }
-                                                          List<String>
-                                                              suggestions =
-                                                              (specificationState
-                                                                          .list[
-                                                                              index]
-                                                                          .suggestValues !=
-                                                                      null)
-                                                                  ? specificationState
-                                                                      .list[
-                                                                          index]
-                                                                      .suggestValues!
-                                                                  : [];
-                                                          return suggestions
-                                                              .where((String
-                                                                  option) {
-                                                            return option
-                                                                .toLowerCase()
-                                                                .contains(
-                                                                    textEditingValue
-                                                                        .text
-                                                                        .toLowerCase());
-                                                          });
-                                                        },
-                                                        fieldViewBuilder: (context,
-                                                            textEditingController,
-                                                            focusNode,
-                                                            onFieldSubmitted) {
-                                                          _specifi.add(
-                                                              textEditingController);
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    bottom:
-                                                                        8.0),
-                                                            child:
-                                                                TextFormField(
-                                                              controller:
-                                                                  textEditingController,
-                                                              focusNode:
-                                                                  focusNode,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style:
-                                                                  AppStyle.h2,
-                                                              maxLines: 1,
-                                                              inputFormatters: [
-                                                                LengthLimitingTextInputFormatter(
-                                                                    50),
-                                                                // if (specificationState
-                                                                //         .list[
-                                                                //             index]
-                                                                //         .specificationID ==
-                                                                //     2)
-                                                                //   FilteringTextInputFormatter
-                                                                //       .digitsOnly,
-                                                                if (specificationState
-                                                                        .list[
-                                                                            index]
-                                                                        .specificationID ==
-                                                                    2)
-                                                                  CurrencyTextInputFormatter(
-                                                                    locale:
-                                                                        'vi_VN',
-                                                                    decimalDigits:
-                                                                        0,
-                                                                    symbol:
-                                                                        'grams',
-                                                                  )
-                                                              ],
-                                                              validator: (specificationState
-                                                                          .list[
-                                                                              index]
-                                                                          .specificationID ==
-                                                                      2)
-                                                                  ? Validations
-                                                                      .valWeight
-                                                                  : Validations
-                                                                      .valSpecificationString,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                errorText: null,
-                                                                errorStyle: AppStyle
-                                                                    .errorStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            15),
-                                                                label: Text(
-                                                                  specificationState
-                                                                      .list[
-                                                                          index]
-                                                                      .specificationName,
-                                                                  style:
-                                                                      AppStyle
-                                                                          .h2,
-                                                                ),
-                                                                border: const OutlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                            color:
-                                                                                Colors.black)),
-                                                                enabledBorder:
-                                                                    const OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                          color:
-                                                                              Colors.black),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            } else {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                  ],
+                                return _categoryWidget(
+                                  context: context,
+                                  selected: categoryState.selected,
+                                  listCategory: categoryState.list,
+                                  subCategory: categoryState.subCategory,
                                 );
                               } else {
                                 return const Center(
@@ -842,15 +328,15 @@ class _AddItemPageState extends State<AddItemPage> {
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: DropdownButtonFormField(
                                         value: brandState.brand,
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return 'Chọn hãng xe';
-                                          }
-                                          if (value.brandID == -1) {
-                                            return 'Chọn hãng xe';
-                                          }
-                                          return null;
-                                        },
+                                        // validator: (value) {
+                                        //   if (value == null) {
+                                        //     return 'Chọn hãng xe';
+                                        //   }
+                                        //   if (value.brandID == -1) {
+                                        //     return 'Chọn hãng xe';
+                                        //   }
+                                        //   return null;
+                                        // },
                                         icon: const Icon(Icons.arrow_downward),
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(
@@ -903,61 +389,44 @@ class _AddItemPageState extends State<AddItemPage> {
                                       ),
                                     ),
                                     if (brandState.brand.brandID != -1)
-                                      DropdownButtonFormField(
-                                        value: brandState.brand.listModel.first,
-                                        icon: const Icon(Icons.arrow_downward),
-                                        borderRadius: BorderRadius.circular(40),
-                                        decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: Colors.grey, width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(40)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: AppStyle.appColor,
-                                                  width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(40)),
-                                        ),
-                                        isExpanded: true,
-                                        elevation: 16,
-                                        style: AppStyle.h2,
-                                        items: brandState.brand.listModel
-                                            .map<DropdownMenuItem<ModelBrand>>(
-                                                (ModelBrand modelBrand) {
-                                          return DropdownMenuItem<ModelBrand>(
-                                            value: modelBrand,
-                                            child: Row(
-                                              children: [
-                                                Checkbox(
-                                                  value: modelBrand.isActive,
-                                                  onChanged: (value) {},
-                                                ),
-                                                Text(
-                                                  modelBrand.name,
-                                                  overflow: TextOverflow.fade,
-                                                  maxLines: 1,
-                                                  style: AppStyle.h2,
-                                                ),
-                                              ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: SizedBox(
+                                          height: 54,
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                        color: Colors.black,
+                                                        width: 2,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  40))),
                                             ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          if (value != null) {
-                                            if (value.brand_ModelID == -1) {
-                                              return;
-                                            }
-                                            value.isActive = !value.isActive;
-                                            context
-                                                .read<BrandCubit>()
-                                                .selectModelBrand(
-                                                    brandState.list,
-                                                    brandState.brand,
-                                                    value);
-                                          }
-                                        },
+                                            child: Text(
+                                              brandState
+                                                  .brand.listModel.first.name,
+                                              style: AppStyle.h2,
+                                            ),
+                                            onPressed: () => showDialog(
+                                              context: context,
+                                              builder: (_) =>
+                                                  _modelDialog(context),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    if (addItemstate is AddItemFailde &&
+                                        addItemstate.selectedModelError != null)
+                                      Text(
+                                        addItemstate.selectedModelError!,
+                                        style: AppStyle.errorStyle,
                                       )
                                   ],
                                 );
@@ -1243,7 +712,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                           .copyWith(
                                                               fontSize: 15),
                                                       label: Text(
-                                                        'Số lướng',
+                                                        'Số lượng',
                                                         style: AppStyle.h2,
                                                       ),
                                                       border: const OutlineInputBorder(
@@ -1353,5 +822,535 @@ class _AddItemPageState extends State<AddItemPage> {
         ),
       ),
     );
+  }
+
+  Widget _imageWidget(BuildContext context) {
+    return Column(
+      children: [
+        (_listImageDatas.isNotEmpty && _listImages.isNotEmpty)
+            ? ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(dragDevices: {
+                  PointerDeviceKind.mouse,
+                  PointerDeviceKind.touch,
+                }),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1),
+                          itemCount: _listImageDatas.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 200,
+                              height: 200,
+                              child: Stack(
+                                alignment: AlignmentDirectional.topEnd,
+                                children: [
+                                  Positioned.fill(
+                                    child: Image.memory(
+                                      _listImageDatas[index],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () => context
+                                          .read<PickImagesCubit>()
+                                          .deleteImage(
+                                              images: _listImages,
+                                              datas: _listImageDatas,
+                                              index: index),
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<PickImagesCubit>().cleanAll();
+                            },
+                            style: AppStyle.myButtonStyle,
+                            child: Text(
+                              'Xoá tất cả',
+                              style: AppStyle.h2.copyWith(color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<PickImagesCubit>().pickImage(
+                                  datas: _listImageDatas, images: _listImages);
+                            },
+                            style: AppStyle.myButtonStyle,
+                            child: Text(
+                              'Chọn thêm',
+                              style: AppStyle.h2.copyWith(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DottedBorder(
+                  color: AppStyle.appColor,
+                  dashPattern: const [6.7],
+                  borderType: BorderType.RRect,
+                  radius: const Radius.circular(12),
+                  child: SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          Icon(
+                            Icons.image_outlined,
+                            color: AppStyle.appColor,
+                            size: 50,
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                context
+                                    .read<PickImagesCubit>()
+                                    .pickImage(images: [], datas: []);
+                              },
+                              child: Text(
+                                'Chọn ảnh',
+                                style: AppStyle.h2,
+                              )),
+                        ]),
+                  ),
+                ),
+              ),
+      ],
+    );
+  }
+
+  Widget _categoryWidget(
+      {required BuildContext context,
+      required Category selected,
+      required List<Category> listCategory,
+      SubCategory? subCategory}) {
+    return Column(
+      children: [
+        DropdownButtonFormField(
+          value: selected,
+          icon: const Icon(Icons.arrow_downward),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: AppStyle.appColor, width: 2),
+                borderRadius: BorderRadius.circular(40)),
+            errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.red, width: 2),
+                borderRadius: BorderRadius.circular(40)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(40)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppStyle.appColor, width: 2),
+                borderRadius: BorderRadius.circular(40)),
+          ),
+          isExpanded: true,
+          validator: (value) {
+            if (value == null) {
+              return 'Vui lòng chọn loại phụ tùng';
+            }
+            if (value.categoryID == -1) {
+              return 'Vui lòng chọn loại phụ tùng';
+            }
+            return null;
+          },
+          elevation: 16,
+          style: AppStyle.h2,
+          onChanged: (Category? value) {
+            if (value != null) {
+              context
+                  .read<CategoryCubit>()
+                  .selectedCategory(listCategory, value);
+            }
+          },
+          items: listCategory.map<DropdownMenuItem<Category>>((Category value) {
+            return DropdownMenuItem<Category>(
+              value: value,
+              child: Text(
+                value.name,
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                style: AppStyle.h2,
+              ),
+            );
+          }).toList(),
+        ),
+        if (selected.categoryID != -1)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: DropdownButtonFormField(
+              value: subCategory,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng chọn loại phụ tùng';
+                }
+                if (value.sub_CategoryID == -1) {
+                  return 'Vui lòng chọn loại phụ tùng';
+                }
+                return null;
+              },
+              icon: const Icon(Icons.arrow_downward),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppStyle.appColor, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.red, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppStyle.appColor, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+              ),
+              isExpanded: true,
+              elevation: 16,
+              style: AppStyle.h2,
+              onChanged: (SubCategory? value) {
+                if (value != null) {
+                  context
+                      .read<CategoryCubit>()
+                      .selectedSubCategory(listCategory, selected, value);
+                  context
+                      .read<SpecificationCubit>()
+                      .loadSpecification(subCategoryID: value.sub_CategoryID);
+                }
+              },
+              items: selected.listSub
+                  .map<DropdownMenuItem<SubCategory>>((SubCategory value) {
+                return DropdownMenuItem<SubCategory>(
+                  value: value,
+                  child: Text(
+                    value.sub_categoryName,
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    style: AppStyle.h2,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        if (subCategory != null && subCategory.sub_CategoryID != -1)
+          // thông số kỹ thật
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: BlocBuilder<SpecificationCubit, SpecificationState>(
+              builder: (context, specificationState) {
+                if (specificationState is SpecificationLoadFailed) {
+                  return Column(
+                    children: [
+                      Text(
+                        specificationState.msg,
+                        style: AppStyle.h2.copyWith(color: Colors.red),
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      TextButton(
+                          onPressed: () => context
+                              .read<SpecificationCubit>()
+                              .loadSpecification(
+                                  subCategoryID: subCategory.sub_CategoryID),
+                          child: Text(
+                            'Thử lại',
+                            style: AppStyle.h2.copyWith(color: Colors.blue),
+                          ))
+                    ],
+                  );
+                } else if (specificationState is SpecificationLoaded) {
+                  _listSpecifi = specificationState.list;
+                  return Column(
+                    children: [
+                      Text(
+                        'Thông số Kỹ thuật',
+                        style: AppStyle.h1,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: specificationState.list.length,
+                        itemBuilder: (context, index) {
+                          return LayoutBuilder(builder: (context, constraints) {
+                            return Autocomplete<String>(
+                              optionsViewBuilder:
+                                  (context, onSelected, options) => Align(
+                                alignment: Alignment.topLeft,
+                                child: Material(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(4.0)),
+                                  ),
+                                  child: SizedBox(
+                                    height: 52.0 * options.length,
+                                    width: constraints.biggest.width,
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemCount: options.length,
+                                      shrinkWrap: false,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final String option =
+                                            options.elementAt(index);
+                                        return InkWell(
+                                          onTap: () => onSelected(option),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Text(option),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              optionsBuilder:
+                                  (TextEditingValue textEditingValue) {
+                                if (textEditingValue.text == '') {
+                                  return const Iterable<String>.empty();
+                                }
+                                List<String> suggestions = (specificationState
+                                            .list[index].suggestValues !=
+                                        null)
+                                    ? specificationState
+                                        .list[index].suggestValues!
+                                    : [];
+                                return suggestions.where((String option) {
+                                  return option.toLowerCase().contains(
+                                      textEditingValue.text.toLowerCase());
+                                });
+                              },
+                              fieldViewBuilder: (context, textEditingController,
+                                  focusNode, onFieldSubmitted) {
+                                _specifi.add(textEditingController);
+                                if (specificationState
+                                        .list[index].specificationID ==
+                                    2) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: textEditingController,
+                                            focusNode: focusNode,
+                                            textAlign: TextAlign.left,
+                                            style: AppStyle.h2,
+                                            maxLines: 1,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(
+                                                  50),
+                                              CurrencyTextInputFormatter(
+                                                locale: 'vi_VN',
+                                                decimalDigits: 0,
+                                                symbol: 'grams',
+                                              )
+                                            ],
+                                            validator: Validations.valWeight,
+                                            decoration: InputDecoration(
+                                              errorText: null,
+                                              errorStyle: AppStyle.errorStyle
+                                                  .copyWith(fontSize: 15),
+                                              label: Text(
+                                                specificationState.list[index]
+                                                    .specificationName,
+                                                style: AppStyle.h2,
+                                              ),
+                                              border: const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black)),
+                                              enabledBorder:
+                                                  const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: TextFormField(
+                                      controller: textEditingController,
+                                      focusNode: focusNode,
+                                      textAlign: TextAlign.left,
+                                      style: AppStyle.h2,
+                                      maxLines: 1,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(50),
+                                        if (specificationState
+                                                .list[index].specificationID ==
+                                            2)
+                                          CurrencyTextInputFormatter(
+                                            locale: 'vi_VN',
+                                            decimalDigits: 0,
+                                            symbol: 'grams',
+                                          )
+                                      ],
+                                      validator: (specificationState.list[index]
+                                                  .specificationID ==
+                                              2)
+                                          ? Validations.valWeight
+                                          : Validations.valSpecificationString,
+                                      decoration: InputDecoration(
+                                        errorText: null,
+                                        errorStyle: AppStyle.errorStyle
+                                            .copyWith(fontSize: 15),
+                                        label: Text(
+                                          specificationState
+                                              .list[index].specificationName,
+                                          style: AppStyle.h2,
+                                        ),
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.black)),
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _modelDialog(BuildContext context) {
+    return LayoutBuilder(builder: (_, constraints) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: 300, vertical: 30),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: SizedBox(
+          height: constraints.maxHeight,
+          width: constraints.maxWidth,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Stack(
+              children: [
+                BlocProvider.value(
+                  value: BlocProvider.of<BrandCubit>(context),
+                  child: Center(
+                    child: BlocBuilder<BrandCubit, BrandState>(
+                      builder: (_, brands) {
+                        if (brands is BrandLoaded) {
+                          List<Brand> list = brands.list;
+                          Brand brand = brands.brand;
+                          return ListView.builder(
+                            itemCount: brands.brand.listModel.length,
+                            itemBuilder: (context, index) {
+                              ModelBrand modelBrand =
+                                  brands.brand.listModel[index];
+                              return InkWell(
+                                  onTap: (modelBrand.brand_ModelID == -1)
+                                      ? null
+                                      : () {
+                                          modelBrand.isActive =
+                                              !modelBrand.isActive;
+                                          context
+                                              .read<BrandCubit>()
+                                              .selectModelBrand(
+                                                  list, brand, modelBrand);
+                                        },
+                                  child: ListTile(
+                                    title: Text(
+                                      modelBrand.name,
+                                      style: AppStyle.h2,
+                                    ),
+                                    leading: (modelBrand.brand_ModelID == -1)
+                                        ? null
+                                        : Checkbox(
+                                            value: modelBrand.isActive,
+                                            onChanged: (value) {},
+                                          ),
+                                  ));
+                            },
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: SizedBox(
+                    height: 56,
+                    width: 56,
+                    child: IconButton(
+                        onPressed: () => context.pop(),
+                        icon: const Icon(
+                          Icons.cancel_outlined,
+                          color: Colors.red,
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
