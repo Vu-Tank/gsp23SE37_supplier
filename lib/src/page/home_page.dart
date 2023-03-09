@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
+import 'package:gsp23se37_supplier/src/page/order_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -330,6 +331,10 @@ class _HomePageState extends State<HomePage>
                   key: widget.key,
                 );
               case 2:
+                return OrderPage(
+                  key: widget.key,
+                );
+              case 3:
                 return const ChatPage();
               default:
                 return const DashboardPage();

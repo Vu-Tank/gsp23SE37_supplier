@@ -14,6 +14,9 @@ class AppStyle {
   static TextStyle h2 = h1.copyWith(
     fontSize: 18,
   );
+  static TextStyle h3 = h1.copyWith(
+    fontSize: 12,
+  );
   static TextStyle errorStyle = h2.copyWith(
     color: Colors.red,
   );

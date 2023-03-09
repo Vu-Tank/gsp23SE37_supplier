@@ -55,10 +55,12 @@ class ItemRepositories {
       request.fields['List_SpecificationCustom'] = listSpecificationCustom;
       var response = await request.send();
       if (response.statusCode == 200) {
-        // var responseData = await response.stream.bytesToString(utf8);
-        // var body = json.decode(responseData);
-        var reponseData = await http.Response.fromStream(response);
-        var body = json.decode(reponseData.body);
+        response.stream.asBroadcastStream();
+        var responseData = await response.stream.bytesToString(utf8);
+        var body = json.decode(responseData);
+        // response.stream.asBroadcastStream();
+        // var reponseData = await http.Response.fromStream(response);
+        // var body = json.decode(reponseData.body);
         apiResponse.msg = body['message'];
         apiResponse.isSuccess = body['success'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());

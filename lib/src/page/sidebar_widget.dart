@@ -37,6 +37,7 @@ class SideBarWigdet extends StatelessWidget {
       items: const [
         SidebarXItem(icon: Icons.home, label: 'Trang chủ'),
         SidebarXItem(icon: Icons.settings, label: 'Quản lý sản phẩm'),
+        SidebarXItem(icon: Icons.shop, label: 'Quản lý giỏ hàng'),
         SidebarXItem(icon: Icons.chat_outlined, label: 'Tin nhắn')
       ],
     );

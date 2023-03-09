@@ -1,3 +1,6 @@
+import 'package:gsp23se37_supplier/src/model/specification.dart';
+import 'package:gsp23se37_supplier/src/utils/vn_convert.dart';
+
 import '../model/address/district.dart';
 import '../model/address/province.dart';
 import '../model/address/ward.dart';
@@ -141,6 +144,18 @@ class Validations {
     return null;
   }
 
+  static String? valSpecificationName(String? value, List<Specification> list) {
+    if (value == null) return 'Không thể bỏ trống';
+    if (value.isEmpty) return 'Không thể bỏ trống';
+    for (var element in list) {
+      if (VNConvert.unsigned(element.specificationName.toLowerCase()) ==
+          VNConvert.unsigned(value.toLowerCase().trim())) {
+        return '$value đã tồn tại';
+      }
+    }
+    return null;
+  }
+
   static String? valPrice(String? value) {
     if (value == null) return 'Vui lòng nhập giá';
     if (value.isEmpty) return 'Vui lòng nhập giá';
@@ -181,14 +196,38 @@ class Validations {
     return null;
   }
 
-  static String? valWeight(String? value) {
+  static String? valWeight(String? value, String weightUnit) {
     if (value == null) return 'Vui lòng nhập khối lượng';
     if (value.isEmpty) return 'Vui lòng nhập khối lượng';
     try {
-      value = value.replaceAll('grams', '').replaceAll('.', '').trim();
-      double price = double.parse(value);
-      if (price <= 0) return 'Khối lượng sản phẩm phải lơn hơn 0';
-      if (price >= 5000000) return 'Khối lượng sản phẩm phải nhỏ hơn 5 tấn';
+      value = value.replaceAll('.', '').replaceAll(',', '.').trim();
+      double weight = double.parse(value);
+      if (weight <= 0) return 'Khối lượng sản phẩm phải lơn hơn 0';
+      if (weightUnit == 'kg' && weight > 20) {
+        return 'Khối lượng sản phẩm phải nhỏ hơn hoặc bằng 20kg';
+      }
+      if (weightUnit == 'grams' && weight > 20000) {
+        return 'Khối lượng sản phẩm phải nhỏ hơn hoặc bằng 20000kg';
+      }
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valLwh(String? value, String lwhUnit) {
+    if (value == null) return 'Vui lòng nhập Kích thước';
+    if (value.isEmpty) return 'Vui lòng nhập Kích thước';
+    try {
+      value = value.replaceAll('.', '').replaceAll(',', '.').trim();
+      double lwh = double.parse(value);
+      if (lwh <= 0) return 'Kích thước sản phẩm phải lơn hơn 0';
+      if (lwhUnit == 'cm' && lwh > 100) {
+        return 'Kích thước sản phẩm phải nhỏ hơn hoặc bằng 100cm';
+      }
+      if (lwhUnit == 'm' && lwh > 1) {
+        return 'Kích thước sản phẩm phải nhỏ hơn hoặc bằng 1m';
+      }
     } catch (e) {
       return 'vui lòng nhập số';
     }

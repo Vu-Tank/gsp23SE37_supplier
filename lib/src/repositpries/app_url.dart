@@ -35,4 +35,6 @@ class AppUrl {
   static const String getItem = '$baseUrl/Item/store';
 
   static const String getItemDetail = '$baseUrl/Item/item_detail';
+
+  static const String getOrders = '$baseUrl/Order/get_order_status';
 }
