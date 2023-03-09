@@ -1478,10 +1478,6 @@ class _AddItemPageState extends State<AddItemPage> {
                                                   ),
                                                 ),
                                               ),
-                                              Text(
-                                                'x',
-                                                style: AppStyle.h2,
-                                              ),
                                               Expanded(
                                                 child: DropdownButtonFormField(
                                                   value: lwhUnitState.lwhUnit,
