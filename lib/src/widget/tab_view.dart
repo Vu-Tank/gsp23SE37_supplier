@@ -13,7 +13,7 @@ class TabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 2000,
+      height: 1100,
       width: width,
       child: Column(
         children: [
@@ -61,13 +61,12 @@ class TabView extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
+                              AspectRatio(
+                                aspectRatio: 4 / 3,
                                 child: Image.asset(
-                                    "assets/images/takePicture.jpg"),
-                              ),
-                              const SizedBox(
-                                width: 150,
+                                  "assets/images/takePicture.jpg",
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               RichText(
                                   maxLines: 4,
@@ -104,9 +103,6 @@ class TabView extends StatelessWidget {
                                                 overflow: TextOverflow.clip)),
                                       ],
                                     )),
-                                const SizedBox(
-                                  width: 150,
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child:
@@ -123,9 +119,6 @@ class TabView extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: Image.asset("assets/images/image1.jpg"),
-                              ),
-                              const SizedBox(
-                                width: 150,
                               ),
                               RichText(
                                   maxLines: 4,

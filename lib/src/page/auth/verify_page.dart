@@ -107,10 +107,10 @@ class _VerifyPageState extends State<VerifyPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     height: 200,
                     width: 200,
-                    color: AppStyle.appColor,
+                    child: Image.asset("assets/logo/logo-color.jpg"),
                   ),
                   const SizedBox(
                     height: 50.0,
@@ -189,7 +189,7 @@ class _VerifyPageState extends State<VerifyPage> {
                   ),
                   SizedBox(
                     height: 56,
-                    width: double.infinity,
+                    width: 600,
                     child: ElevatedButton(
                       onPressed: (state is Verifying)
                           ? null

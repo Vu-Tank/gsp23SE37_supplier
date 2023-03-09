@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gsp23se37_supplier/src/widget/CustomAppBar.dart';
 import 'package:gsp23se37_supplier/src/widget/autoPageView.dart';
 import 'package:gsp23se37_supplier/src/widget/tab_view.dart';
@@ -65,6 +66,56 @@ class _FirstPageState extends State<FirstPage>
                 padding: const EdgeInsets.only(top: 20),
                 child: TabView(width: width, tabController: tabController),
               ),
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 2,
+                      color: Color.fromARGB(255, 78, 80, 80),
+                    ),
+                  ),
+                  color: Color(0xFFffffff),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      child: Image.asset(
+                        "assets/logo/logo-color.jpg",
+                        fit: BoxFit.cover,
+                        width: 200,
+                        height: double.infinity,
+                        scale: 1,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: const [
+                          SizedBox(
+                            height: 80,
+                            child: Icon(Icons.facebook_outlined),
+                          ),
+                          SizedBox(
+                            height: 80,
+                            child: Icon(FontAwesomeIcons.youtube),
+                          ),
+                          SizedBox(
+                            height: 80,
+                            child: Icon(FontAwesomeIcons.instagram),
+                          ),
+                          SizedBox(
+                            height: 80,
+                            child: Icon(FontAwesomeIcons.tiktok),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
