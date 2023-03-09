@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,6 +19,8 @@ class ItemDetailWidget extends StatefulWidget {
 }
 
 class _ItemDetailWidgetState extends State<ItemDetailWidget> {
+  final CarouselController carouselController = CarouselController();
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -28,9 +31,14 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {
+        double hor;
+        if (constraints.maxWidth < 1000) {
+          hor = 20;
+        } else {
+          hor = 300;
+        }
         return Dialog(
-            insetPadding:
-                const EdgeInsets.symmetric(horizontal: 300, vertical: 30),
+            insetPadding: EdgeInsets.symmetric(horizontal: hor, vertical: 30),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: SizedBox(
@@ -70,6 +78,9 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                               ],
                             );
                           } else if (itemDetailState is ItemDetailLoaded) {
+                            var listSup =
+                                itemDetailState.itemDetail.listSubItem;
+
                             return ScrollConfiguration(
                               behavior: ScrollConfiguration.of(context)
                                   .copyWith(dragDevices: {
@@ -85,15 +96,59 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Card(
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 39, 41, 40),
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0), //<-- SEE HERE
+                                      ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
                                             Center(
                                               child: Container(
-                                                color: Colors.amber,
-                                                width: 200,
-                                                height: 200,
+                                                decoration: const BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      width: 2,
+                                                      color: Color.fromARGB(
+                                                          255, 78, 80, 80),
+                                                    ),
+                                                  ),
+                                                  color: Color(0xFFffffff),
+                                                ),
+                                                width: 390,
+                                                height: 390,
+                                                child: CarouselSlider(
+                                                  items: itemDetailState
+                                                      .itemDetail.list_Image
+                                                      .map(
+                                                        (item) => Image.network(
+                                                          item.path,
+                                                          fit: BoxFit.cover,
+                                                          width:
+                                                              double.infinity,
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                  carouselController:
+                                                      carouselController,
+                                                  options: CarouselOptions(
+                                                    scrollPhysics:
+                                                        const BouncingScrollPhysics(),
+                                                    autoPlay: true,
+                                                    viewportFraction: 1,
+                                                    onPageChanged:
+                                                        (index, reason) {
+                                                      setState(() {
+                                                        currentIndex = index;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(
@@ -101,6 +156,29 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                             ),
                                             _itemInfo(
                                                 itemDetailState.itemDetail),
+                                            SizedBox(
+                                              height: 390,
+                                              child: Column(
+                                                children: [
+                                                  for (int i = 0;
+                                                      i < listSup.length;
+                                                      i++)
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 2,
+                                                              color: Colors
+                                                                  .blueGrey)),
+                                                      height: 100,
+                                                      width: 100,
+                                                      child: Image.network(
+                                                          listSup[i]
+                                                              .image
+                                                              .path),
+                                                    ),
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -124,9 +202,11 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Mô tả sản phẩm',
+                                              'Mô tả sản phẩm:',
                                               style: AppStyle.h2,
                                             ),
                                             const SizedBox(
