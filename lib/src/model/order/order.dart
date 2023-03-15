@@ -29,6 +29,7 @@ class Order {
   final String? reason;
   final String? pick_Time;
   final String? firebaseID;
+  final String paymentMethod;
   Order({
     required this.orderID,
     required this.create_Date,
@@ -53,6 +54,7 @@ class Order {
     this.reason,
     this.pick_Time,
     this.firebaseID,
+    required this.paymentMethod,
   });
 
   Map<String, dynamic> toMap() {
@@ -80,6 +82,7 @@ class Order {
       'reason': reason,
       'pick_Time': pick_Time,
       'firebaseID': firebaseID,
+      'paymentMethod': paymentMethod,
     };
   }
 
@@ -114,6 +117,7 @@ class Order {
       pick_Time: map['pick_Time'] != null ? map['pick_Time'] as String : null,
       firebaseID:
           map['firebaseID'] != null ? map['firebaseID'] as String : null,
+      paymentMethod: map['paymentMethod'] as String,
     );
   }
 
@@ -124,6 +128,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, firebaseID: $firebaseID)';
+    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, firebaseID: $firebaseID, paymentMethod: $paymentMethod)';
   }
 }

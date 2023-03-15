@@ -9,6 +9,9 @@ class SubItem {
   final int amount;
   final Image image;
   final double price;
+  final int warrantiesTime;
+  final double discount;
+  final int returnAndExchange;
   final SubItemStatus subItem_Status;
   SubItem({
     required this.sub_ItemID,
@@ -16,6 +19,9 @@ class SubItem {
     required this.amount,
     required this.image,
     required this.price,
+    required this.warrantiesTime,
+    required this.discount,
+    required this.returnAndExchange,
     required this.subItem_Status,
   });
 
@@ -26,6 +32,9 @@ class SubItem {
       'amount': amount,
       'image': image.toMap(),
       'price': price,
+      'warrantiesTime': warrantiesTime,
+      'discount': discount,
+      'returnAndExchange': returnAndExchange,
       'subItem_Status': subItem_Status.toMap(),
     };
   }
@@ -37,6 +46,9 @@ class SubItem {
       amount: map['amount'] as int,
       image: Image.fromMap(map['image'] as Map<String, dynamic>),
       price: map['price'] as double,
+      warrantiesTime: map['warrantiesTime'] as int,
+      discount: map['discount'] as double,
+      returnAndExchange: map['returnAndExchange'] as int,
       subItem_Status:
           SubItemStatus.fromMap(map['subItem_Status'] as Map<String, dynamic>),
     );
@@ -49,7 +61,7 @@ class SubItem {
 
   @override
   String toString() {
-    return 'SubItem(sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, amount: $amount, image: $image, price: $price, subItem_Status: $subItem_Status)';
+    return 'SubItem(sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, amount: $amount, image: $image, price: $price, warrantiesTime: $warrantiesTime, discount: $discount, returnAndExchange: $returnAndExchange, subItem_Status: $subItem_Status)';
   }
 }
 

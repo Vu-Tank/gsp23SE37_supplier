@@ -17,6 +17,8 @@ class OrderDetail {
   final int itemID;
   final String? feedback_Status;
   final List<Image> listImageFb;
+  final int warrantiesTime;
+  final int returnAndExchange;
   OrderDetail({
     required this.orderDetailID,
     required this.pricePurchase,
@@ -31,7 +33,14 @@ class OrderDetail {
     required this.itemID,
     this.feedback_Status,
     required this.listImageFb,
+    required this.warrantiesTime,
+    required this.returnAndExchange,
   });
+
+  @override
+  String toString() {
+    return 'OrderDetail(orderDetailID: $orderDetailID, pricePurchase: $pricePurchase, discountPurchase: $discountPurchase, amount: $amount, feedback_Title: $feedback_Title, feedback_Rate: $feedback_Rate, feedBack_Date: $feedBack_Date, sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, sub_ItemImage: $sub_ItemImage, itemID: $itemID, feedback_Status: $feedback_Status, listImageFb: $listImageFb, warrantiesTime: $warrantiesTime, returnAndExchange: $returnAndExchange)';
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -48,6 +57,8 @@ class OrderDetail {
       'itemID': itemID,
       'feedback_Status': feedback_Status,
       'listImageFb': listImageFb.map((x) => x.toMap()).toList(),
+      'warrantiesTime': warrantiesTime,
+      'returnAndExchange': returnAndExchange,
     };
   }
 
@@ -76,6 +87,8 @@ class OrderDetail {
           (x) => Image.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      warrantiesTime: map['warrantiesTime'] as int,
+      returnAndExchange: map['returnAndExchange'] as int,
     );
   }
 
@@ -83,9 +96,4 @@ class OrderDetail {
 
   factory OrderDetail.fromJson(String source) =>
       OrderDetail.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'OrderDetail(orderDetailID: $orderDetailID, pricePurchase: $pricePurchase, discountPurchase: $discountPurchase, amount: $amount, feedback_Title: $feedback_Title, feedback_Rate: $feedback_Rate, feedBack_Date: $feedBack_Date, sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, sub_ItemImage: $sub_ItemImage, itemID: $itemID, feedback_Status: $feedback_Status, listImageFb: $listImageFb)';
-  }
 }

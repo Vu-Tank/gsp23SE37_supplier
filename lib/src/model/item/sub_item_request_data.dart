@@ -5,10 +5,16 @@ class SubItemRequestData {
   final String sub_ItemName;
   final int amount;
   final double price;
+  final double dicount;
+  final int warrantiesTime;
+  final int ReturnAndExchange;
   SubItemRequestData({
     required this.sub_ItemName,
     required this.amount,
     required this.price,
+    required this.dicount,
+    required this.warrantiesTime,
+    required this.ReturnAndExchange,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +22,9 @@ class SubItemRequestData {
       'sub_ItemName': sub_ItemName,
       'amount': amount,
       'price': price,
+      'dicount': dicount,
+      'warrantiesTime': warrantiesTime,
+      'ReturnAndExchange': ReturnAndExchange,
     };
   }
 
@@ -24,6 +33,9 @@ class SubItemRequestData {
       sub_ItemName: map['sub_ItemName'] as String,
       amount: map['amount'] as int,
       price: map['price'] as double,
+      dicount: map['dicount'] as double,
+      warrantiesTime: map['warrantiesTime'] as int,
+      ReturnAndExchange: map['ReturnAndExchange'] as int,
     );
   }
 
@@ -33,6 +45,7 @@ class SubItemRequestData {
       SubItemRequestData.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'SubItemRequestData(sub_ItemName: $sub_ItemName, amount: $amount, price: $price)';
+  String toString() {
+    return 'SubItemRequestData(sub_ItemName: $sub_ItemName, amount: $amount, price: $price, dicount: $dicount, warrantiesTime: $warrantiesTime, ReturnAndExchange: $ReturnAndExchange)';
+  }
 }
