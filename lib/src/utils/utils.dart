@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gsp23se37_supplier/src/model/specification.dart';
-import 'package:gsp23se37_supplier/src/model/specification_custom_request.dart';
-import 'package:gsp23se37_supplier/src/model/specification_request.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification_custom_request.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification_request.dart';
 import 'package:intl/intl.dart';
 
-import '../model/brand.dart';
+import '../model/item/brand.dart';
 
 class Utils {
   static String convertToFirebase(String value) {

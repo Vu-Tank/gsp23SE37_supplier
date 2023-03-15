@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
-import 'package:gsp23se37_supplier/src/model/item.dart';
+import 'package:gsp23se37_supplier/src/model/item/item.dart';
 import 'package:gsp23se37_supplier/src/repositpries/item_repositories.dart';
 
 part 'all_item_event.dart';

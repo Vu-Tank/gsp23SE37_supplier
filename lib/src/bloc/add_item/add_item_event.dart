@@ -12,7 +12,6 @@ class AddItemPressed extends AddItemEvent {
   final bool formVal;
   final String name;
   final String description;
-  final String discount;
   final int storeID;
   final int subCategoryID;
   final List<XFile> listImage;
@@ -26,7 +25,6 @@ class AddItemPressed extends AddItemEvent {
     required this.formVal,
     required this.name,
     required this.description,
-    required this.discount,
     required this.storeID,
     required this.subCategoryID,
     required this.listImage,
@@ -42,7 +40,6 @@ class AddItemPressed extends AddItemEvent {
         formVal,
         name,
         description,
-        discount,
         storeID,
         subCategoryID,
         listImage,

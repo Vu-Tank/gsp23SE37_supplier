@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:gsp23se37_supplier/src/model/order_detail.dart';
-import 'package:gsp23se37_supplier/src/model/order_ship.dart';
-import 'package:gsp23se37_supplier/src/model/order_status.dart';
+import 'package:gsp23se37_supplier/src/model/order/order_detail.dart';
+import 'package:gsp23se37_supplier/src/model/order/order_ship.dart';
+import 'package:gsp23se37_supplier/src/model/order/order_status.dart';
 
 class Order {
   final int orderID;

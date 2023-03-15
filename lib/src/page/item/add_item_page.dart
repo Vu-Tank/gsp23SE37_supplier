@@ -15,13 +15,13 @@ import 'package:gsp23se37_supplier/src/cubit/specification/specification_cubit.d
 import 'package:gsp23se37_supplier/src/cubit/specification_custom/specification_custom_cubit.dart';
 import 'package:gsp23se37_supplier/src/cubit/sub_item/sub_item_cubit.dart';
 import 'package:gsp23se37_supplier/src/cubit/weight_unit/weight_unit_cubit.dart';
-import 'package:gsp23se37_supplier/src/model/brand.dart';
-import 'package:gsp23se37_supplier/src/model/category.dart';
-import 'package:gsp23se37_supplier/src/model/specification.dart';
-import 'package:gsp23se37_supplier/src/model/specification_custom_request.dart';
+import 'package:gsp23se37_supplier/src/model/item/brand.dart';
+import 'package:gsp23se37_supplier/src/model/item/category.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification_custom_request.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
-import 'package:gsp23se37_supplier/src/model/sub_category.dart';
-import 'package:gsp23se37_supplier/src/model/sub_item_request.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_category.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_item_request.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/utils/app_constants.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
@@ -31,7 +31,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../bloc/add_item/add_item_bloc.dart';
 import '../../cubit/lwh_unit/lwh_unit_cubit.dart';
-import '../../model/model_brand.dart';
+import '../../model/item/model_brand.dart';
 import '../../utils/app_style.dart';
 
 class AddItemPage extends StatefulWidget {
@@ -49,7 +49,6 @@ class _AddItemPageState extends State<AddItemPage> {
   List<Brand> _listmodel = [];
   final TextEditingController _itemName = TextEditingController();
   final TextEditingController _itemDescription = TextEditingController();
-  final TextEditingController _itemDiscount = TextEditingController();
   TextEditingController lController = TextEditingController();
   TextEditingController wController = TextEditingController();
   TextEditingController hController = TextEditingController();
@@ -125,7 +124,6 @@ class _AddItemPageState extends State<AddItemPage> {
                 _listmodel = [];
                 _itemName.clear();
                 _itemDescription.clear();
-                _itemDiscount.clear();
                 _specifi = [];
                 _listSpecifi = [];
                 _selectedSubCategory = null;
@@ -449,34 +447,6 @@ class _AddItemPageState extends State<AddItemPage> {
                               }
                             },
                           ),
-                          // thêm giảm giá
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          TextFormField(
-                            controller: _itemDiscount,
-                            textAlign: TextAlign.left,
-                            style: AppStyle.h2,
-                            validator: Validations.valDiscount,
-                            maxLines: 1,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(10),
-                            ],
-                            decoration: InputDecoration(
-                              errorText: null,
-                              errorStyle:
-                                  AppStyle.errorStyle.copyWith(fontSize: 15),
-                              label: Text(
-                                'Khuyến mãi',
-                                style: AppStyle.h2,
-                              ),
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
                           const SizedBox(
                             height: 8.0,
                           ),
@@ -502,262 +472,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                       scrollDirection: Axis.vertical,
                                       itemCount: subItemState.listSub.length,
                                       itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: 200,
-                                                    width: 200,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child:
-                                                          (subItemState
-                                                                      .listSub[
-                                                                          index]
-                                                                      .data ==
-                                                                  null)
-                                                              ? DottedBorder(
-                                                                  color: AppStyle
-                                                                      .appColor,
-                                                                  dashPattern: const [
-                                                                    6.7
-                                                                  ],
-                                                                  borderType:
-                                                                      BorderType
-                                                                          .RRect,
-                                                                  radius: const Radius
-                                                                      .circular(12),
-                                                                  child: Center(
-                                                                    child: Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment
-                                                                                .center,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.image_outlined,
-                                                                            color:
-                                                                                AppStyle.appColor,
-                                                                            size:
-                                                                                50,
-                                                                          ),
-                                                                          const SizedBox(
-                                                                            height:
-                                                                                20.0,
-                                                                          ),
-                                                                          TextButton(
-                                                                              onPressed: () => context.read<SubItemCubit>().pickImage(index: index),
-                                                                              child: Text(
-                                                                                'Chọn ảnh',
-                                                                                style: AppStyle.h2,
-                                                                              ))
-                                                                        ]),
-                                                                  ),
-                                                                )
-                                                              : Stack(
-                                                                  alignment:
-                                                                      AlignmentDirectional
-                                                                          .bottomCenter,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      height: double
-                                                                          .infinity,
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child: Image
-                                                                          .memory(
-                                                                        subItemState
-                                                                            .listSub[index]
-                                                                            .data!,
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                                                    ElevatedButton(
-                                                                      onPressed: () => context
-                                                                          .read<
-                                                                              SubItemCubit>()
-                                                                          .pickImage(
-                                                                              index: index),
-                                                                      style: AppStyle
-                                                                          .myButtonStyle,
-                                                                      child:
-                                                                          Text(
-                                                                        'Chọn lại',
-                                                                        style: AppStyle
-                                                                            .h2,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                    ),
-                                                  ),
-                                                  if (addItemstate
-                                                          is AddItemFailde &&
-                                                      addItemstate
-                                                              .subImageError !=
-                                                          null &&
-                                                      index <
-                                                          addItemstate
-                                                              .subImageError!
-                                                              .length &&
-                                                      addItemstate.subImageError![
-                                                              index] !=
-                                                          null)
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 8.0),
-                                                      child: Text(
-                                                        addItemstate
-                                                                .subImageError![
-                                                            index]!,
-                                                        style:
-                                                            AppStyle.errorStyle,
-                                                      ),
-                                                    )
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                width: 10.0,
-                                              ),
-                                              Expanded(
-                                                  child: Column(
-                                                children: [
-                                                  TextFormField(
-                                                    controller: subItemState
-                                                        .listSub[index].subName,
-                                                    textAlign: TextAlign.left,
-                                                    style: AppStyle.h2,
-                                                    maxLines: 1,
-                                                    validator:
-                                                        Validations.valItemName,
-                                                    decoration: InputDecoration(
-                                                      errorText: null,
-                                                      errorStyle: AppStyle
-                                                          .errorStyle
-                                                          .copyWith(
-                                                              fontSize: 15),
-                                                      label: Text(
-                                                        'Tên hàng',
-                                                        style: AppStyle.h2,
-                                                      ),
-                                                      border: const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .black)),
-                                                      enabledBorder:
-                                                          const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 8.0,
-                                                  ),
-                                                  TextFormField(
-                                                    controller: subItemState
-                                                        .listSub[index]
-                                                        .subPrice,
-                                                    textAlign: TextAlign.left,
-                                                    style: AppStyle.h2,
-                                                    maxLines: 1,
-                                                    inputFormatters: [
-                                                      // FilteringTextInputFormatter
-                                                      //     .digitsOnly,
-                                                      CurrencyTextInputFormatter(
-                                                        locale: 'vi_VN',
-                                                        decimalDigits: 0,
-                                                        symbol: 'VNĐ',
-                                                      )
-                                                    ],
-                                                    validator:
-                                                        Validations.valPrice,
-                                                    decoration: InputDecoration(
-                                                      errorText: null,
-                                                      errorStyle: AppStyle
-                                                          .errorStyle
-                                                          .copyWith(
-                                                              fontSize: 15),
-                                                      label: Text(
-                                                        'Giá',
-                                                        style: AppStyle.h2,
-                                                      ),
-                                                      border: const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .black)),
-                                                      enabledBorder:
-                                                          const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 8.0,
-                                                  ),
-                                                  TextFormField(
-                                                    controller: subItemState
-                                                        .listSub[index]
-                                                        .subAmount,
-                                                    textAlign: TextAlign.left,
-                                                    style: AppStyle.h2,
-                                                    maxLines: 1,
-                                                    validator:
-                                                        Validations.valAmount,
-                                                    decoration: InputDecoration(
-                                                      errorText: null,
-                                                      errorStyle: AppStyle
-                                                          .errorStyle
-                                                          .copyWith(
-                                                              fontSize: 15),
-                                                      label: Text(
-                                                        'Số lượng',
-                                                        style: AppStyle.h2,
-                                                      ),
-                                                      border: const OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .black)),
-                                                      enabledBorder:
-                                                          const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )),
-                                              if (index != 0)
-                                                Center(
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                        Icons.delete),
-                                                    onPressed: () {
-                                                      context
-                                                          .read<SubItemCubit>()
-                                                          .deleteSubItem(
-                                                              index: index);
-                                                    },
-                                                  ),
-                                                )
-                                            ],
-                                          ),
-                                        );
+                                        return _subItemWidget(subItemState,
+                                            index, context, addItemstate);
                                       }),
                                   ElevatedButton(
                                     onPressed: () {
@@ -798,8 +514,6 @@ class _AddItemPageState extends State<AddItemPage> {
                                               name: _itemName.text.trim(),
                                               description:
                                                   _itemDescription.text.trim(),
-                                              discount:
-                                                  _itemDiscount.text.trim(),
                                               storeID: store.storeID,
                                               subCategoryID:
                                                   _selectedSubCategory
@@ -843,6 +557,236 @@ class _AddItemPageState extends State<AddItemPage> {
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Padding _subItemWidget(SubItemState subItemState, int index,
+      BuildContext context, AddItemState addItemstate) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: 200,
+                width: 200,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: (subItemState.listSub[index].data == null)
+                      ? DottedBorder(
+                          color: AppStyle.appColor,
+                          dashPattern: const [6.7],
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(12),
+                          child: Center(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.image_outlined,
+                                    color: AppStyle.appColor,
+                                    size: 50,
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  TextButton(
+                                      onPressed: () => context
+                                          .read<SubItemCubit>()
+                                          .pickImage(index: index),
+                                      child: Text(
+                                        'Chọn ảnh',
+                                        style: AppStyle.h2,
+                                      ))
+                                ]),
+                          ),
+                        )
+                      : Stack(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          children: [
+                            SizedBox(
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: Image.memory(
+                                subItemState.listSub[index].data!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => context
+                                  .read<SubItemCubit>()
+                                  .pickImage(index: index),
+                              style: AppStyle.myButtonStyle,
+                              child: Text(
+                                'Chọn lại',
+                                style: AppStyle.h2,
+                              ),
+                            )
+                          ],
+                        ),
+                ),
+              ),
+              if (addItemstate is AddItemFailde &&
+                  addItemstate.subImageError != null &&
+                  index < addItemstate.subImageError!.length &&
+                  addItemstate.subImageError![index] != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    addItemstate.subImageError![index]!,
+                    style: AppStyle.errorStyle,
+                  ),
+                )
+            ],
+          ),
+          const SizedBox(
+            width: 10.0,
+          ),
+          Expanded(
+              child: Column(
+            children: [
+              TextFormField(
+                controller: subItemState.listSub[index].subName,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                validator: Validations.valItemName,
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Tên hàng',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextFormField(
+                controller: subItemState.listSub[index].subPrice,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                inputFormatters: [
+                  // FilteringTextInputFormatter
+                  //     .digitsOnly,
+                  CurrencyTextInputFormatter(
+                    locale: 'vi_VN',
+                    decimalDigits: 0,
+                    symbol: 'VNĐ',
+                  )
+                ],
+                validator: Validations.valPrice,
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Giá',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextFormField(
+                controller: subItemState.listSub[index].subAmount,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                validator: Validations.valAmount,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Số lượng',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextFormField(
+                controller: subItemState.listSub[index].subWarrantiesTime,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                validator: Validations.valWarrantiesTime,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Bảo hành',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              TextFormField(
+                controller: subItemState.listSub[index].subReturnAndExchange,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                validator: Validations.valAmount,
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Đổi trả',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+            ],
+          )),
+          if (index != 0)
+            Center(
+              child: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  context.read<SubItemCubit>().deleteSubItem(index: index);
+                },
+              ),
+            )
+        ],
       ),
     );
   }
@@ -1202,134 +1146,143 @@ class _AddItemPageState extends State<AddItemPage> {
                                           log(state.weightUnit);
                                         },
                                         builder: (context, weightUnitState) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: TextFormField(
-                                                  controller:
-                                                      textEditingController,
-                                                  focusNode: focusNode,
-                                                  textAlign: TextAlign.left,
-                                                  style: AppStyle.h2,
-                                                  maxLines: 1,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(
-                                                        10),
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'(^\d*\,?\d*)')),
-                                                  ],
-                                                  validator: (value) =>
-                                                      Validations.valWeight(
-                                                          value,
-                                                          weightUnitState
-                                                              .weightUnit),
-                                                  decoration: InputDecoration(
-                                                    errorText: null,
-                                                    errorStyle: AppStyle
-                                                        .errorStyle
-                                                        .copyWith(fontSize: 15),
-                                                    label: Text(
-                                                      specificationState
-                                                          .list[index]
-                                                          .specificationName,
-                                                      style: AppStyle.h2,
-                                                    ),
-                                                    border:
-                                                        const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black)),
-                                                    enabledBorder:
-                                                        const OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: DropdownButtonFormField(
-                                                  value: weightUnitState
-                                                      .weightUnit,
-                                                  icon: const Icon(
-                                                      Icons.arrow_downward),
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: AppStyle
-                                                                .appColor,
-                                                            width: 2),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40)),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .red,
-                                                                    width: 2),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40)),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    width: 2),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: AppStyle
-                                                                .appColor,
-                                                            width: 2),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40)),
-                                                  ),
-                                                  isExpanded: true,
-                                                  elevation: 16,
-                                                  style: AppStyle.h2,
-                                                  onChanged: (String? value) {
-                                                    if (value != null) {
-                                                      context
-                                                          .read<
-                                                              WeightUnitCubit>()
-                                                          .selectWeightUnit(
-                                                              value);
-                                                    }
-                                                  },
-                                                  items: AppConstants
-                                                      .listWeightUnit
-                                                      .map<
-                                                              DropdownMenuItem<
-                                                                  String>>(
-                                                          (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(
-                                                        value,
-                                                        overflow:
-                                                            TextOverflow.fade,
-                                                        maxLines: 1,
+                                          return IntrinsicHeight(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: TextFormField(
+                                                    controller:
+                                                        textEditingController,
+                                                    focusNode: focusNode,
+                                                    textAlign: TextAlign.left,
+                                                    style: AppStyle.h2,
+                                                    maxLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          10),
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              r'(^\d*\,?\d*)')),
+                                                    ],
+                                                    validator: (value) =>
+                                                        Validations.valWeight(
+                                                            value,
+                                                            weightUnitState
+                                                                .weightUnit),
+                                                    decoration: InputDecoration(
+                                                      errorText: null,
+                                                      errorStyle: AppStyle
+                                                          .errorStyle
+                                                          .copyWith(
+                                                              fontSize: 15),
+                                                      label: Text(
+                                                        specificationState
+                                                            .list[index]
+                                                            .specificationName,
                                                         style: AppStyle.h2,
                                                       ),
-                                                    );
-                                                  }).toList(),
+                                                      border: const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
+                                                      enabledBorder:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                                Expanded(
+                                                  child:
+                                                      DropdownButtonFormField(
+                                                    value: weightUnitState
+                                                        .weightUnit,
+                                                    icon: const Icon(
+                                                        Icons.arrow_downward),
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: AppStyle
+                                                                  .appColor,
+                                                              width: 2),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40)),
+                                                      errorBorder: OutlineInputBorder(
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  width: 2),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40)),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  const BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width: 2),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40)),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: AppStyle
+                                                                      .appColor,
+                                                                  width: 2),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40)),
+                                                    ),
+                                                    isExpanded: true,
+                                                    elevation: 16,
+                                                    style: AppStyle.h2,
+                                                    onChanged: (String? value) {
+                                                      if (value != null) {
+                                                        context
+                                                            .read<
+                                                                WeightUnitCubit>()
+                                                            .selectWeightUnit(
+                                                                value);
+                                                      }
+                                                    },
+                                                    items: AppConstants
+                                                        .listWeightUnit
+                                                        .map<
+                                                            DropdownMenuItem<
+                                                                String>>((String
+                                                            value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(
+                                                          value,
+                                                          overflow:
+                                                              TextOverflow.fade,
+                                                          maxLines: 1,
+                                                          style: AppStyle.h2,
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         },
                                       ),
@@ -1349,212 +1302,230 @@ class _AddItemPageState extends State<AddItemPage> {
                                           _selectLwhUnit = state.lwhUnit;
                                         },
                                         builder: (context, lwhUnitState) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: TextFormField(
-                                                  controller: lController,
-                                                  textAlign: TextAlign.left,
-                                                  style: AppStyle.h2,
-                                                  maxLines: 1,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(
-                                                        10),
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'(^\d*\,?\d*)')),
-                                                  ],
-                                                  validator: (value) =>
-                                                      Validations.valLwh(value,
-                                                          lwhUnitState.lwhUnit),
-                                                  decoration: InputDecoration(
-                                                    errorText: null,
-                                                    errorStyle: AppStyle
-                                                        .errorStyle
-                                                        .copyWith(fontSize: 15),
-                                                    label: Text(
-                                                      'Chiều dài',
-                                                      style: AppStyle.h2,
-                                                    ),
-                                                    border:
-                                                        const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black)),
-                                                    enabledBorder:
-                                                        const OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'x',
-                                                style: AppStyle.h2,
-                                              ),
-                                              Expanded(
-                                                child: TextFormField(
-                                                  controller: wController,
-                                                  textAlign: TextAlign.left,
-                                                  style: AppStyle.h2,
-                                                  maxLines: 1,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(
-                                                        10),
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'(^\d*\,?\d*)')),
-                                                  ],
-                                                  validator: (value) =>
-                                                      Validations.valLwh(value,
-                                                          lwhUnitState.lwhUnit),
-                                                  decoration: InputDecoration(
-                                                    errorText: null,
-                                                    errorStyle: AppStyle
-                                                        .errorStyle
-                                                        .copyWith(fontSize: 15),
-                                                    label: Text(
-                                                      'Chiều rộng',
-                                                      style: AppStyle.h2,
-                                                    ),
-                                                    border:
-                                                        const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black)),
-                                                    enabledBorder:
-                                                        const OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                'x',
-                                                style: AppStyle.h2,
-                                              ),
-                                              Expanded(
-                                                child: TextFormField(
-                                                  controller: hController,
-                                                  textAlign: TextAlign.left,
-                                                  style: AppStyle.h2,
-                                                  maxLines: 1,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(
-                                                        10),
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'(^\d*\,?\d*)')),
-                                                  ],
-                                                  validator: (value) =>
-                                                      Validations.valLwh(value,
-                                                          lwhUnitState.lwhUnit),
-                                                  decoration: InputDecoration(
-                                                    errorText: null,
-                                                    errorStyle: AppStyle
-                                                        .errorStyle
-                                                        .copyWith(fontSize: 15),
-                                                    label: Text(
-                                                      'Chiều cao',
-                                                      style: AppStyle.h2,
-                                                    ),
-                                                    border:
-                                                        const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                                    color: Colors
-                                                                        .black)),
-                                                    enabledBorder:
-                                                        const OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: DropdownButtonFormField(
-                                                  value: lwhUnitState.lwhUnit,
-                                                  icon: const Icon(
-                                                      Icons.arrow_downward),
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: AppStyle
-                                                                .appColor,
-                                                            width: 2),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40)),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .red,
-                                                                    width: 2),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40)),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    width: 2),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: AppStyle
-                                                                .appColor,
-                                                            width: 2),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40)),
-                                                  ),
-                                                  isExpanded: true,
-                                                  elevation: 16,
-                                                  style: AppStyle.h2,
-                                                  onChanged: (String? value) {
-                                                    if (value != null) {
-                                                      context
-                                                          .read<LwhUnitCubit>()
-                                                          .selectedLwhUnit(
-                                                              value);
-                                                    }
-                                                  },
-                                                  items: AppConstants
-                                                      .listLwhtUnit
-                                                      .map<
-                                                              DropdownMenuItem<
-                                                                  String>>(
-                                                          (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(
-                                                        value,
-                                                        overflow:
-                                                            TextOverflow.fade,
-                                                        maxLines: 1,
+                                          return IntrinsicHeight(
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: TextFormField(
+                                                    controller: lController,
+                                                    textAlign: TextAlign.left,
+                                                    style: AppStyle.h2,
+                                                    maxLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          10),
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              r'(^\d*\,?\d*)')),
+                                                    ],
+                                                    validator: (value) =>
+                                                        Validations.valLwh(
+                                                            value,
+                                                            lwhUnitState
+                                                                .lwhUnit),
+                                                    decoration: InputDecoration(
+                                                      errorText: null,
+                                                      errorStyle: AppStyle
+                                                          .errorStyle
+                                                          .copyWith(
+                                                              fontSize: 15),
+                                                      label: Text(
+                                                        'Chiều dài',
                                                         style: AppStyle.h2,
                                                       ),
-                                                    );
-                                                  }).toList(),
+                                                      border: const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
+                                                      enabledBorder:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'x',
+                                                  style: AppStyle.h2,
+                                                ),
+                                                Expanded(
+                                                  child: TextFormField(
+                                                    controller: wController,
+                                                    textAlign: TextAlign.left,
+                                                    style: AppStyle.h2,
+                                                    maxLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          10),
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              r'(^\d*\,?\d*)')),
+                                                    ],
+                                                    validator: (value) =>
+                                                        Validations.valLwh(
+                                                            value,
+                                                            lwhUnitState
+                                                                .lwhUnit),
+                                                    decoration: InputDecoration(
+                                                      errorText: null,
+                                                      errorStyle: AppStyle
+                                                          .errorStyle
+                                                          .copyWith(
+                                                              fontSize: 15),
+                                                      label: Text(
+                                                        'Chiều rộng',
+                                                        style: AppStyle.h2,
+                                                      ),
+                                                      border: const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
+                                                      enabledBorder:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'x',
+                                                  style: AppStyle.h2,
+                                                ),
+                                                Expanded(
+                                                  child: TextFormField(
+                                                    controller: hController,
+                                                    textAlign: TextAlign.left,
+                                                    style: AppStyle.h2,
+                                                    maxLines: 1,
+                                                    inputFormatters: [
+                                                      LengthLimitingTextInputFormatter(
+                                                          10),
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              r'(^\d*\,?\d*)')),
+                                                    ],
+                                                    validator: (value) =>
+                                                        Validations.valLwh(
+                                                            value,
+                                                            lwhUnitState
+                                                                .lwhUnit),
+                                                    decoration: InputDecoration(
+                                                      errorText: null,
+                                                      errorStyle: AppStyle
+                                                          .errorStyle
+                                                          .copyWith(
+                                                              fontSize: 15),
+                                                      label: Text(
+                                                        'Chiều cao',
+                                                        style: AppStyle.h2,
+                                                      ),
+                                                      border: const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
+                                                      enabledBorder:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child:
+                                                      DropdownButtonFormField(
+                                                    value: lwhUnitState.lwhUnit,
+                                                    icon: const Icon(
+                                                        Icons.arrow_downward),
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: AppStyle
+                                                                  .appColor,
+                                                              width: 2),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40)),
+                                                      errorBorder: OutlineInputBorder(
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .red,
+                                                                  width: 2),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40)),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                                  const BorderSide(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      width: 2),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40)),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: AppStyle
+                                                                      .appColor,
+                                                                  width: 2),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40)),
+                                                    ),
+                                                    isExpanded: true,
+                                                    elevation: 16,
+                                                    style: AppStyle.h2,
+                                                    onChanged: (String? value) {
+                                                      if (value != null) {
+                                                        context
+                                                            .read<
+                                                                LwhUnitCubit>()
+                                                            .selectedLwhUnit(
+                                                                value);
+                                                      }
+                                                    },
+                                                    items: AppConstants
+                                                        .listLwhtUnit
+                                                        .map<
+                                                            DropdownMenuItem<
+                                                                String>>((String
+                                                            value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(
+                                                          value,
+                                                          overflow:
+                                                              TextOverflow.fade,
+                                                          maxLines: 1,
+                                                          style: AppStyle.h2,
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         },
                                       ),
@@ -1906,6 +1877,8 @@ class _AddItemPageState extends State<AddItemPage> {
   }
 
   Widget _modelDialog(BuildContext context) {
+    ScrollController modelScroll = ScrollController();
+    log('message');
     return LayoutBuilder(builder: (_, constraints) {
       return Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 300, vertical: 30),
@@ -1927,6 +1900,7 @@ class _AddItemPageState extends State<AddItemPage> {
                           Brand brand = brands.brand;
                           return ListView.builder(
                             itemCount: brands.brand.listModel.length,
+                            controller: modelScroll,
                             itemBuilder: (context, index) {
                               ModelBrand modelBrand =
                                   brands.brand.listModel[index];

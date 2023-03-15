@@ -2,11 +2,11 @@
 
 import 'dart:convert';
 
-import 'package:gsp23se37_supplier/src/model/brand.dart';
+import 'package:gsp23se37_supplier/src/model/item/brand.dart';
 import 'package:gsp23se37_supplier/src/model/image.dart';
-import 'package:gsp23se37_supplier/src/model/item_status.dart';
-import 'package:gsp23se37_supplier/src/model/specification_tag.dart';
-import 'package:gsp23se37_supplier/src/model/sub_item.dart';
+import 'package:gsp23se37_supplier/src/model/item/item_status.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification_tag.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_item.dart';
 
 class ItemDetail {
   final int itemID;

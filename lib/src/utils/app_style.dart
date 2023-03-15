@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppStyle {
   static TextStyle apptitle = const TextStyle(
-    color: Colors.black,
+    color: Color.fromARGB(255, 40, 39, 39),
     fontSize: 25,
     fontWeight: FontWeight.bold,
   );
   static TextStyle h1 = apptitle.copyWith(
-    color: Colors.black,
+    color: const Color.fromARGB(255, 0, 0, 0),
     fontSize: 20,
     fontWeight: FontWeight.normal,
   );

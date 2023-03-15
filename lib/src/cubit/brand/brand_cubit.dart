@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
-import 'package:gsp23se37_supplier/src/model/model_brand.dart';
+import 'package:gsp23se37_supplier/src/model/item/model_brand.dart';
 import 'package:gsp23se37_supplier/src/repositpries/brand_repositoriea.dart';
-import '../../model/brand.dart';
+import '../../model/item/brand.dart';
 
 part 'brand_state.dart';
 

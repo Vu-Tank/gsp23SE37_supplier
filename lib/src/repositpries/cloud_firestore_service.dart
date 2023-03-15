@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-import '../model/room_chat.dart';
+import '../model/chat/room_chat.dart';
 
 class CloudFirestoreService {
   final String uid;

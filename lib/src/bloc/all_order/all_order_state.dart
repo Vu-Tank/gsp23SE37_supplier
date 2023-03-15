@@ -14,15 +14,20 @@ class AllOrderLoading extends AllOrderState {}
 class AllOrderLoaded extends AllOrderState {
   final List<Order> listOrder;
   final int currentPage;
-  const AllOrderLoaded(this.listOrder, this.currentPage);
+  final int totalPage;
+  const AllOrderLoaded(
+      {required this.listOrder,
+      required this.currentPage,
+      required this.totalPage});
   @override
   // TODO: implement props
-  List<Object> get props => [listOrder, currentPage];
+  List<Object> get props => [listOrder, currentPage, totalPage];
 }
 
 class AllOrderLoadFailed extends AllOrderState {
   final String msg;
-  const AllOrderLoadFailed(this.msg);
+  final OrderSearch orderSearch;
+  const AllOrderLoadFailed({required this.msg, required this.orderSearch});
   @override
-  List<Object> get props => [msg];
+  List<Object> get props => [msg, orderSearch];
 }

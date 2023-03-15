@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
-import 'package:gsp23se37_supplier/src/model/category.dart';
-import 'package:gsp23se37_supplier/src/model/sub_category.dart';
+import 'package:gsp23se37_supplier/src/model/item/category.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_category.dart';
 import 'package:gsp23se37_supplier/src/repositpries/category_repositories.dart';
 
 part 'category_state.dart';

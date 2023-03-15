@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsp23se37_supplier/src/model/sub_item_request.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_item_request.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'sub_item_state.dart';
@@ -12,7 +12,10 @@ class SubItemCubit extends Cubit<SubItemState> {
           SubItemRequest(
               subName: TextEditingController(),
               subPrice: TextEditingController(),
-              subAmount: TextEditingController())
+              subAmount: TextEditingController(),
+              subDiscount: TextEditingController(),
+              subWarrantiesTime: TextEditingController(),
+              subReturnAndExchange: TextEditingController())
         ]));
   addSubItem() {
     emit(SubItemLoading(listSub: state.listSub));
@@ -20,7 +23,10 @@ class SubItemCubit extends Cubit<SubItemState> {
     list.add(SubItemRequest(
         subName: TextEditingController(),
         subPrice: TextEditingController(),
-        subAmount: TextEditingController()));
+        subAmount: TextEditingController(),
+        subDiscount: TextEditingController(),
+        subWarrantiesTime: TextEditingController(),
+        subReturnAndExchange: TextEditingController()));
     emit(SubItemState(listSub: list));
   }
 
@@ -66,7 +72,10 @@ class SubItemCubit extends Cubit<SubItemState> {
     list.add(SubItemRequest(
         subName: TextEditingController(),
         subPrice: TextEditingController(),
-        subAmount: TextEditingController()));
+        subAmount: TextEditingController(),
+        subDiscount: TextEditingController(),
+        subWarrantiesTime: TextEditingController(),
+        subReturnAndExchange: TextEditingController()));
     emit(SubItemState(listSub: list));
   }
 }

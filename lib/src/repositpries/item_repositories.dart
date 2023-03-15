@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
-import 'package:gsp23se37_supplier/src/model/item.dart';
-import 'package:gsp23se37_supplier/src/model/item_detail.dart';
+import 'package:gsp23se37_supplier/src/model/item/item.dart';
+import 'package:gsp23se37_supplier/src/model/item/item_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'api_setting.dart';
@@ -13,7 +13,6 @@ class ItemRepositories {
       {required String token,
       required String name,
       required String description,
-      required double discount,
       required int storeID,
       required int subCategoryID,
       required List<XFile> listImage,
@@ -34,7 +33,6 @@ class ItemRepositories {
       request.headers.addAll(headers);
       request.fields['Name'] = name;
       request.fields['Description'] = description;
-      request.fields['Discount'] = discount.toString();
       request.fields['StoreID'] = storeID.toString();
       request.fields['Sub_CategoryID'] = subCategoryID.toString();
       await Future.forEach(listImage, (file) async {

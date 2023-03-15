@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
 import 'package:http/http.dart' as http;
-import '../model/category.dart';
+import '../model/item/category.dart';
 import 'api_setting.dart';
 import 'app_url.dart';
 

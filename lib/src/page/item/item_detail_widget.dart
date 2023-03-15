@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/item_detail/item_detail_cubit.dart';
-import 'package:gsp23se37_supplier/src/model/item_detail.dart';
-import 'package:gsp23se37_supplier/src/model/specification_tag.dart';
+import 'package:gsp23se37_supplier/src/model/item/item_detail.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification_tag.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 
 class ItemDetailWidget extends StatefulWidget {
@@ -154,31 +154,33 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                             const SizedBox(
                                               width: 8.0,
                                             ),
-                                            _itemInfo(
-                                                itemDetailState.itemDetail),
-                                            SizedBox(
-                                              height: 390,
-                                              child: Column(
-                                                children: [
-                                                  for (int i = 0;
-                                                      i < listSup.length;
-                                                      i++)
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 2,
-                                                              color: Colors
-                                                                  .blueGrey)),
-                                                      height: 100,
-                                                      width: 100,
-                                                      child: Image.network(
-                                                          listSup[i]
-                                                              .image
-                                                              .path),
-                                                    ),
-                                                ],
-                                              ),
-                                            )
+                                            Expanded(
+                                              child: _itemInfo(
+                                                  itemDetailState.itemDetail),
+                                            ),
+                                            // SizedBox(
+                                            //   height: 390,
+                                            //   child: Column(
+                                            //     children: [
+                                            //       for (int i = 0;
+                                            //           i < listSup.length;
+                                            //           i++)
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               border: Border.all(
+                                            //                   width: 2,
+                                            //                   color: Colors
+                                            //                       .blueGrey)),
+                                            //           height: 100,
+                                            //           width: 100,
+                                            //           child: Image.network(
+                                            //               listSup[i]
+                                            //                   .image
+                                            //                   .path),
+                                            //         ),
+                                            //     ],
+                                            //   ),
+                                            // )
                                           ],
                                         ),
                                       ),
@@ -305,7 +307,12 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(itemDetail.name, style: AppStyle.h2),
+        Text(
+          itemDetail.name,
+          style: AppStyle.h2,
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+        ),
         const SizedBox(
           height: 8.0,
         ),

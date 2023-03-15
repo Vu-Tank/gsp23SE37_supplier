@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/bloc/all_item/all_item_bloc.dart';
 import 'package:gsp23se37_supplier/src/bloc/auth/auth_bloc.dart';
 import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
-import 'package:gsp23se37_supplier/src/model/item.dart';
+import 'package:gsp23se37_supplier/src/model/item/item.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_detail_widget.dart';

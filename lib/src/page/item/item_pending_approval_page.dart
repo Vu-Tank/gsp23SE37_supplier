@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/item_pending/item_pending_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
-import '../../model/item.dart';
+import '../../model/item/item.dart';
 import '../../model/store.dart';
 import '../../model/user.dart';
 import '../../utils/app_style.dart';

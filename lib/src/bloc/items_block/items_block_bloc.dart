@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/api_response.dart';
-import '../../model/item.dart';
+import '../../model/item/item.dart';
 import '../../repositpries/item_repositories.dart';
 
 part 'items_block_event.dart';

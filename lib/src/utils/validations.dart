@@ -1,4 +1,4 @@
-import 'package:gsp23se37_supplier/src/model/specification.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification.dart';
 import 'package:gsp23se37_supplier/src/utils/vn_convert.dart';
 
 import '../model/address/district.dart';
@@ -176,7 +176,7 @@ class Validations {
     try {
       int amount = int.parse(value);
       if (amount <= 0) return 'Số lượng sản phẩm phải lơn hơn 0';
-      if (amount >= 50000000) return 'Giá sản phẩm phải nhỏ hơn 50 triệu';
+      if (amount >= 50000000) return 'Số lượng sản phẩm phải nhỏ hơn 50 triệu';
     } catch (e) {
       return 'vui lòng nhập số';
     }
@@ -228,6 +228,21 @@ class Validations {
       if (lwhUnit == 'm' && lwh > 1) {
         return 'Kích thước sản phẩm phải nhỏ hơn hoặc bằng 1m';
       }
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valWarrantiesTime(String? value) {
+    if (value == null) return 'Vui lòng nhập thời gian bảo hành';
+    if (value.isEmpty) return 'Vui lòng nhập thời gian bảo hành';
+    try {
+      int warrantiesTime = int.parse(value);
+      if (warrantiesTime < 0)
+        return 'Thời gian bảo hành của sản phẩm phải lơn hơn 0';
+      if (warrantiesTime >= 50000000)
+        return 'Thời gian bảo hành của sản phẩm phải nhỏ hơn 50 triệu';
     } catch (e) {
       return 'vui lòng nhập số';
     }

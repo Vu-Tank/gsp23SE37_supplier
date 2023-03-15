@@ -6,4 +6,8 @@ class AppConstants {
     'cm',
     'm',
   ];
+  static const List<String> listOrderSearch = [
+    'Tên',
+    'Mã đơn hàng',
+  ];
 }

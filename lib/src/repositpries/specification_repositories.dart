@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
-import 'package:gsp23se37_supplier/src/model/specification.dart';
+import 'package:gsp23se37_supplier/src/model/item/specification.dart';
 import 'package:http/http.dart' as http;
 import 'api_setting.dart';
 import 'app_url.dart';
