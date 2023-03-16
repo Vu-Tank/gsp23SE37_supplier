@@ -273,7 +273,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        listSpecifi[index * 2].value,
+                        '${listSpecifi[index * 2].value} ${(listSpecifi[index * 2].specificationName.toLowerCase() == 'cân nặng') ? 'Grams' : ''}',
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         style: AppStyle.h2,
@@ -291,7 +291,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          listSpecifi[index * 2 + 1].value,
+                          '${listSpecifi[index * 2 + 1].value} ${(listSpecifi[index * 2 + 1].specificationName.toLowerCase() == 'cân nặng') ? 'Grams' : ''}',
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           style: AppStyle.h2,

@@ -44,6 +44,11 @@ class _HomePageState extends State<HomePage>
       }
       if (controller.selectedIndex == 2) {
         setState(() {
+          tiltie = "Quản lý đơn hàng";
+        });
+      }
+      if (controller.selectedIndex == 3) {
+        setState(() {
           tiltie = "Trò chuyện";
         });
       }

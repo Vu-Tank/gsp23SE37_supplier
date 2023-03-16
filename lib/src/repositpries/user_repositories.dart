@@ -21,6 +21,12 @@ class UserRepositories {
         apiResponse.isSuccess = body['success'];
         apiResponse.msg = body['message'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          if (body['data'] != 'Supplier') {
+            apiResponse.isSuccess = false;
+            apiResponse.msg = 'Số điện thoại không hợp lệ';
+          }
+        }
       } else {
         apiResponse.isSuccess = false;
         apiResponse.msg = json.decode(response.body)['errors'].toString();

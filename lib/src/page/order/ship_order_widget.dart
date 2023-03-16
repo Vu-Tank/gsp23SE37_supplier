@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,36 +57,51 @@ Widget shipOrderWidget(
                 const SizedBox(
                   height: 8.0,
                 ),
-                DataTable(
-                    // headingRowHeight: 0,
-                    columns: [
-                      DataColumn(
-                          label: Text(
-                        'Thời gian',
-                        style: AppStyle.h2,
-                      )),
-                      DataColumn(
-                          label: Text(
-                        'Trạng thái',
-                        style: AppStyle.h2,
-                      )),
-                    ],
-                    rows: List.generate(
-                        orderShipState.orderShipStatus.shipStatusModels.length,
-                        (index) {
-                      ShipStatusModel shipStatusModel = orderShipState
-                          .orderShipStatus.shipStatusModels[index];
-                      return DataRow(cells: [
-                        DataCell(Text(
-                          shipStatusModel.create_Date.split('T')[0],
-                          style: AppStyle.h2,
-                        )),
-                        DataCell(Text(
-                          shipStatusModel.status,
-                          style: AppStyle.h2,
-                        )),
-                      ]);
-                    })),
+                Expanded(
+                  child: ScrollConfiguration(
+                    behavior:
+                        ScrollConfiguration.of(context).copyWith(dragDevices: {
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.touch,
+                    }),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: DataTable(
+                          // headingRowHeight: 0,
+                          columns: [
+                            DataColumn(
+                                label: Text(
+                              'Thời gian',
+                              style: AppStyle.h2,
+                            )),
+                            DataColumn(
+                                label: Text(
+                              'Trạng thái',
+                              style: AppStyle.h2,
+                            )),
+                          ],
+                          rows: List.generate(
+                              orderShipState.orderShipStatus.shipStatusModels
+                                  .length, (index) {
+                            ShipStatusModel shipStatusModel = orderShipState
+                                .orderShipStatus.shipStatusModels[index];
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                shipStatusModel.create_Date
+                                    .replaceAll('T', ' ')
+                                    .split('.')[0],
+                                style: AppStyle.h2,
+                              )),
+                              DataCell(Text(
+                                shipStatusModel.status,
+                                style: AppStyle.h2,
+                              )),
+                            ]);
+                          })),
+                    ),
+                  ),
+                ),
               ]);
             } else {
               return const Center(

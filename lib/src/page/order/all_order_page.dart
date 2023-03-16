@@ -45,8 +45,9 @@ class _AllOrderPageState extends State<AllOrderPage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
+            print(user.token);
             _orderSearch = OrderSearch(
-                storeID: store.storeID, shipOrderStatus: 1, page: 1);
+                storeID: store.storeID, shipOrderStatus: 123, page: 1);
           } else {
             GoRouter.of(context).pushReplacementNamed('/');
           }

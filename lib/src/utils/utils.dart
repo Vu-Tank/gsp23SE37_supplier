@@ -92,4 +92,33 @@ class Utils {
       }
     }
   }
+
+  static String getTime(String timeString) {
+    if (timeString.isEmpty || timeString == '0') {
+      return '';
+    }
+    DateTime now = DateTime.now();
+    DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss');
+    DateTime time = format.parse(timeString);
+    if (now.day == time.day &&
+        now.month == time.month &&
+        now.year == time.year) {
+      return '${time.hour}:${time.minute}';
+      // } else if (false) {
+      //   return time.weekday.toString();
+    } else if (now.year == time.year) {
+      return '${time.day} thg ${time.month}';
+    } else {
+      return '${time.day} thg ${time.month}, ${time.year}';
+    }
+  }
+
+  static String createFile() {
+    DateTime time = DateTime.now();
+    String name =
+        time.toString().trim().replaceAllMapped(RegExp(r'\D'), (match) {
+      return '';
+    });
+    return name;
+  }
 }

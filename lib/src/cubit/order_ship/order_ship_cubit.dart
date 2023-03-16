@@ -15,8 +15,12 @@ class OrderShipCubit extends Cubit<OrderShipState> {
     ApiResponse apiResponse = await OrderRepositories.getOrderShipStatus(
         orderID: orderID, token: token);
     if (apiResponse.isSuccess!) {
+      OrderShipStatus orderShipStatus = apiResponse.data;
+      orderShipStatus.shipStatusModels.sort(
+        (a, b) => b.create_Date.compareTo(a.create_Date),
+      );
       if (isClosed) return;
-      emit(OrderShipLoadSuccess(apiResponse.data));
+      emit(OrderShipLoadSuccess(orderShipStatus));
     } else {
       if (isClosed) return;
       emit(OrderShipLoadFailed(apiResponse.msg!));

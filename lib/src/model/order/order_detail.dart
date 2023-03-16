@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:gsp23se37_supplier/src/model/feedback_status.dart';
 import 'package:gsp23se37_supplier/src/model/image.dart';
 
 class OrderDetail {
@@ -10,12 +11,12 @@ class OrderDetail {
   final int amount;
   final String? feedback_Title;
   final double? feedback_Rate;
-  final double? feedBack_Date;
+  final String? feedBack_Date;
   final int sub_ItemID;
   final String sub_ItemName;
   final String sub_ItemImage;
   final int itemID;
-  final String? feedback_Status;
+  final FeedbackStatus? feedback_Status;
   final List<Image> listImageFb;
   final int warrantiesTime;
   final int returnAndExchange;
@@ -55,7 +56,7 @@ class OrderDetail {
       'sub_ItemName': sub_ItemName,
       'sub_ItemImage': sub_ItemImage,
       'itemID': itemID,
-      'feedback_Status': feedback_Status,
+      'feedback_Status': feedback_Status?.toMap(),
       'listImageFb': listImageFb.map((x) => x.toMap()).toList(),
       'warrantiesTime': warrantiesTime,
       'returnAndExchange': returnAndExchange,
@@ -74,13 +75,14 @@ class OrderDetail {
       feedback_Rate:
           map['feedback_Rate'] != null ? map['feedback_Rate'] as double : null,
       feedBack_Date:
-          map['feedBack_Date'] != null ? map['feedBack_Date'] as double : null,
+          map['feedBack_Date'] != null ? map['feedBack_Date'] as String : null,
       sub_ItemID: map['sub_ItemID'] as int,
       sub_ItemName: map['sub_ItemName'] as String,
       sub_ItemImage: map['sub_ItemImage'] as String,
       itemID: map['itemID'] as int,
       feedback_Status: map['feedback_Status'] != null
-          ? map['feedback_Status'] as String
+          ? FeedbackStatus.fromMap(
+              map['feedback_Status'] as Map<String, dynamic>)
           : null,
       listImageFb: List<Image>.from(
         (map['listImageFb'] as List).map<Image>(
