@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gsp23se37_supplier/src/page/order/all_order_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/canceled_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/delivered_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/delivering_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/received_ship_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/waiting_for_confirmation_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/waiting_for_the_goods_page.dart';
 
 import '../utils/app_style.dart';
 
@@ -15,7 +20,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-          length: 1,
+          length: 6,
           child: Column(
             children: [
               Container(
@@ -26,7 +31,37 @@ class _OrderPageState extends State<OrderPage> {
                   tabs: [
                     Tab(
                       child: Text(
-                        'Tất cả hoá đơn',
+                        'Đang xử lý',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        'Đã tiếp nhận',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        'Chờ lấy hàng',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        'Đang giao',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        'Đã giao',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        'Đã Huỷ',
                         style: AppStyle.buttom,
                       ),
                     ),
@@ -35,7 +70,12 @@ class _OrderPageState extends State<OrderPage> {
               ),
               const Expanded(
                 child: TabBarView(children: [
-                  AllOrderPage(),
+                  WaitingForConfirmationPage(),
+                  ReceivedShipPage(),
+                  WaitingForTheGoodsPage(),
+                  DeliveringPage(),
+                  DeliveredPage(),
+                  CanceledPage(),
                 ]),
               ),
             ],

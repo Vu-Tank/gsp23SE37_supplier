@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsp23se37_supplier/src/page/store/store_info_dialog.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../model/store.dart';
@@ -27,7 +28,16 @@ class SideBarWigdet extends StatelessWidget {
         child: ClipOval(
             child: SizedBox.fromSize(
           size: const Size.fromRadius(75),
-          child: Image.network(store.image.path, fit: BoxFit.cover),
+          child: GestureDetector(
+            child: Image.network(store.image.path, fit: BoxFit.cover),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) =>
+                    storeInfoDialog(context: context, store: store),
+              );
+            },
+          ),
         )),
       ),
       extendedTheme: SidebarXTheme(

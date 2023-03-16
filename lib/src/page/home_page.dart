@@ -5,6 +5,7 @@ import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
+import 'package:gsp23se37_supplier/src/page/user/user_dialog.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import 'dart:js' as js;
@@ -72,6 +73,26 @@ class _HomePageState extends State<HomePage>
               automaticallyImplyLeading: false,
               centerTitle: true,
               actions: [
+                Row(
+                  children: [
+                    Text(
+                      'Xin chào, ',
+                      style: AppStyle.buttom,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                userDialog(context: context, user: user),
+                          );
+                        },
+                        child: Text(
+                          user.userName,
+                          style: AppStyle.buttom.copyWith(color: Colors.blue),
+                        ))
+                  ],
+                ),
                 TextButton(
                     onPressed: () =>
                         context.read<AuthBloc>().add(UserLoggedOut()),

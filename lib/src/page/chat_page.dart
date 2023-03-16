@@ -78,6 +78,18 @@ class _ChatPageState extends State<ChatPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       await CloudFirestoreService(uid: store.firebaseID)
+            //           .createUserCloud(
+            //               userName: store.storeName, imageUrl: store.image.path)
+            //           .then((value) {
+            //         MyDialog.showSnackBar(context, 'thành công');
+            //       }).catchError((e) {
+            //         MyDialog.showSnackBar(context, e.toString());
+            //       });
+            //     },
+            //     child: const Text('tạo user')),
             Expanded(child: _listRoom()),
             if (_roomChat != null)
               Expanded(

@@ -31,7 +31,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getChat();
   }
 
   getChat() async {
@@ -57,6 +56,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     RoomChat roomChat = widget.roomChat;
+    getChat();
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,25 +92,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   } catch (e) {
                     MyDialog.showSnackBar(context, e.toString());
                   }
-                  // imageFile=await showModalBottomSheetImage(context).catchError((e){
-                  //   showMyAlertDialog(context, e.toString());
-                  // });
-                  // if(mounted){
-                  //   LoadingDialog.showLoadingDialog(context, 'Đang tải ảnh');
-                  // }
-                  // if(imageFile!=null){
-                  //   String fileName='${roomChat.roomID}_${Utils.createFile()}';
-                  //   String? filePath=await FirebaseStorageService().uploadFileChat(imageFile!, fileName).catchError((e){
-                  //     if(mounted){
-                  //       LoadingDialog.hideLoadingDialog(context);
-                  //       showMyAlertDialog(context, e.toString());
-                  //     }
-                  //   });
-                  //   if(filePath!=null){
-                  //     await sendImage(filePath);
-                  //   }
-                  //   if(mounted)LoadingDialog.hideLoadingDialog(context);
-                  // }
                 },
                 child: Container(
                   height: 50,

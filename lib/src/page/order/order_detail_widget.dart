@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/order/feedback_dialog.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/order/order_detail.dart';
@@ -129,6 +130,42 @@ Widget orderDetailWidget({
                                         '${orderDetail.returnAndExchange.toString()} Ngày',
                                         style: AppStyle.h2,
                                       )),
+                                    ]),
+                                    DataRow(cells: [
+                                      DataCell(
+                                        Text(
+                                          'Chi tiết sản phẩm',
+                                          style: AppStyle.h2
+                                              .copyWith(color: Colors.blue),
+                                        ),
+                                        onTap: () => showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              ItemDetailWidget(
+                                                  itemId: orderDetail.itemID),
+                                        ),
+                                      ),
+                                      DataCell(
+                                          Text(
+                                            'Đánh giá',
+                                            style: AppStyle.h2.copyWith(
+                                                color: (orderDetail
+                                                            .feedBack_Date !=
+                                                        null)
+                                                    ? Colors.blue
+                                                    : Colors.black),
+                                          ),
+                                          onTap: (orderDetail.feedBack_Date !=
+                                                  null)
+                                              ? () => showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        feedbackOrderDialog(
+                                                            context: context,
+                                                            orderDetail:
+                                                                orderDetail),
+                                                  )
+                                              : null),
                                     ]),
                                   ]),
                                 ],

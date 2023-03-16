@@ -24,6 +24,9 @@ class Adderss {
     required this.longitude,
     required this.isActive,
   });
+  String addressString() {
+    return '$context, $ward, $district, $province';
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
