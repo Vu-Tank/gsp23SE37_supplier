@@ -1,191 +1,180 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gsp23se37_supplier/src/page/order/feedback_dialog.dart';
+import 'package:gsp23se37_supplier/src/model/order/order.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/order/order_detail.dart';
 import '../../utils/app_style.dart';
 import '../item/item_detail_widget.dart';
+import 'feedback_dialog.dart';
 
-Widget orderDetailWidget({
-  required BuildContext context,
-  required List<OrderDetail> orderDetails,
-}) {
-  return Dialog(
-    child: Stack(
-      alignment: AlignmentDirectional.topEnd,
+Widget orderDetailWidget(
+    {required BuildContext context, required Order order}) {
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+    return Column(
       children: [
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: Text(
-                  'Chi tiết đơn hàng',
-                  style: AppStyle.h2,
-                ),
-              ), //...orderDetails.map((orderDetail)
-              Expanded(
-                child: ScrollConfiguration(
-                  behavior:
-                      ScrollConfiguration.of(context).copyWith(dragDevices: {
-                    PointerDeviceKind.mouse,
-                    PointerDeviceKind.touch,
-                  }),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(orderDetails.length, (index) {
-                        OrderDetail orderDetail = orderDetails[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () => showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  ItemDetailWidget(itemId: orderDetail.itemID),
-                            ),
-                            child:
-                                Row(mainAxisSize: MainAxisSize.min, children: [
-                              SizedBox(
-                                height: 200,
-                                width: 200,
-                                child: Image.network(orderDetail.sub_ItemImage,
-                                    fit: BoxFit.cover),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
+        const Divider(
+          color: Colors.black,
+          height: 2,
+        ),
+        Text(
+          'Chi tiết đơn hằng ${order.orderID}',
+          style: AppStyle.h2,
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(minWidth: constraints.maxWidth),
+          child: DataTable(
+            showCheckboxColumn: false,
+            columns: [
+              DataColumn(
+                  label: Text(
+                'Tên sản phẩm',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Số lượng',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Đơn giá',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Khuyến mãi',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Bảo hành',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Đổi trả',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Hình ảnh',
+                style: AppStyle.h2,
+              )),
+              DataColumn(
+                  label: Text(
+                'Đánh giá',
+                style: AppStyle.h2,
+              )),
+            ],
+            rows: List.generate(order.details.length, (index) {
+              OrderDetail detail = order.details[index];
+              return DataRow(
+                cells: [
+                  DataCell(Tooltip(
+                    message: detail.sub_ItemName,
+                    child: SizedBox(
+                      width: 200,
+                      child: Text(
+                        detail.sub_ItemName,
+                        style: AppStyle.h2,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  )),
+                  DataCell(Text(
+                    detail.amount.toString(),
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                  )),
+                  DataCell(Text(
+                    NumberFormat.currency(locale: 'vi-VN', decimalDigits: 0)
+                        .format(detail.pricePurchase),
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                  )),
+                  DataCell(Text(
+                    '${detail.discountPurchase * 100} %',
+                    style: AppStyle.h2.copyWith(
+                        color: (detail.discountPurchase != 0)
+                            ? Colors.red
+                            : Colors.black),
+                  )),
+                  DataCell(Text(
+                    '${detail.warrantiesTime.toString()} Tháng',
+                    style: AppStyle.h2,
+                  )),
+                  DataCell(Text(
+                    '${detail.returnAndExchange.toString()} Ngày',
+                    style: AppStyle.h2,
+                  )),
+                  DataCell(
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          detail.sub_ItemImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                              child: Stack(
+                                alignment: AlignmentDirectional.topEnd,
                                 children: [
-                                  Text(
-                                    orderDetail.sub_ItemName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                    style: AppStyle.h2,
+                                  SizedBox(
+                                    height: 500,
+                                    width: 500,
+                                    child: Image.network(detail.sub_ItemImage,
+                                        fit: BoxFit.cover),
                                   ),
-                                  DataTable(headingRowHeight: 0, columns: [
-                                    DataColumn(label: Container()),
-                                    DataColumn(label: Container()),
-                                  ], rows: [
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                        'Số lượng',
-                                        style: AppStyle.h2,
-                                      )),
-                                      DataCell(Text(
-                                        orderDetail.amount.toString(),
-                                        style: AppStyle.h2,
-                                      )),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                        'Đơn giá',
-                                        style: AppStyle.h2,
-                                      )),
-                                      DataCell(Text(
-                                        NumberFormat.simpleCurrency(
-                                                locale: 'vi-VN',
-                                                decimalDigits: 0)
-                                            .format(orderDetail.pricePurchase),
-                                        style: AppStyle.h2,
-                                      )),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                        'Khuyến mãi',
-                                        style: AppStyle.h2,
-                                      )),
-                                      DataCell(Text(
-                                        '${orderDetail.discountPurchase * 100} %',
-                                        style: AppStyle.h2.copyWith(
-                                            color:
-                                                (orderDetail.discountPurchase !=
-                                                        0)
-                                                    ? Colors.red
-                                                    : Colors.black),
-                                      )),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                        'Bảo hành',
-                                        style: AppStyle.h2,
-                                      )),
-                                      DataCell(Text(
-                                        '${orderDetail.warrantiesTime.toString()} Tháng',
-                                        style: AppStyle.h2,
-                                      )),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text(
-                                        'Đổi trả',
-                                        style: AppStyle.h2,
-                                      )),
-                                      DataCell(Text(
-                                        '${orderDetail.returnAndExchange.toString()} Ngày',
-                                        style: AppStyle.h2,
-                                      )),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(
-                                        Text(
-                                          'Chi tiết sản phẩm',
-                                          style: AppStyle.h2
-                                              .copyWith(color: Colors.blue),
-                                        ),
-                                        onTap: () => showDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              ItemDetailWidget(
-                                                  itemId: orderDetail.itemID),
-                                        ),
-                                      ),
-                                      DataCell(
-                                          Text(
-                                            'Đánh giá',
-                                            style: AppStyle.h2.copyWith(
-                                                color: (orderDetail
-                                                            .feedBack_Date !=
-                                                        null)
-                                                    ? Colors.blue
-                                                    : Colors.black),
-                                          ),
-                                          onTap: (orderDetail.feedBack_Date !=
-                                                  null)
-                                              ? () => showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        feedbackOrderDialog(
-                                                            context: context,
-                                                            orderDetail:
-                                                                orderDetail),
-                                                  )
-                                              : null),
-                                    ]),
-                                  ]),
+                                  IconButton(
+                                      onPressed: () => context.pop(),
+                                      icon: const Icon(
+                                        Icons.cancel_outlined,
+                                        color: Colors.red,
+                                      ))
                                 ],
                               ),
-                            ]),
-                          ),
-                        );
-                      }),
-                    ),
+                            )),
                   ),
+                  DataCell(
+                    Icon(
+                      Icons.remove_red_eye_outlined,
+                      color: (detail.feedBack_Date != null)
+                          ? Colors.blue
+                          : Colors.grey,
+                    ),
+                    onTap: (detail.feedBack_Date != null)
+                        ? () => showDialog(
+                              context: context,
+                              builder: (context) => feedbackOrderDialog(
+                                  context: context, orderDetail: detail),
+                            )
+                        : null,
+                  ),
+                ],
+                // onLongPress: () => showDialog(
+                //   context: context,
+                //   builder: (context) => ItemDetailWidget(itemId: detail.itemID),
+                // ),
+                onSelectChanged: (value) => showDialog(
+                  context: context,
+                  builder: (context) => ItemDetailWidget(itemId: detail.itemID),
                 ),
-              ),
-            ]),
-        IconButton(
-            onPressed: () => context.pop(),
-            icon: const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ))
+              );
+            }),
+          ),
+        )
       ],
-    ),
-  );
+    );
+  });
 }

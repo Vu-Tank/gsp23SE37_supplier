@@ -41,214 +41,185 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
             insetPadding: EdgeInsets.symmetric(horizontal: hor, vertical: 30),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: SizedBox(
-              height: constraints.maxHeight,
-              width: constraints.maxWidth,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: BlocBuilder<ItemDetailCubit, ItemDetailState>(
-                        builder: (context, itemDetailState) {
-                          if (itemDetailState is ItemDetailLoadFailed) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  itemDetailState.msg,
-                                  style: AppStyle.errorStyle,
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                SizedBox(
-                                  height: 54.0,
-                                  width: 200,
-                                  child: ElevatedButton(
-                                      onPressed: () => context
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  Center(
+                    child: BlocBuilder<ItemDetailCubit, ItemDetailState>(
+                      builder: (context, itemDetailState) {
+                        if (itemDetailState is ItemDetailLoadFailed) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                itemDetailState.msg,
+                                style: AppStyle.errorStyle,
+                              ),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              SizedBox(
+                                height: 54.0,
+                                width: 200,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      context
                                           .read<ItemDetailCubit>()
-                                          .loadItem(itemID: widget.itemId),
-                                      style: AppStyle.myButtonStyle,
-                                      child: Text(
-                                        'Thử lại',
-                                        style: AppStyle.buttom,
-                                      )),
-                                )
-                              ],
-                            );
-                          } else if (itemDetailState is ItemDetailLoaded) {
-                            var listSup =
-                                itemDetailState.itemDetail.listSubItem;
+                                          .loadItem(itemID: widget.itemId);
+                                    },
+                                    style: AppStyle.myButtonStyle,
+                                    child: Text(
+                                      'Thử lại',
+                                      style: AppStyle.buttom,
+                                    )),
+                              )
+                            ],
+                          );
+                        } else if (itemDetailState is ItemDetailLoaded) {
+                          var listSup = itemDetailState.itemDetail.listSubItem;
 
-                            return ScrollConfiguration(
-                              behavior: ScrollConfiguration.of(context)
-                                  .copyWith(dragDevices: {
-                                PointerDeviceKind.mouse,
-                                PointerDeviceKind.touch,
-                              }),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 39, 41, 40),
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                            20.0), //<-- SEE HERE
+                          return ScrollConfiguration(
+                            behavior: ScrollConfiguration.of(context)
+                                .copyWith(dragDevices: {
+                              PointerDeviceKind.mouse,
+                              PointerDeviceKind.touch,
+                            }),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        color: Color.fromARGB(255, 39, 41, 40),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Center(
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  border: Border(
-                                                    right: BorderSide(
-                                                      width: 2,
-                                                      color: Color.fromARGB(
-                                                          255, 78, 80, 80),
-                                                    ),
+                                      borderRadius: BorderRadius.circular(
+                                          20.0), //<-- SEE HERE
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                border: Border(
+                                                  right: BorderSide(
+                                                    width: 2,
+                                                    color: Color.fromARGB(
+                                                        255, 78, 80, 80),
                                                   ),
-                                                  color: Color(0xFFffffff),
                                                 ),
-                                                width: 390,
-                                                height: 390,
-                                                child: CarouselSlider(
-                                                  items: itemDetailState
-                                                      .itemDetail.list_Image
-                                                      .map(
-                                                        (item) => Image.network(
-                                                          item.path,
-                                                          fit: BoxFit.cover,
-                                                          width:
-                                                              double.infinity,
-                                                        ),
-                                                      )
-                                                      .toList(),
-                                                  carouselController:
-                                                      carouselController,
-                                                  options: CarouselOptions(
-                                                    scrollPhysics:
-                                                        const BouncingScrollPhysics(),
-                                                    autoPlay: true,
-                                                    viewportFraction: 1,
-                                                    onPageChanged:
-                                                        (index, reason) {
-                                                      setState(() {
-                                                        currentIndex = index;
-                                                      });
-                                                    },
-                                                  ),
+                                                color: Color(0xFFffffff),
+                                              ),
+                                              width: 390,
+                                              height: 390,
+                                              child: CarouselSlider(
+                                                items: itemDetailState
+                                                    .itemDetail.list_Image
+                                                    .map(
+                                                      (item) => Image.network(
+                                                        item.path,
+                                                        fit: BoxFit.cover,
+                                                        width: double.infinity,
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                                carouselController:
+                                                    carouselController,
+                                                options: CarouselOptions(
+                                                  scrollPhysics:
+                                                      const BouncingScrollPhysics(),
+                                                  autoPlay: true,
+                                                  viewportFraction: 1,
+                                                  onPageChanged:
+                                                      (index, reason) {
+                                                    setState(() {
+                                                      currentIndex = index;
+                                                    });
+                                                  },
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(
-                                              width: 8.0,
-                                            ),
-                                            Expanded(
-                                              child: _itemInfo(
-                                                  itemDetailState.itemDetail),
-                                            ),
-                                            // SizedBox(
-                                            //   height: 390,
-                                            //   child: Column(
-                                            //     children: [
-                                            //       for (int i = 0;
-                                            //           i < listSup.length;
-                                            //           i++)
-                                            //         Container(
-                                            //           decoration: BoxDecoration(
-                                            //               border: Border.all(
-                                            //                   width: 2,
-                                            //                   color: Colors
-                                            //                       .blueGrey)),
-                                            //           height: 100,
-                                            //           width: 100,
-                                            //           child: Image.network(
-                                            //               listSup[i]
-                                            //                   .image
-                                            //                   .path),
-                                            //         ),
-                                            //     ],
-                                            //   ),
-                                            // )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Card(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Thông số kỹ thuật',
-                                            style: AppStyle.h1,
                                           ),
-                                          _specifiWidget(itemDetailState
-                                              .itemDetail.specification_Tag)
+                                          const SizedBox(
+                                            width: 8.0,
+                                          ),
+                                          Expanded(
+                                            child: _itemInfo(
+                                                itemDetailState.itemDetail),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Mô tả sản phẩm:',
-                                              style: AppStyle.h2,
-                                            ),
-                                            const SizedBox(
-                                              height: 8.0,
-                                            ),
-                                            Text(
-                                              itemDetailState
-                                                  .itemDetail.description,
-                                              style: AppStyle.h2,
-                                            )
-                                          ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Card(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Thông số kỹ thuật',
+                                          style: AppStyle.h1,
                                         ),
+                                        _specifiWidget(itemDetailState
+                                            .itemDetail.specification_Tag)
+                                      ],
+                                    ),
+                                  ),
+                                  Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Mô tả sản phẩm:',
+                                            style: AppStyle.h2,
+                                          ),
+                                          const SizedBox(
+                                            height: 8.0,
+                                          ),
+                                          Text(
+                                            itemDetailState
+                                                .itemDetail.description,
+                                            style: AppStyle.h2,
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: SizedBox(
-                        height: 56,
-                        width: 56,
-                        child: IconButton(
-                            onPressed: () => context.pop(),
-                            icon: const Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.red,
-                            )),
-                      ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: SizedBox(
+                      height: 56,
+                      width: 56,
+                      child: IconButton(
+                          onPressed: () => context.pop(),
+                          icon: const Icon(
+                            Icons.cancel_outlined,
+                            color: Colors.red,
+                          )),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ));
       }),

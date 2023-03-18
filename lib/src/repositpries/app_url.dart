@@ -41,4 +41,6 @@ class AppUrl {
   static const String getTicket = '$baseUrl/Ship/get_ticket';
 
   static const String getOrderShipStatus = '$baseUrl/Ship/ship_status';
+
+  static const String getOrderInfo = '$baseUrl/Order/order_info';
 }
