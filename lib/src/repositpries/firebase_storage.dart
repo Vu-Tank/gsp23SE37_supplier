@@ -42,4 +42,17 @@ class FirebaseStorageService {
     Reference urlRef = storageRef.child('images').child(fileName);
     await urlRef.delete();
   }
+
+  Future<String?> uploadFileVideo(Uint8List file, String fileName) async {
+    try {
+      Reference storageRef = storage.ref();
+      Reference imagesRef = storageRef.child('video/$fileName');
+      // await imagesRef.putFile(file);
+      await imagesRef.putData(file);
+      String? urlDownload = await imagesRef.getDownloadURL();
+      return urlDownload;
+    } on FirebaseException {
+      rethrow;
+    }
+  }
 }

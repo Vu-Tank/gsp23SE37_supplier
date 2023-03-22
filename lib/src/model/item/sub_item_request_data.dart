@@ -24,7 +24,7 @@ class SubItemRequestData {
       'price': price,
       'dicount': dicount,
       'warrantiesTime': warrantiesTime,
-      'ReturnAndExchange': ReturnAndExchange,
+      'returnandexchange': ReturnAndExchange,
     };
   }
 

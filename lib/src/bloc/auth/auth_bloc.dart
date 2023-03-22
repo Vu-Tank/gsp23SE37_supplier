@@ -45,5 +45,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthNotAuthenticated());
       }
     });
+    on<UserUpdate>((event, emit) {
+      // emit(AuthLoading());
+      emit(AuthAuthenticated(user: event.user));
+    });
   }
 }

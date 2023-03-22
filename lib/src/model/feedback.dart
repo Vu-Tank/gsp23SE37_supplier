@@ -11,7 +11,7 @@ class FeedBack {
   final String sub_itemName;
   final List<Image>? imagesFB;
   final double rate;
-  final String comment;
+  final String? comment;
   final String create_Date;
   FeedBack({
     required this.userName,
@@ -54,7 +54,7 @@ class FeedBack {
             )
           : null,
       rate: map['rate'] as double,
-      comment: map['comment'] as String,
+      comment: (map['comment'] != null) ? map['comment'] as String : null,
       create_Date: map['create_Date'] as String,
     );
   }

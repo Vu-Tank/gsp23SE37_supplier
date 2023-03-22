@@ -24,8 +24,9 @@ class AllItemLoadSuccess extends AllItemState {
 
 class AllItemLoadFailed extends AllItemState {
   final String msg;
-  const AllItemLoadFailed(this.msg);
+  final ItemSearch search;
+  const AllItemLoadFailed({required this.msg, required this.search});
   @override
   // TODO: implement props
-  List<Object> get props => [msg];
+  List<Object> get props => [msg, search];
 }

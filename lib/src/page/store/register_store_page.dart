@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -215,13 +213,16 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                             //tinh
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
-                              child: BlocBuilder<ProvinceCubit, ProvinceState>(
+                              child: BlocConsumer<ProvinceCubit, ProvinceState>(
+                                listener: (context, provinceState) {
+                                  if (provinceState is ProvinceLoaded) {
+                                    _province = provinceState.province;
+                                  }
+                                },
                                 builder: (context, provinceState) {
                                   if (provinceState is ProvinceLoaded) {
-                                    _province ??= provinceState.province.first;
-                                    log(111.toString());
                                     return DropdownButtonFormField(
-                                      value: _province,
+                                      value: provinceState.province,
                                       icon: const Icon(Icons.arrow_downward),
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
@@ -247,14 +248,15 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                             if (value.key != '-1') {
                                               context
                                                   .read<DistrictCubit>()
-                                                  .selectedProvince(value.key);
+                                                  .loadDistrict(
+                                                      provinceId: value.key);
                                             }
                                             _district = null;
                                             _ward = null;
                                           });
                                         }
                                       },
-                                      items: provinceState.province
+                                      items: provinceState.provinces
                                           .map<DropdownMenuItem<Province>>(
                                               (Province value) {
                                         return DropdownMenuItem<Province>(
@@ -326,7 +328,8 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                               if (value.key != '-1') {
                                                 context
                                                     .read<WardCubit>()
-                                                    .selectDistrict(value.key);
+                                                    .loadWard(
+                                                        districtId: value.key);
                                               }
                                               _ward = null;
                                             });
@@ -369,7 +372,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         ),
                                       );
                                     } else if (wardState is WardLoaded) {
-                                      _ward ??= wardState.ward.first;
+                                      _ward ??= wardState.ward;
                                       return DropdownButtonFormField(
                                         value: _ward,
                                         icon: const Icon(Icons.arrow_downward),
@@ -394,7 +397,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                             _ward = value;
                                           });
                                         },
-                                        items: wardState.ward
+                                        items: wardState.wards
                                             .map<DropdownMenuItem<Ward>>(
                                                 (Ward value) {
                                           return DropdownMenuItem<Ward>(

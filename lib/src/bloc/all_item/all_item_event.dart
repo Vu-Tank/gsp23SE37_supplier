@@ -9,11 +9,9 @@ abstract class AllItemEvent extends Equatable {
 
 class AllItemLoad extends AllItemEvent {
   final String token;
-  final int storeId;
-  final int page;
-  const AllItemLoad(
-      {required this.token, required this.storeId, required this.page});
+  final ItemSearch itemSearch;
+  const AllItemLoad({required this.token, required this.itemSearch});
   @override
   // TODO: implement props
-  List<Object> get props => [token, storeId, page];
+  List<Object> get props => [token, itemSearch];
 }

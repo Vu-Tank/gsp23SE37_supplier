@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gsp23se37_supplier/src/bloc/auth/auth_bloc.dart';
+import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
 import 'package:gsp23se37_supplier/src/router/app_router.dart';
 
 import 'firebase_options.dart';
@@ -40,8 +42,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final router = AppRouter();
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc()..add(AppLoaded()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc()..add(AppLoaded()),
+        ),
+        BlocProvider(
+          create: (context) => ShopBloc(),
+        )
+      ],
       child: MaterialApp.router(
         title: 'Esmp',
         theme: ThemeData(
@@ -49,6 +58,8 @@ class _MyAppState extends State<MyApp> {
         ),
         debugShowCheckedModeBanner: false,
         routerConfig: router.router,
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('vi')],
       ),
     );
   }

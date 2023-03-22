@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/bloc/all_order/all_order_bloc.dart';
+import 'package:gsp23se37_supplier/src/cubit/order_packing_video/order_packing_video_cubit.dart';
 import 'package:gsp23se37_supplier/src/cubit/order_ticket/order_ticket_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
+import 'package:gsp23se37_supplier/src/page/order/cancel_order.dart';
 import 'package:gsp23se37_supplier/src/page/order/search_order_widget.dart';
 import 'package:gsp23se37_supplier/src/page/order/ship_order_widget.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
@@ -19,13 +21,15 @@ import 'package:intl/intl.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
 import '../../cubit/order_detail/order_detail_cubit.dart';
+import '../../model/order/order.dart';
 import '../../model/store.dart';
+import '../video_dilog.dart';
 import 'order_detail_widget.dart';
 import 'recipient_information_wigdet.dart';
 
 class AllOrderPage extends StatefulWidget {
-  const AllOrderPage({super.key});
-
+  const AllOrderPage({super.key, required this.orderSearch});
+  final OrderSearch orderSearch;
   @override
   State<AllOrderPage> createState() => _AllOrderPageState();
 }
@@ -46,9 +50,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-            print(user.token);
-            _orderSearch = OrderSearch(
-                storeID: store.storeID, shipOrderStatus: 123, page: 1);
+            _orderSearch = widget.orderSearch;
           } else {
             GoRouter.of(context).pushReplacementNamed('/');
           }
@@ -87,7 +89,6 @@ class _AllOrderPageState extends State<AllOrderPage> {
                     orderSearch: _orderSearch,
                     onSearch: (orderSearch) {
                       _orderSearch = orderSearch;
-                      // print(_orderSearch.toString());
                       context.read<AllOrderBloc>().add(AllOrderLoad(
                           orderSearch: orderSearch, token: user.token));
                     },
@@ -177,11 +178,6 @@ class _AllOrderPageState extends State<AllOrderPage> {
                                                       )),
                                                       DataColumn(
                                                           label: Text(
-                                                        'Sản phẩm',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                      DataColumn(
-                                                          label: Text(
                                                         'Thao tác',
                                                         style: AppStyle.h2,
                                                       )),
@@ -255,10 +251,8 @@ class _AllOrderPageState extends State<AllOrderPage> {
                                                           )),
                                                           DataCell(
                                                               Tooltip(
-                                                                message: order
-                                                                    .value
-                                                                    .orderShip
-                                                                    .status,
+                                                                message:
+                                                                    '${order.value.orderShip.status}${(order.value.reason != null) ? '\n Lý dó: ${order.value.reason}' : ''}',
                                                                 child: SizedBox(
                                                                   width: 100,
                                                                   child: Text(
@@ -291,74 +285,124 @@ class _AllOrderPageState extends State<AllOrderPage> {
                                                                         token: user
                                                                             .token),
                                                                   )),
-                                                          DataCell(InkWell(
-                                                            child: Text(
-                                                              'Xem chi tiết',
-                                                              style: AppStyle.h2
-                                                                  .copyWith(
-                                                                      color: Colors
-                                                                          .blue),
-                                                            ),
-                                                            onTap: () async {
-                                                              context
-                                                                  .read<
-                                                                      OrderDetailCubit>()
-                                                                  .loadOrderDetail(
+                                                          DataCell(Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            children: [
+                                                              InkWell(
+                                                                child:
+                                                                    const Tooltip(
+                                                                  message:
+                                                                      'Xem chi tiết đơn hàng',
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .visibility_outlined,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                                onTap:
+                                                                    () async {
+                                                                  context.read<OrderDetailCubit>().loadOrderDetail(
                                                                       order: order
                                                                           .value,
                                                                       token: user
                                                                           .token);
-                                                            },
-                                                          )),
-                                                          DataCell(BlocProvider(
-                                                            create: (context) =>
-                                                                OrderTicketCubit(),
-                                                            child: BlocConsumer<
-                                                                OrderTicketCubit,
-                                                                OrderTicketState>(
-                                                              listener:
-                                                                  (context,
-                                                                      state) {
-                                                                if (state
-                                                                    is OrderTicketFailed) {
-                                                                  MyDialog.showSnackBar(
-                                                                      context,
-                                                                      state
-                                                                          .msg);
-                                                                }
-                                                              },
-                                                              builder: (context,
-                                                                  orderTicketState) {
-                                                                return InkWell(
-                                                                  child: (orderTicketState
-                                                                          is OrderTicketLoading)
-                                                                      ? const CircularProgressIndicator()
-                                                                      : Text(
-                                                                          'In nhãn',
-                                                                          style: AppStyle
-                                                                              .h2
-                                                                              .copyWith(color: Colors.blue),
-                                                                        ),
-                                                                  onTap:
-                                                                      () async {
-                                                                    // await launchUrl(Uri.parse(
-                                                                    //     '${AppUrl.getTicket}?orderID=${order.value.orderID}'));
-                                                                    context
-                                                                        .read<
-                                                                            OrderTicketCubit>()
-                                                                        .getTicker(
-                                                                            orderID:
-                                                                                order.value.orderID,
+                                                                },
+                                                              ),
+                                                              _videoPacking(
+                                                                  order.value),
+                                                              BlocProvider(
+                                                                create: (context) =>
+                                                                    OrderTicketCubit(),
+                                                                child: BlocConsumer<
+                                                                    OrderTicketCubit,
+                                                                    OrderTicketState>(
+                                                                  listener:
+                                                                      (context,
+                                                                          state) {
+                                                                    if (state
+                                                                        is OrderTicketFailed) {
+                                                                      MyDialog.showSnackBar(
+                                                                          context,
+                                                                          state
+                                                                              .msg);
+                                                                    }
+                                                                  },
+                                                                  builder: (context,
+                                                                      orderTicketState) {
+                                                                    return InkWell(
+                                                                      child: (orderTicketState
+                                                                              is OrderTicketLoading)
+                                                                          ? const CircularProgressIndicator()
+                                                                          : const Tooltip(
+                                                                              message: 'Tải tem vận chuyển',
+                                                                              child: Icon(
+                                                                                Icons.download,
+                                                                                color: Colors.blue,
+                                                                              ),
+                                                                            ),
+                                                                      onTap:
+                                                                          () async {
+                                                                        // await launchUrl(Uri.parse(
+                                                                        //     '${AppUrl.getTicket}?orderID=${order.value.orderID}'));
+                                                                        context.read<OrderTicketCubit>().getTicker(
+                                                                            orderID: order.value.orderID,
                                                                             token: user.token,
                                                                             onSuccess: (String data) {
                                                                               AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,$data")
                                                                                 ..setAttribute("download", "esmp_ship_${order.value.orderID}.pdf")
                                                                                 ..click();
                                                                             });
+                                                                      },
+                                                                    );
                                                                   },
-                                                                );
-                                                              },
-                                                            ),
+                                                                ),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: (_orderSearch
+                                                                            .shipOrderStatus ==
+                                                                        1)
+                                                                    ? () async {
+                                                                        bool?
+                                                                            success =
+                                                                            await showDialog<bool>(
+                                                                          context:
+                                                                              context,
+                                                                          barrierDismissible:
+                                                                              false,
+                                                                          builder: (context) => cancelOrderDialog(
+                                                                              context: context,
+                                                                              orderID: order.value.orderID,
+                                                                              token: user.token),
+                                                                        );
+                                                                        if (success !=
+                                                                                null &&
+                                                                            success) {
+                                                                          if (mounted) {
+                                                                            context.read<AllOrderBloc>().add(AllOrderLoad(
+                                                                                orderSearch: _orderSearch,
+                                                                                token: user.token));
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    : null,
+                                                                child: Tooltip(
+                                                                  message:
+                                                                      'Huỷ đơn hàng',
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    color: (_orderSearch.shipOrderStatus ==
+                                                                            1)
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           )),
                                                         ]);
                                                       })
@@ -434,6 +478,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
                                                         is OrderDetailLoaded) {
                                                       return orderDetailWidget(
                                                           context: context,
+                                                          token: user.token,
                                                           order:
                                                               orderDetailState
                                                                   .order);
@@ -459,5 +504,48 @@ class _AllOrderPageState extends State<AllOrderPage> {
             },
           ),
         ));
+  }
+
+  _videoPacking(Order order) {
+    return BlocProvider(
+      create: (context) => OrderPackingVideoCubit(),
+      child: BlocConsumer<OrderPackingVideoCubit, OrderPackingVideoState>(
+        listener: (context, state) {
+          if (state is OrderPackingVideoLoadFailed) {
+            MyDialog.showSnackBar(context, state.msg);
+          }
+          if (state is OrderPackingVideoUpLoaded) {
+            context.read<AllOrderBloc>().add(
+                AllOrderLoad(orderSearch: _orderSearch, token: user.token));
+          }
+        },
+        builder: (context, orderTicketState) {
+          return InkWell(
+            child: (orderTicketState is OrderPackingVideoLoading)
+                ? const CircularProgressIndicator()
+                : Tooltip(
+                    message: (order.packingLink != null)
+                        ? 'Xem video Đóng hàng'
+                        : 'Đăng video đóng hàng',
+                    child: const Icon(
+                      Icons.upload,
+                      color: Colors.blue,
+                    ),
+                  ),
+            onTap: () async {
+              if (order.packingLink != null) {
+                showDialog(
+                    context: context,
+                    builder: (context) => VideoDialog(url: order.packingLink!));
+              } else {
+                context
+                    .read<OrderPackingVideoCubit>()
+                    .pickVideo(token: user.token, orderID: order.orderID);
+              }
+            },
+          );
+        },
+      ),
+    );
   }
 }

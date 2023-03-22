@@ -63,6 +63,30 @@ class SubItem {
   String toString() {
     return 'SubItem(sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, amount: $amount, image: $image, price: $price, warrantiesTime: $warrantiesTime, discount: $discount, returnAndExchange: $returnAndExchange, subItem_Status: $subItem_Status)';
   }
+
+  SubItem copyWith({
+    int? sub_ItemID,
+    String? sub_ItemName,
+    int? amount,
+    Image? image,
+    double? price,
+    int? warrantiesTime,
+    double? discount,
+    int? returnAndExchange,
+    SubItemStatus? subItem_Status,
+  }) {
+    return SubItem(
+      sub_ItemID: sub_ItemID ?? this.sub_ItemID,
+      sub_ItemName: sub_ItemName ?? this.sub_ItemName,
+      amount: amount ?? this.amount,
+      image: image ?? this.image,
+      price: price ?? this.price,
+      warrantiesTime: warrantiesTime ?? this.warrantiesTime,
+      discount: discount ?? this.discount,
+      returnAndExchange: returnAndExchange ?? this.returnAndExchange,
+      subItem_Status: subItem_Status ?? this.subItem_Status,
+    );
+  }
 }
 
 class SubItemStatus {

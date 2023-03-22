@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import '../model/address/address.dart';
 
 import '../model/api_response.dart';
 import 'api_setting.dart';
@@ -166,6 +168,243 @@ class UserRepositories {
     } catch (e) {
       apiResponse.isSuccess = false;
       apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateImage({
+    required int userID,
+    required XFile file,
+    required String token,
+  }) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var uri = Uri.parse(AppUrl.updateSupplierImage);
+      var length = await file.length();
+      Map<String, String> headers = {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $token',
+      };
+      var request = http.MultipartRequest('PUT', uri);
+      request.headers.addAll(headers);
+      request.fields['UserID'] = userID.toString();
+      request.files.add(http.MultipartFile(
+          'File', file.readAsBytes().asStream().asBroadcastStream(), length,
+          filename: file.name));
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var reponseData = await http.Response.fromStream(response);
+        response.stream.asBroadcastStream();
+        var body = json.decode(reponseData.body);
+        apiResponse.msg = body['message'];
+        apiResponse.isSuccess = body['success'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.msg = response.statusCode.toString();
+        apiResponse.isSuccess = false;
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateUserName(
+      {required String userName,
+      required String token,
+      required int userId}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateUserName),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userID': userId,
+              'userName': userName,
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateUserEmail(
+      {required String email,
+      required String token,
+      required int userId}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateUserEmail),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userID': userId,
+              'userEmail': email,
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateUserGender(
+      {required String gender,
+      required String token,
+      required int userId}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateUserGender),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'userID': userId,
+              'userGender': gender,
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateUserDOB(
+      {required String dob, required String token, required int userId}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateUserDOB),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'UserID': userId,
+              'UserBirth': dob,
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateUserAddress(
+      {required Adderss address,
+      required String token,
+      required int userId}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateUserAddress),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "addressID": address.addressID,
+              "userName": address.userName,
+              "phone": address.phone,
+              "context": address.context,
+              "province": address.province,
+              "district": address.district,
+              "ward": address.ward,
+              "latitude": address.latitude,
+              "longitude": address.longitude,
+              "isActive": true
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = Adderss.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
     }
     return apiResponse;
   }

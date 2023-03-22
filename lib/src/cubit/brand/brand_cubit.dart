@@ -15,7 +15,7 @@ class BrandCubit extends Cubit<BrandState> {
     close();
   }
 
-  loadBrand() async {
+  loadBrand({int? brandId, int? modelID}) async {
     if (_isDisposed) {
       return;
     }
@@ -23,8 +23,26 @@ class BrandCubit extends Cubit<BrandState> {
     ApiResponse apiResponse = await BrandRepositories.getBrands();
     if (apiResponse.isSuccess!) {
       List<Brand> list = apiResponse.data;
+      Brand brand = list.first;
+      ModelBrand? modelBrand;
+      if (brandId != null) {
+        for (var element in list) {
+          if (element.brandID == brandId) {
+            brand = element;
+
+            if (modelID != null && modelID != -1) {
+              modelBrand = brand.listModel.first;
+              for (var element in brand.listModel) {
+                if (element.brand_ModelID == modelID) {
+                  modelBrand = element;
+                }
+              }
+            }
+          }
+        }
+      }
       if (isClosed) return;
-      emit(BrandLoaded(list: list, brand: list.first));
+      emit(BrandLoaded(list: list, brand: brand, modelBrand: modelBrand));
     } else {
       if (isClosed) return;
       emit(BrandLoadFailed(apiResponse.msg!));
@@ -38,7 +56,12 @@ class BrandCubit extends Cubit<BrandState> {
     emit(BrandLoading());
     for (var i = 0; i < list.length; i++) {
       if (list[i].brandID == brand.brandID) {
-        emit(BrandLoaded(list: list, brand: list[i]));
+        ModelBrand? modelBrand;
+        if (brand.brandID != -1) {
+          modelBrand = brand.listModel.first;
+        }
+        if (isClosed) return;
+        emit(BrandLoaded(list: list, brand: list[i], modelBrand: modelBrand));
       }
     }
   }
@@ -55,7 +78,8 @@ class BrandCubit extends Cubit<BrandState> {
           if (list[i].listModel[j].brand_ModelID == modelBrand.brand_ModelID) {
             list[i].listModel[j].isActive == modelBrand.isActive;
             if (isClosed) return;
-            emit(BrandLoaded(list: list, brand: list[i]));
+            emit(BrandLoaded(
+                list: list, brand: list[i], modelBrand: modelBrand));
           }
         }
       }

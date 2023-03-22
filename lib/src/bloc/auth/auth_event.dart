@@ -18,3 +18,12 @@ class UserLoggedIn extends AuthEvent {
 }
 
 class UserLoggedOut extends AuthEvent {}
+
+class UserUpdate extends AuthEvent {
+  final User user;
+  const UserUpdate(this.user);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [user];
+}

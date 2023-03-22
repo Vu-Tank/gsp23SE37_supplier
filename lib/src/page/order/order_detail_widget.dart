@@ -9,22 +9,23 @@ import '../item/item_detail_widget.dart';
 import 'feedback_dialog.dart';
 
 Widget orderDetailWidget(
-    {required BuildContext context, required Order order}) {
-  return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-    return Column(
-      children: [
-        const Divider(
-          color: Colors.black,
-          height: 2,
-        ),
-        Text(
-          'Chi tiết đơn hằng ${order.orderID}',
-          style: AppStyle.h2,
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(minWidth: constraints.maxWidth),
-          child: DataTable(
+    {required BuildContext context,
+    required Order order,
+    required String token}) {
+  return LayoutBuilder(builder: (context, constraints) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: constraints.maxWidth),
+      child: Column(
+        children: [
+          const Divider(
+            color: Colors.black,
+            height: 2,
+          ),
+          Text(
+            'Chi tiết đơn hằng ${order.orderID}',
+            style: AppStyle.h2,
+          ),
+          DataTable(
             showCheckboxColumn: false,
             columns: [
               DataColumn(
@@ -105,17 +106,16 @@ Widget orderDetailWidget(
                             : Colors.black),
                   )),
                   DataCell(Text(
-                    '${detail.warrantiesTime.toString()} Tháng',
+                    '${detail.warrantiesTime}',
                     style: AppStyle.h2,
                   )),
                   DataCell(Text(
-                    '${detail.returnAndExchange.toString()} Ngày',
+                    '${detail.returnAndExchange}',
                     style: AppStyle.h2,
                   )),
                   DataCell(
                     SizedBox(
-                      width: 100,
-                      height: 100,
+                      width: 40,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.network(
@@ -162,19 +162,16 @@ Widget orderDetailWidget(
                         : null,
                   ),
                 ],
-                // onLongPress: () => showDialog(
-                //   context: context,
-                //   builder: (context) => ItemDetailWidget(itemId: detail.itemID),
-                // ),
                 onSelectChanged: (value) => showDialog(
                   context: context,
-                  builder: (context) => ItemDetailWidget(itemId: detail.itemID),
+                  builder: (context) =>
+                      ItemDetailWidget(itemId: detail.itemID, token: token),
                 ),
               );
             }),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   });
 }

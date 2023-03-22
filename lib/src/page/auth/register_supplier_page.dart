@@ -317,7 +317,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                     if (value.key != '-1') {
                                       context
                                           .read<DistrictCubit>()
-                                          .selectedProvince(value.key);
+                                          .loadDistrict(provinceId: value.key);
                                     }
                                     _district = null;
 
@@ -381,7 +381,8 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                             if (value.key != '-1') {
                                               context
                                                   .read<WardCubit>()
-                                                  .selectDistrict(value.key);
+                                                  .loadWard(
+                                                      districtId: value.key);
                                             }
                                             _ward = null;
                                           });
@@ -424,7 +425,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                       ),
                                     );
                                   } else if (state is WardLoaded) {
-                                    _ward ??= state.ward.first;
+                                    _ward ??= state.ward;
                                     return DropdownButtonFormField(
                                       value: _ward,
                                       icon: const Icon(Icons.arrow_downward),
@@ -449,7 +450,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                           _ward = value;
                                         });
                                       },
-                                      items: state.ward
+                                      items: state.wards
                                           .map<DropdownMenuItem<Ward>>(
                                               (Ward value) {
                                         return DropdownMenuItem<Ward>(

@@ -144,4 +144,76 @@ class OrderRepositories {
     }
     return apiResponse;
   }
+
+  static Future<ApiResponse> cancelOrder(
+      {required int orderID,
+      required String token,
+      required String reason}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'orderID': orderID.toString(),
+        'reason': reason.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+
+      final response = await http
+          .put(Uri.parse('${AppUrl.cancelOrder}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = body['data'];
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updatePakingLink(
+      {required String token,
+      required int orderID,
+      required String url}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.addPakingLink),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(
+                <String, dynamic>{"orderID": orderID, "pakingLink": url}),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          print(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
 }

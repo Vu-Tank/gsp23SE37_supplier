@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:gsp23se37_supplier/src/model/cash_flow.dart';
+import 'package:gsp23se37_supplier/src/model/cash_flow_search.dart';
+import 'package:gsp23se37_supplier/src/model/reveneu.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 import '../model/api_response.dart';
 import '../model/store.dart';
+import '../utils/utils.dart';
 import 'api_setting.dart';
 import 'app_url.dart';
 
@@ -123,6 +127,176 @@ class StoreRepositories {
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
           apiResponse.data = body['data'];
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> storeWithdrawal(
+      {required int storeID,
+      required String token,
+      required double price,
+      required String numBankCart,
+      required String ownerBankCart,
+      required String bankName}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final response = await http
+          .post(Uri.parse(AppUrl.storeWithdrawal),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer $token',
+              },
+              body: jsonEncode({
+                "storeID": storeID,
+                "price": price,
+                "numBankCart": numBankCart,
+                "ownerBankCart": ownerBankCart,
+                "bankName": bankName
+              }))
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {}
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> storeUpdateInfo(
+      {required int storeID,
+      XFile? file,
+      required String token,
+      String? storeName,
+      String? email,
+      String? phone,
+      int? Pick_date}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var uri = Uri.parse(AppUrl.storeUpdate);
+
+      Map<String, String> headers = {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $token',
+      };
+      var request = http.MultipartRequest('POST', uri);
+      request.headers.addAll(headers);
+      request.fields['StoreID'] = storeID.toString();
+      if (storeName != null) {
+        request.fields['StoreName'] = storeName;
+      }
+      if (email != null) {
+        request.fields['Email'] = email;
+      }
+      if (phone != null) {
+        request.fields['Phone'] = phone;
+      }
+      if (Pick_date != null) {
+        request.fields['Pick_date'] = '1';
+      }
+      if (file != null) {
+        var length = await file.length();
+        request.files.add(http.MultipartFile(
+            'File', file.readAsBytes().asStream().asBroadcastStream(), length,
+            filename: file.name));
+      }
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var reponseData = await http.Response.fromStream(response);
+        response.stream.asBroadcastStream();
+        var body = json.decode(reponseData.body);
+        apiResponse.msg = body['message'];
+        apiResponse.isSuccess = body['success'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = Store.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.msg = response.statusCode.toString();
+        apiResponse.isSuccess = false;
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> storeCashFlow(
+      {required CashFlowSearch cashFlowSearch, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      Map<String, dynamic> search = cashFlowSearch.toMap();
+      Utils.removeNullAndEmptyParams(search);
+      final queryParams =
+          search.map((key, value) => MapEntry(key, value.toString()));
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.storeCashFlow}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = List<CashFlow>.from((body['data'] as List)
+              .map<CashFlow>(
+                  (x) => CashFlow.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> storeReveneu(
+      {required int orderID, int? time, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'storeID': orderID.toString(),
+        'year': time.toString(),
+      };
+      Utils.removeNullAndEmptyParams(queryParams);
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.storeReveneu}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = List<Reveneu>.from((body['data'] as List)
+              .map<Reveneu>((x) => Reveneu.fromMap(x as Map<String, dynamic>)));
         }
       } else {
         apiResponse.isSuccess = false;

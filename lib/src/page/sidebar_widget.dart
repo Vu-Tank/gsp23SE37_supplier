@@ -33,8 +33,7 @@ class SideBarWigdet extends StatelessWidget {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) =>
-                    storeInfoDialog(context: context, store: store),
+                builder: (context) => const StoreInfoDialog(),
               );
             },
           ),
@@ -48,7 +47,8 @@ class SideBarWigdet extends StatelessWidget {
         SidebarXItem(icon: Icons.home, label: 'Trang chủ'),
         SidebarXItem(icon: Icons.settings, label: 'Quản lý sản phẩm'),
         SidebarXItem(icon: Icons.shop, label: 'Quản lý Đơn hàng'),
-        SidebarXItem(icon: Icons.chat_outlined, label: 'Tin nhắn')
+        SidebarXItem(icon: Icons.chat_outlined, label: 'Tin nhắn'),
+        SidebarXItem(icon: Icons.room_service_outlined, label: 'Dịch vụ'),
       ],
     );
   }

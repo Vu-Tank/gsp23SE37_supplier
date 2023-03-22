@@ -12,11 +12,12 @@ class ProvinceInitial extends ProvinceState {}
 class ProvinceLoading extends ProvinceState {}
 
 class ProvinceLoaded extends ProvinceState {
-  final List<Province> province;
-  const ProvinceLoaded(this.province);
+  final List<Province> provinces;
+  final Province province;
+  const ProvinceLoaded({required this.provinces, required this.province});
   @override
   // TODO: implement props
-  List<Object> get props => [province];
+  List<Object> get props => [provinces, province];
 }
 
 class ProvinceError extends ProvinceState {

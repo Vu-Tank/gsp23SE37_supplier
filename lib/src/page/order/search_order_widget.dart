@@ -15,7 +15,6 @@ Widget searchOrderWidget(
   String searchType = (orderSearch.orderID != null)
       ? AppConstants.listOrderSearch[1]
       : AppConstants.listOrderSearch[0];
-  print(orderSearch.toString());
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Form(

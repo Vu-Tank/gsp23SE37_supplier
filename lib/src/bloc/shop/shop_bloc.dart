@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/api_response.dart';
 import '../../model/store.dart';
@@ -49,6 +46,9 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       } else {
         emit(ShopPaymentFailed(apiResponse.msg!, event.storeID));
       }
+    });
+    on<ShopUpdate>((event, emit) {
+      emit(ShopCreated(event.store, event.store.actice_Amount!));
     });
   }
 }

@@ -94,4 +94,40 @@ class User {
   String toString() {
     return 'User{userID: $userID, userName: $userName, email: $email, phone: $phone, dateOfBirth: $dateOfBirth, gender: $gender, crete_date: $crete_date, role: $role, image: $image, storeID: $storeID, addresses: $addresses, firebaseID: $firebaseID, fcM_Firebase: $fcM_Firebase, token: $token, isActive: $isActive}';
   }
+
+  User copyWith({
+    int? userID,
+    String? userName,
+    String? email,
+    String? phone,
+    String? dateOfBirth,
+    String? gender,
+    String? crete_date,
+    Role? role,
+    Image? image,
+    int? storeID,
+    List<Adderss>? addresses,
+    String? firebaseID,
+    String? fcM_Firebase,
+    String? token,
+    bool? isActive,
+  }) {
+    return User(
+      userID: userID ?? this.userID,
+      userName: userName ?? this.userName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      gender: gender ?? this.gender,
+      crete_date: crete_date ?? this.crete_date,
+      role: role ?? this.role,
+      image: image ?? this.image,
+      storeID: storeID ?? this.storeID,
+      addresses: addresses ?? this.addresses,
+      firebaseID: firebaseID ?? this.firebaseID,
+      fcM_Firebase: fcM_Firebase ?? this.fcM_Firebase,
+      token: token ?? this.token,
+      isActive: isActive ?? this.isActive,
+    );
+  }
 }

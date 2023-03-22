@@ -1,5 +1,6 @@
 import 'package:gsp23se37_supplier/src/model/item/specification.dart';
 import 'package:gsp23se37_supplier/src/utils/vn_convert.dart';
+import 'package:intl/intl.dart';
 
 import '../model/address/district.dart';
 import '../model/address/province.dart';
@@ -126,6 +127,13 @@ class Validations {
     return null;
   }
 
+  static String? valSupplierName(String? value) {
+    if (value == null) return 'Vui lòng nhập họ và tên';
+    if (value.isEmpty) return 'Vui lòng nhập họ và tên';
+
+    return null;
+  }
+
   static String? valItemDescription(String? value) {
     if (value == null) return 'Vui lòng nhập thông tin cho sản phẩm';
     if (value.isEmpty) return 'Vui lòng nhập thông tin cho sản phẩm';
@@ -239,12 +247,65 @@ class Validations {
     if (value.isEmpty) return 'Vui lòng nhập thời gian bảo hành';
     try {
       int warrantiesTime = int.parse(value);
-      if (warrantiesTime < 0)
+      if (warrantiesTime < 0) {
         return 'Thời gian bảo hành của sản phẩm phải lơn hơn 0';
-      if (warrantiesTime >= 50000000)
+      }
+      if (warrantiesTime >= 50000000) {
         return 'Thời gian bảo hành của sản phẩm phải nhỏ hơn 50 triệu';
+      }
     } catch (e) {
       return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valSupplierEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Không được bỏ trống';
+    } else {
+      String pattern =
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
+      RegExp regExp = RegExp(pattern);
+      if (!regExp.hasMatch(value)) {
+        return "Email Không hợp lệ";
+      }
+    }
+    return null;
+  }
+
+  static String? valBankNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Không được bỏ trống';
+    }
+    return null;
+  }
+
+  static String? valAccountName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Không được bỏ trống';
+    }
+    return null;
+  }
+
+  static String? valPriceWithdrawal(String? value, double maxPrice) {
+    if (value == null || value.isEmpty) {
+      return 'Không được bỏ trống';
+    } else {
+      value = value.replaceAll('VNĐ', '').replaceAll('.', '').trim();
+      double price = double.parse(value);
+      if (price <= 0) return 'Số tiền rút tối thiểu là 10.000 VNĐ';
+      if (price > maxPrice) {
+        return 'Số tiền rút nhỏ hơn hoặc bằng ${NumberFormat.currency(locale: 'vi_VN', decimalDigits: 0, symbol: 'VNĐ').format(maxPrice)}';
+      }
+    }
+    return null;
+  }
+
+  static String? valAddressString(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Vui lòng nhập địa chỉ của bạn";
+    } else if (value.length > 100) {
+      return "Địa chỉ quá dài (Tối đa 100 ký tự)";
     }
     return null;
   }

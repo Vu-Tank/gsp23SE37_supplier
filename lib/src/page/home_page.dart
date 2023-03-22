@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
+import 'package:gsp23se37_supplier/src/page/service_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:gsp23se37_supplier/src/page/user/user_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/min_size.dart';
@@ -66,7 +67,15 @@ class _HomePageState extends State<HomePage>
     return MinSize(
       minHeight: window.physicalSize.height - 300,
       minWidth: window.physicalSize.width - 400,
-      child: BlocBuilder<AuthBloc, AuthState>(
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthAuthenticated) {
+            if (state.user.storeID != -1) {
+              context.read<ShopBloc>().add(ShopLogin(
+                  userID: state.user.userID, token: state.user.token));
+            }
+          }
+        },
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             User user = state.user;
@@ -90,8 +99,7 @@ class _HomePageState extends State<HomePage>
                           onPressed: () {
                             showDialog(
                               context: context,
-                              builder: (context) =>
-                                  userDialog(context: context, user: user),
+                              builder: (context) => const UserDialog(),
                             );
                           },
                           child: Text(
@@ -107,19 +115,6 @@ class _HomePageState extends State<HomePage>
                         'Đăng xuất',
                         style: AppStyle.buttom,
                       )),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       context.read<AuthBloc>().add(UserLoggedOut());
-                  //     },
-                  //     style: AppStyle.myButtonStyle.copyWith(
-                  //         shape: MaterialStateProperty
-                  //             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                  //                 borderRadius: BorderRadius.circular(18.0),
-                  //                 side: const BorderSide(color: Colors.white)))),
-                  //     child: Text(
-                  //       'Đăng xuất',
-                  //       style: AppStyle.buttom,
-                  //     )),
                 ],
               ),
               body: Center(
@@ -148,129 +143,123 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
                       ])
-                    : BlocProvider(
-                        create: (context) => ShopBloc()
-                          ..add(
-                            ShopLogin(userID: user.userID, token: user.token),
-                          ),
-                        child: BlocBuilder<ShopBloc, ShopState>(
-                          builder: (context, state) {
-                            if (state is ShopCreated) {
-                              Store store = state.store;
-                              if (store.store_Status.item_StatusID == 1) {
-                                return shopView(context, state.store);
-                              } else {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Bạn chưa trả phí tham gia vào hệ thống ESMP',
-                                      style: AppStyle.h2,
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Text(
-                                      'Bạn cần thanh toán ${state.priceActice}VNĐ',
-                                      style: AppStyle.h2,
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    SizedBox(
-                                      height: 56.0,
-                                      width: 300,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          context
-                                              .read<ShopBloc>()
-                                              .add(ShopPayment(
-                                                  storeID: store.storeID,
-                                                  token: user.token,
-                                                  onSuccess: (String url) {
-                                                    js.context.callMethod(
-                                                        'open', [url, '_self']);
-                                                  }));
-                                        },
-                                        style: AppStyle.myButtonStyle,
-                                        child: Text(
-                                          'Thanh toán',
-                                          style: AppStyle.buttom,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            } else if (state is ShopLoginFailed) {
-                              return Center(
-                                child: Column(children: [
-                                  Text(
-                                    state.msg,
-                                    style:
-                                        AppStyle.h2.copyWith(color: Colors.red),
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  SizedBox(
-                                    height: 54.0,
-                                    width: 350,
-                                    child: ElevatedButton(
-                                      onPressed: () => context
-                                          .read<ShopBloc>()
-                                          .add(ShopLogin(
-                                              userID: user.userID,
-                                              token: user.token)),
-                                      style: AppStyle.myButtonStyle,
-                                      child: Text(
-                                        'Thử lại',
-                                        style: AppStyle.buttom,
-                                      ),
-                                    ),
-                                  )
-                                ]),
-                              );
-                            } else if (state is ShopPaymentFailed) {
-                              return Center(
-                                child: Column(children: [
-                                  Text(
-                                    state.msg,
-                                    style:
-                                        AppStyle.h2.copyWith(color: Colors.red),
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  SizedBox(
-                                    height: 54.0,
-                                    width: 350,
-                                    child: ElevatedButton(
-                                      onPressed: () => context
-                                          .read<ShopBloc>()
-                                          .add(ShopPayment(
-                                              storeID: state.storeID,
-                                              token: user.token,
-                                              onSuccess: (String url) {
-                                                js.context.callMethod(
-                                                    'open', [url, '_self']);
-                                              })),
-                                      style: AppStyle.myButtonStyle,
-                                      child: Text(
-                                        'Thử lại',
-                                        style: AppStyle.buttom,
-                                      ),
-                                    ),
-                                  )
-                                ]),
-                              );
+                    : BlocBuilder<ShopBloc, ShopState>(
+                        builder: (context, state) {
+                          if (state is ShopCreated) {
+                            Store store = state.store;
+                            if (store.store_Status.item_StatusID == 1) {
+                              return shopView(context, state.store);
                             } else {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Bạn chưa trả phí tham gia vào hệ thống ESMP',
+                                    style: AppStyle.h2,
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Text(
+                                    'Bạn cần thanh toán ${state.priceActice}VNĐ',
+                                    style: AppStyle.h2,
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  SizedBox(
+                                    height: 56.0,
+                                    width: 300,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        context
+                                            .read<ShopBloc>()
+                                            .add(ShopPayment(
+                                                storeID: store.storeID,
+                                                token: user.token,
+                                                onSuccess: (String url) {
+                                                  js.context.callMethod(
+                                                      'open', [url, '_self']);
+                                                }));
+                                      },
+                                      style: AppStyle.myButtonStyle,
+                                      child: Text(
+                                        'Thanh toán',
+                                        style: AppStyle.buttom,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               );
                             }
-                          },
-                        ),
+                          } else if (state is ShopLoginFailed) {
+                            return Center(
+                              child: Column(children: [
+                                Text(
+                                  state.msg,
+                                  style:
+                                      AppStyle.h2.copyWith(color: Colors.red),
+                                ),
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
+                                SizedBox(
+                                  height: 54.0,
+                                  width: 350,
+                                  child: ElevatedButton(
+                                    onPressed: () => context
+                                        .read<ShopBloc>()
+                                        .add(ShopLogin(
+                                            userID: user.userID,
+                                            token: user.token)),
+                                    style: AppStyle.myButtonStyle,
+                                    child: Text(
+                                      'Thử lại',
+                                      style: AppStyle.buttom,
+                                    ),
+                                  ),
+                                )
+                              ]),
+                            );
+                          } else if (state is ShopPaymentFailed) {
+                            return Center(
+                              child: Column(children: [
+                                Text(
+                                  state.msg,
+                                  style:
+                                      AppStyle.h2.copyWith(color: Colors.red),
+                                ),
+                                const SizedBox(
+                                  height: 8.0,
+                                ),
+                                SizedBox(
+                                  height: 54.0,
+                                  width: 350,
+                                  child: ElevatedButton(
+                                    onPressed: () => context
+                                        .read<ShopBloc>()
+                                        .add(ShopPayment(
+                                            storeID: state.storeID,
+                                            token: user.token,
+                                            onSuccess: (String url) {
+                                              js.context.callMethod(
+                                                  'open', [url, '_self']);
+                                            })),
+                                    style: AppStyle.myButtonStyle,
+                                    child: Text(
+                                      'Thử lại',
+                                      style: AppStyle.buttom,
+                                    ),
+                                  ),
+                                )
+                              ]),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
                       ),
               ),
             );
@@ -282,64 +271,6 @@ class _HomePageState extends State<HomePage>
             );
           } else {
             return const FirstPage();
-            // return Scaffold(
-            //   body: Center(
-            //     child: Container(
-            //       height: 500,
-            //       width: 500,
-            //       decoration: BoxDecoration(
-            //         border: Border.all(color: Colors.black),
-            //       ),
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(8.0),
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //           children: [
-            //             SizedBox(
-            //               width: double.infinity,
-            //               height: 56,
-            //               child: ElevatedButton(
-            //                   onPressed: () {
-            //                     GoRouter.of(context)
-            //                         .pushNamed(AppRouterConstants.loginRouteName);
-            //                   },
-            //                   style: ElevatedButton.styleFrom(
-            //                     backgroundColor: AppStyle.appColor,
-            //                     shape: const RoundedRectangleBorder(
-            //                         borderRadius:
-            //                             BorderRadius.all(Radius.circular(8))),
-            //                   ),
-            //                   child: Text(
-            //                     'Đăng nhập',
-            //                     style: AppStyle.buttom,
-            //                   )),
-            //             ),
-            //             SizedBox(
-            //               width: double.infinity,
-            //               height: 56,
-            //               child: ElevatedButton(
-            //                   onPressed: () {
-            //                     GoRouter.of(context).pushNamed(
-            //                         AppRouterConstants.registerRouteName);
-            //                   },
-            //                   style: ElevatedButton.styleFrom(
-            //                     backgroundColor: AppStyle.appColor,
-            //                     shape: const RoundedRectangleBorder(
-            //                         borderRadius:
-            //                             BorderRadius.all(Radius.circular(8))),
-            //                   ),
-            //                   child: Text(
-            //                     'Đăng ký',
-            //                     style: AppStyle.buttom,
-            //                   )),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // );
           }
         },
       ),
@@ -370,6 +301,8 @@ class _HomePageState extends State<HomePage>
                 );
               case 3:
                 return const ChatPage();
+              case 4:
+                return const ServicePage();
               default:
                 return const DashboardPage();
             }

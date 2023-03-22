@@ -15,7 +15,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     close();
   }
 
-  loadCategory() async {
+  loadCategory({int? categoryID, int? subCateId}) async {
     if (_isDisposed) {
       return;
     }
@@ -23,8 +23,26 @@ class CategoryCubit extends Cubit<CategoryState> {
     ApiResponse apiResponse = await CategoryRepositories.getCategory();
     if (apiResponse.isSuccess!) {
       List<Category> list = apiResponse.data;
+      Category select = list.first;
+      SubCategory? selectSub;
+      if (categoryID != null) {
+        for (var element in list) {
+          if (element.categoryID == categoryID) {
+            select = element;
+            selectSub = select.listSub.first;
+            if (subCateId != null) {
+              for (var sub in element.listSub) {
+                if (sub.sub_CategoryID == subCateId) {
+                  selectSub = sub;
+                }
+              }
+            }
+          }
+        }
+      }
       if (isClosed) return;
-      emit(CategoryLoaded(list: list, selected: list.first));
+      emit(
+          CategoryLoaded(list: list, selected: select, subCategory: selectSub));
     } else {
       if (isClosed) return;
       emit(CategoryLoadFailed(apiResponse.msg!));

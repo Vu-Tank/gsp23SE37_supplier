@@ -9,13 +9,33 @@ part 'district_state.dart';
 
 class DistrictCubit extends Cubit<DistrictState> {
   DistrictCubit() : super(DistrictInitial());
-  selectedProvince(String provinceId) async {
+  loadDistrict({required String provinceId, String? districtName}) async {
+    if (isClosed) return;
     emit(DistrictLoading());
     ApiResponse apiResponse = await AddressRepository.getDistrict(provinceId);
     if (apiResponse.isSuccess!) {
-      emit(DistrictLoaded(apiResponse.data));
+      List<District> list = apiResponse.data;
+      District selected = list.first;
+      if (districtName != null) {
+        for (var element in list) {
+          if (element.value == districtName) {
+            selected = element;
+            break;
+          }
+        }
+      }
+      if (isClosed) return;
+      emit(DistrictLoaded(districts: list, district: selected));
     } else {
+      if (isClosed) return;
       emit(DistrictError(apiResponse.msg!));
     }
+  }
+
+  selectedDistrict({required List<District> list, required District district}) {
+    if (isClosed) return;
+    emit(DistrictLoading());
+    if (isClosed) return;
+    emit(DistrictLoaded(districts: list, district: district));
   }
 }

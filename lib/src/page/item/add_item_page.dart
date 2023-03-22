@@ -648,6 +648,7 @@ class _AddItemPageState extends State<AddItemPage> {
           Expanded(
               child: Column(
             children: [
+              //tên
               TextFormField(
                 controller: subItemState.listSub[index].subName,
                 textAlign: TextAlign.left,
@@ -671,6 +672,7 @@ class _AddItemPageState extends State<AddItemPage> {
               const SizedBox(
                 height: 8.0,
               ),
+              // giá
               TextFormField(
                 controller: subItemState.listSub[index].subPrice,
                 textAlign: TextAlign.left,
@@ -703,6 +705,7 @@ class _AddItemPageState extends State<AddItemPage> {
               const SizedBox(
                 height: 8.0,
               ),
+              //số lượng
               TextFormField(
                 controller: subItemState.listSub[index].subAmount,
                 textAlign: TextAlign.left,
@@ -730,19 +733,24 @@ class _AddItemPageState extends State<AddItemPage> {
                 height: 8.0,
               ),
               TextFormField(
-                controller: subItemState.listSub[index].subWarrantiesTime,
+                controller: subItemState.listSub[index].subDiscount,
                 textAlign: TextAlign.left,
                 style: AppStyle.h2,
                 maxLines: 1,
-                validator: Validations.valWarrantiesTime,
+                validator: Validations.valDiscount,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
                 ],
                 decoration: InputDecoration(
                   errorText: null,
                   errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                   label: Text(
-                    'Bảo hành',
+                    'Khuyến mãi',
+                    style: AppStyle.h2,
+                  ),
+                  suffix: Text(
+                    '%',
                     style: AppStyle.h2,
                   ),
                   border: const OutlineInputBorder(
@@ -755,17 +763,58 @@ class _AddItemPageState extends State<AddItemPage> {
               const SizedBox(
                 height: 8.0,
               ),
+              //bảo hành
+              TextFormField(
+                controller: subItemState.listSub[index].subWarrantiesTime,
+                textAlign: TextAlign.left,
+                style: AppStyle.h2,
+                maxLines: 1,
+                validator: Validations.valWarrantiesTime,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                decoration: InputDecoration(
+                  errorText: null,
+                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  label: Text(
+                    'Bảo hành',
+                    style: AppStyle.h2,
+                  ),
+                  suffix: Text(
+                    'Tháng',
+                    style: AppStyle.h2,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              //đổi trả
               TextFormField(
                 controller: subItemState.listSub[index].subReturnAndExchange,
                 textAlign: TextAlign.left,
                 style: AppStyle.h2,
                 maxLines: 1,
-                validator: Validations.valAmount,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3)
+                ],
+                validator: Validations.valWarrantiesTime,
                 decoration: InputDecoration(
                   errorText: null,
                   errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                   label: Text(
                     'Đổi trả',
+                    style: AppStyle.h2,
+                  ),
+                  suffix: Text(
+                    'Ngày',
                     style: AppStyle.h2,
                   ),
                   border: const OutlineInputBorder(

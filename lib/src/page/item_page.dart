@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gsp23se37_supplier/src/page/item/add_item_page.dart';
-import 'package:gsp23se37_supplier/src/page/item/all_item_page.dart';
+import 'package:gsp23se37_supplier/src/page/item/item_active_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_pending_approval_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/items_block_page.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
@@ -34,7 +34,7 @@ class _ItemPageState extends State<ItemPage> {
                   tabs: [
                     Tab(
                       child: Text(
-                        'Tất cả sản phẩm',
+                        'Sản phẩm đang bán',
                         style: AppStyle.buttom,
                       ),
                     ),
@@ -58,7 +58,7 @@ class _ItemPageState extends State<ItemPage> {
               ),
               const Expanded(
                 child: TabBarView(children: [
-                  AllItemPage(),
+                  ItemActivePage(),
                   AddItemPage(),
                   ItemPendingApprovalPage(),
                   ItemBlockPage(),

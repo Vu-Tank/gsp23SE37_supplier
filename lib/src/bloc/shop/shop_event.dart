@@ -26,3 +26,11 @@ class ShopPayment extends ShopEvent {
   // TODO: implement props
   List<Object> get props => [storeID, token, onSuccess];
 }
+
+class ShopUpdate extends ShopEvent {
+  final Store store;
+  const ShopUpdate(this.store);
+  @override
+  // TODO: implement props
+  List<Object> get props => [store];
+}

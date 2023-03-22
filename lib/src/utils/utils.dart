@@ -48,7 +48,9 @@ class Utils {
           specificationID: listSpeci[i].specificationID,
           value: (listSpeci[i].specificationID == 5)
               ? '${lController.text.trim()}x${wController.text.trim()}x${hController.text.trim()} $selectLwhUnit'
-              : '${listValue[i].text.trim()}${(listSpeci[i].specificationID == 2) ? ' $selectWeightUnit' : ''}');
+              : listValue[i].text.trim()
+          // : '${listValue[i].text.trim()}${(listSpeci[i].specificationID == 2) ? ' $selectWeightUnit' : ''}'
+          );
       list.add(specificationRequest);
     }
     return list;

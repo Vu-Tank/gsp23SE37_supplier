@@ -14,6 +14,7 @@ class AppStyle {
   static TextStyle h2 = h1.copyWith(
     fontSize: 18,
   );
+  static TextStyle textButtom = h1.copyWith(fontSize: 18, color: Colors.blue);
   static TextStyle h3 = h1.copyWith(
     fontSize: 12,
   );

@@ -46,9 +46,11 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
                   .replaceAll('.', '')
                   .trim()),
               amount: int.parse(element.subAmount.text.trim()),
-              ReturnAndExchange: 1,
-              dicount: 1,
-              warrantiesTime: 1));
+              ReturnAndExchange:
+                  int.parse(element.subReturnAndExchange.text.trim()),
+              dicount: double.parse(element.subDiscount.text) * 0.01,
+              warrantiesTime:
+                  int.parse(element.subWarrantiesTime.text.trim())));
         }
         ApiResponse apiResponse = await ItemRepositories.addItem(
             token: event.token,

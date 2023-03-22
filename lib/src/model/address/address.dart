@@ -3,15 +3,15 @@ import 'dart:convert';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Adderss {
   final int addressID;
-  final String userName;
-  final String phone;
-  final String context;
-  final String province;
-  final String district;
-  final String ward;
-  final double latitude;
-  final double longitude;
-  final bool isActive;
+  String userName;
+  String phone;
+  String context;
+  String province;
+  String district;
+  String ward;
+  double latitude;
+  double longitude;
+  bool isActive;
   Adderss({
     required this.addressID,
     required this.userName,

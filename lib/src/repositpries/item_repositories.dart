@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
 import 'package:gsp23se37_supplier/src/model/item/item.dart';
 import 'package:gsp23se37_supplier/src/model/item/item_detail.dart';
+import 'package:gsp23se37_supplier/src/model/item/item_search.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import '../utils/utils.dart';
 import 'api_setting.dart';
 import 'app_url.dart';
 
@@ -76,43 +78,43 @@ class ItemRepositories {
     return apiResponse;
   }
 
-  static Future<ApiResponse> getItem(
-      {required int storeId,
-      required String token,
-      required int page,
-      required String statusID}) async {
-    ApiResponse apiResponse = ApiResponse();
-    try {
-      final queryParams = {
-        'storeID': storeId.toString(),
-        'statusID': statusID,
-        'page': page.toString(),
-      };
-      String queryString = Uri(queryParameters: queryParams).query;
-      final response =
-          await http.get(Uri.parse('${AppUrl.getItem}?$queryString'), headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      }).timeout(ApiSetting.timeOut);
-      if (response.statusCode == 200) {
-        final body = json.decode(response.body);
-        apiResponse.isSuccess = body['success'];
-        apiResponse.msg = body['message'];
-        apiResponse.totalPage = int.parse(body['totalPage'].toString());
-        if (apiResponse.isSuccess!) {
-          apiResponse.data = List<Item>.from((body['data'] as List)
-              .map<Item>((x) => Item.fromMap(x as Map<String, dynamic>)));
-        }
-      } else {
-        apiResponse.isSuccess = false;
-        apiResponse.msg = json.decode(response.body)['errors'].toString();
-      }
-    } catch (e) {
-      apiResponse.isSuccess = false;
-      apiResponse.msg = e.toString();
-    }
-    return apiResponse;
-  }
+  // static Future<ApiResponse> getItem(
+  //     {required int storeId,
+  //     required String token,
+  //     required int page,
+  //     required String statusID}) async {
+  //   ApiResponse apiResponse = ApiResponse();
+  //   try {
+  //     final queryParams = {
+  //       'storeID': storeId.toString(),
+  //       'statusID': statusID,
+  //       'page': page.toString(),
+  //     };
+  //     String queryString = Uri(queryParameters: queryParams).query;
+  //     final response =
+  //         await http.get(Uri.parse('${AppUrl.getItem}?$queryString'), headers: {
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //       'Authorization': 'Bearer $token',
+  //     }).timeout(ApiSetting.timeOut);
+  //     if (response.statusCode == 200) {
+  //       final body = json.decode(response.body);
+  //       apiResponse.isSuccess = body['success'];
+  //       apiResponse.msg = body['message'];
+  //       apiResponse.totalPage = int.parse(body['totalPage'].toString());
+  //       if (apiResponse.isSuccess!) {
+  //         apiResponse.data = List<Item>.from((body['data'] as List)
+  //             .map<Item>((x) => Item.fromMap(x as Map<String, dynamic>)));
+  //       }
+  //     } else {
+  //       apiResponse.isSuccess = false;
+  //       apiResponse.msg = json.decode(response.body)['errors'].toString();
+  //     }
+  //   } catch (e) {
+  //     apiResponse.isSuccess = false;
+  //     apiResponse.msg = e.toString();
+  //   }
+  //   return apiResponse;
+  // }
 
   static Future<ApiResponse> getItemDetail({required int itemID}) async {
     ApiResponse apiResponse = ApiResponse();
@@ -141,6 +143,78 @@ class ItemRepositories {
     } catch (e) {
       apiResponse.isSuccess = false;
       apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> getItems(
+      {required String token, required ItemSearch itemSearch}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      Map<String, dynamic> search = itemSearch.toMap();
+      Utils.removeNullAndEmptyParams(search);
+      final queryParams =
+          search.map((key, value) => MapEntry(key, value.toString()));
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.getItems}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = List<Item>.from((body['data'] as List)
+              .map<Item>((x) => Item.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> updateSubItem(
+      {required String token,
+      required int subItemID,
+      required int amount,
+      required double price}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      var response = await http
+          .put(
+            Uri.parse(AppUrl.updateSubItem),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "subItemID": subItemID,
+              "amount": amount,
+              "price": price,
+            }),
+          )
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {}
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (error) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = "Lỗi máy chủ";
     }
     return apiResponse;
   }

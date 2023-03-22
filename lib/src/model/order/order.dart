@@ -30,32 +30,33 @@ class Order {
   final String? pick_Time;
   final String? firebaseID;
   final String paymentMethod;
-  Order({
-    required this.orderID,
-    required this.create_Date,
-    required this.orderStatus,
-    required this.userID,
-    required this.priceItem,
-    required this.feeShip,
-    required this.pick_Province,
-    required this.pick_District,
-    required this.pick_Ward,
-    required this.pick_Address,
-    required this.pick_Tel,
-    required this.pick_Name,
-    required this.name,
-    required this.tel,
-    required this.province,
-    required this.district,
-    required this.ward,
-    required this.address,
-    required this.details,
-    required this.orderShip,
-    this.reason,
-    this.pick_Time,
-    this.firebaseID,
-    required this.paymentMethod,
-  });
+  final String? packingLink;
+  Order(
+      {required this.orderID,
+      required this.create_Date,
+      required this.orderStatus,
+      required this.userID,
+      required this.priceItem,
+      required this.feeShip,
+      required this.pick_Province,
+      required this.pick_District,
+      required this.pick_Ward,
+      required this.pick_Address,
+      required this.pick_Tel,
+      required this.pick_Name,
+      required this.name,
+      required this.tel,
+      required this.province,
+      required this.district,
+      required this.ward,
+      required this.address,
+      required this.details,
+      required this.orderShip,
+      this.reason,
+      this.pick_Time,
+      this.firebaseID,
+      required this.paymentMethod,
+      this.packingLink});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -83,6 +84,7 @@ class Order {
       'pick_Time': pick_Time,
       'firebaseID': firebaseID,
       'paymentMethod': paymentMethod,
+      'packingLink': packingLink,
     };
   }
 
@@ -118,6 +120,8 @@ class Order {
       firebaseID:
           map['firebaseID'] != null ? map['firebaseID'] as String : null,
       paymentMethod: map['paymentMethod'] as String,
+      packingLink:
+          map['packingLink'] != null ? map['packingLink'] as String : null,
     );
   }
 
@@ -128,6 +132,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, firebaseID: $firebaseID, paymentMethod: $paymentMethod)';
+    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, firebaseID: $firebaseID, paymentMethod: $paymentMethod, packingLink: $packingLink)';
   }
 }

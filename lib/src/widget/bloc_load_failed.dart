@@ -6,6 +6,7 @@ Widget blocLoadFailed({required String msg, required void Function() reload}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
     children: [
       Text(
         msg,

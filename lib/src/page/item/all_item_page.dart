@@ -5,15 +5,18 @@ import 'package:gsp23se37_supplier/src/bloc/all_item/all_item_bloc.dart';
 import 'package:gsp23se37_supplier/src/bloc/auth/auth_bloc.dart';
 import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/item/item.dart';
+import 'package:gsp23se37_supplier/src/model/item/item_search.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_detail_widget.dart';
+import 'package:gsp23se37_supplier/src/page/item/search_item_widget.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 import 'package:intl/intl.dart';
 
 class AllItemPage extends StatefulWidget {
-  const AllItemPage({super.key});
-
+  const AllItemPage({super.key, required this.search});
+  final ItemSearch search;
   @override
   State<AllItemPage> createState() => _AllItemPageState();
 }
@@ -21,7 +24,8 @@ class AllItemPage extends StatefulWidget {
 class _AllItemPageState extends State<AllItemPage> {
   late Store store;
   late User user;
-  late int page;
+  late ItemSearch search;
+  final TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +38,7 @@ class _AllItemPageState extends State<AllItemPage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-            page = 1;
+            search = widget.search;
           } else {
             GoRouter.of(context).pushReplacementNamed('/');
           }
@@ -62,130 +66,138 @@ class _AllItemPageState extends State<AllItemPage> {
         providers: [
           BlocProvider(
             create: (context) => AllItemBloc()
-              ..add(AllItemLoad(
-                  token: user.token, storeId: store.storeID, page: page)),
+              ..add(AllItemLoad(token: user.token, itemSearch: search)),
           )
         ],
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: BlocConsumer<AllItemBloc, AllItemState>(
-              listener: (context, allItemState) {
-                if (allItemState is AllItemLoadSuccess) {
-                  page = allItemState.currentPage;
-                }
-              },
+            child: BlocBuilder<AllItemBloc, AllItemState>(
               builder: (context, allItemState) {
-                if (allItemState is AllItemLoadFailed) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        allItemState.msg,
-                        style: AppStyle.errorStyle,
-                      ),
-                      const SizedBox(
-                        height: 8.0,
-                      ),
-                      SizedBox(
-                        height: 54.0,
-                        width: 300,
-                        child: ElevatedButton(
-                          onPressed: () => context.read<AllItemBloc>().add(
-                                AllItemLoad(
-                                    token: user.token,
-                                    storeId: store.storeID,
-                                    page: page),
-                              ),
-                          style: AppStyle.myButtonStyle,
-                          child: Text(
-                            'Thử lại',
-                            style: AppStyle.buttom,
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                } else if (allItemState is AllItemLoadSuccess) {
-                  return (allItemState.list.isEmpty)
-                      ? Text(
-                          'Bạn chưa tạo sản phẩm',
-                          style: AppStyle.h2,
-                        )
-                      : Container(
-                          alignment: Alignment.topCenter,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                GridView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 8.0,
-                                          mainAxisSpacing: 8.0),
-                                  shrinkWrap: true,
-                                  itemCount: allItemState.list.length,
-                                  itemBuilder: (context, index) {
-                                    return itemView(allItemState.list[index]);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 8.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                        onPressed:
-                                            (allItemState.currentPage == 1)
-                                                ? null
-                                                : () => context
-                                                    .read<AllItemBloc>()
-                                                    .add(AllItemLoad(
-                                                        token: user.token,
-                                                        storeId: user.storeID,
-                                                        page: page - 1)),
-                                        icon: const Icon(
-                                          Icons.arrow_back_outlined,
-                                          // color: Colors.black,
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0),
-                                      child: Text(
-                                        allItemState.currentPage.toString(),
-                                        style: AppStyle.h2,
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: searchItemWidget(
+                          context: context,
+                          itemSearch: search,
+                          searchController: _searchController,
+                          onSearch: (ItemSearch itemSearch) {
+                            search = itemSearch;
+                            print(search.toString());
+                            context.read<AllItemBloc>().add(AllItemLoad(
+                                token: user.token, itemSearch: search));
+                          }),
+                    ),
+                    Expanded(
+                      child: (allItemState is AllItemLoadFailed)
+                          ? blocLoadFailed(
+                              msg: allItemState.msg,
+                              reload: () => context.read<AllItemBloc>().add(
+                                  AllItemLoad(
+                                      token: user.token,
+                                      itemSearch: allItemState.search)),
+                            )
+                          : (allItemState is AllItemLoadSuccess)
+                              ? ((allItemState.list.isEmpty)
+                                  ? Text(
+                                      'Bạn chưa tạo sản phẩm',
+                                      style: AppStyle.h2,
+                                    )
+                                  : Container(
+                                      alignment: Alignment.topCenter,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            GridView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 3,
+                                                      crossAxisSpacing: 8.0,
+                                                      mainAxisSpacing: 8.0),
+                                              shrinkWrap: true,
+                                              itemCount:
+                                                  allItemState.list.length,
+                                              itemBuilder: (context, index) {
+                                                return itemView(
+                                                    allItemState.list[index]);
+                                              },
+                                            ),
+                                            const SizedBox(
+                                              height: 8.0,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                    onPressed: (allItemState
+                                                                .currentPage ==
+                                                            1)
+                                                        ? null
+                                                        : () => context
+                                                            .read<AllItemBloc>()
+                                                            .add(AllItemLoad(
+                                                                token:
+                                                                    user.token,
+                                                                itemSearch: search
+                                                                    .copyWith(
+                                                                        page: allItemState.currentPage -
+                                                                            1))),
+                                                    icon: const Icon(
+                                                      Icons.arrow_back_outlined,
+                                                      // color: Colors.black,
+                                                    )),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0,
+                                                          right: 8.0),
+                                                  child: Text(
+                                                    allItemState.currentPage
+                                                        .toString(),
+                                                    style: AppStyle.h2,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                    onPressed: (allItemState
+                                                                .currentPage ==
+                                                            allItemState
+                                                                .totalPage)
+                                                        ? null
+                                                        : () => context
+                                                            .read<AllItemBloc>()
+                                                            .add(AllItemLoad(
+                                                                token:
+                                                                    user.token,
+                                                                itemSearch: search
+                                                                    .copyWith(
+                                                                        page: allItemState.currentPage +
+                                                                            1))),
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .arrow_forward_outlined,
+                                                      // color: Colors.black,
+                                                    )),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    IconButton(
-                                        onPressed: (allItemState.currentPage ==
-                                                allItemState.totalPage)
-                                            ? null
-                                            : () => context
-                                                .read<AllItemBloc>()
-                                                .add(AllItemLoad(
-                                                    token: user.token,
-                                                    storeId: user.storeID,
-                                                    page: page + 1)),
-                                        icon: const Icon(
-                                          Icons.arrow_forward_outlined,
-                                          // color: Colors.black,
-                                        )),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                } else {
-                  return const CircularProgressIndicator();
-                }
+                                    ))
+                              : const Center(
+                                  child: CircularProgressIndicator()),
+                    ),
+                  ],
+                );
               },
             ),
           ),
@@ -286,7 +298,8 @@ class _AllItemPageState extends State<AllItemPage> {
         onTap: () async {
           showDialog(
             context: context,
-            builder: (context) => ItemDetailWidget(itemId: item.itemID),
+            builder: (context) =>
+                ItemDetailWidget(itemId: item.itemID, token: user.token),
           );
         },
       ),

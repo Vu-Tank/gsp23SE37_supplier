@@ -12,11 +12,12 @@ class WardInitial extends WardState {}
 class WardLoading extends WardState {}
 
 class WardLoaded extends WardState {
-  final List<Ward> ward;
-  const WardLoaded(this.ward);
+  final List<Ward> wards;
+  final Ward ward;
+  const WardLoaded({required this.wards, required this.ward});
   @override
   // TODO: implement props
-  List<Object> get props => [ward];
+  List<Object> get props => [wards, ward];
 }
 
 class WardError extends WardState {

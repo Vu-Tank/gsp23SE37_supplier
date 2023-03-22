@@ -13,10 +13,11 @@ class DistrictLoading extends DistrictState {}
 
 class DistrictLoaded extends DistrictState {
   final List<District> districts;
-  const DistrictLoaded(this.districts);
+  final District district;
+  const DistrictLoaded({required this.districts, required this.district});
   @override
   // TODO: implement props
-  List<Object> get props => [districts];
+  List<Object> get props => [districts, district];
 }
 
 class DistrictError extends DistrictState {

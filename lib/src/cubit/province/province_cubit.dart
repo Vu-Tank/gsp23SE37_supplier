@@ -9,13 +9,33 @@ part 'province_state.dart';
 
 class ProvinceCubit extends Cubit<ProvinceState> {
   ProvinceCubit() : super(ProvinceInitial());
-  loadProvince() async {
+  loadProvince({String? proviceName}) async {
+    if (isClosed) return;
     emit(ProvinceLoading());
     ApiResponse apiResponse = await AddressRepository.getProvince();
     if (apiResponse.isSuccess!) {
-      emit(ProvinceLoaded(apiResponse.data));
+      List<Province> list = apiResponse.data;
+      Province selected = list.first;
+      if (proviceName != null) {
+        for (var element in list) {
+          if (element.value == proviceName) {
+            selected = element;
+            break;
+          }
+        }
+      }
+      if (isClosed) return;
+      emit(ProvinceLoaded(provinces: list, province: selected));
     } else {
+      if (isClosed) return;
       emit(ProvinceError(apiResponse.msg!));
     }
+  }
+
+  selectedProvince({required List<Province> list, required Province province}) {
+    if (isClosed) return;
+    emit(ProvinceLoading());
+    if (isClosed) return;
+    emit(ProvinceLoaded(provinces: list, province: province));
   }
 }
