@@ -108877,6 +108877,7 @@ A.tB.prototype={
 M(){return new A.adv(B.f)}}
 A.adv.prototype={
 Y(){var s,r,q=this
+q.a.toString
 q.a5()
 s=new A.xX(B.B,B.B,B.qY,B.B,B.xG,!1,!1,!1,1,1,null,B.x,0,!1)
 r=new A.Na(q.a.c,s,$.bI())
@@ -108898,7 +108899,7 @@ r=s.d
 r===$&&A.b()
 r=J.bhV(r.a)
 q=s.d
-p=A.k(q.a.a.j(0),l,l,l,l,l,l,l,l)
+p=A.k(q.a.a.j(0).split(".")[0],l,l,l,l,l,l,l,l)
 o=s.d
 n=A.bO(new A.Nb(o,B.aev,!0,l),1)
 m=t.p
