@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -14,29 +16,16 @@ class _VideoDialogState extends State<VideoDialog> {
   late Future<void> _initializeVideoPlayerFuture;
   @override
   void initState() {
-    // loadVideoPlayer();
+    log(widget.url);
     super.initState();
     _controller = VideoPlayerController.network(
       widget.url,
     );
 
-    // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
 
-    // Use the controller to loop the video.
     _controller.setLooping(true);
   }
-
-  // loadVideoPlayer() {
-  //   controller = VideoPlayerController.network(
-  //       'https://firebasestorage.googleapis.com/v0/b/esmp-4b85e.appspot.com/o/video%2F8999316402717658702.mp4?alt=media&token=fd9a7399-a9c3-4e27-9896-b5a181e5338a');
-  //   controller.addListener(() {
-  //     setState(() {});
-  //   });
-  //   controller.initialize().then((value) {
-  //     setState(() {});
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -61,7 +50,10 @@ class _VideoDialogState extends State<VideoDialog> {
                   VideoPlayer(_controller),
                   Row(
                     children: [
-                      Text(_controller.value.duration.toString()),
+                      Text(_controller.value.duration
+                          .toString()
+                          .split(".")[0]
+                          .toString()),
                       Expanded(
                         child: VideoProgressIndicator(_controller,
                             allowScrubbing: true,
