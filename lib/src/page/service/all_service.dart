@@ -4,10 +4,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/cubit/service_activity/service_activity_cubit.dart';
 import 'package:gsp23se37_supplier/src/cubit/service_buy/service_buy_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/service/service_detail.dart';
 import 'package:gsp23se37_supplier/src/model/service/service_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
+import 'package:gsp23se37_supplier/src/page/service/cancel_service_dialog.dart';
 import 'package:gsp23se37_supplier/src/page/video_dilog.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
@@ -276,9 +278,14 @@ class _AllServicePageState extends State<AllServicePage> {
                   serviceBuy.value.serviceType.statusName,
                   style: AppStyle.h2,
                 )),
-                DataCell(Text(
-                  serviceBuy.value.servicestatus.statusName,
-                  style: AppStyle.h2,
+                DataCell(Tooltip(
+                  message: (serviceBuy.value.reason != null)
+                      ? serviceBuy.value.reason
+                      : '',
+                  child: Text(
+                    serviceBuy.value.servicestatus.statusName,
+                    style: AppStyle.h2,
+                  ),
                 )),
                 DataCell(InkWell(
                   child: Text(
@@ -332,25 +339,94 @@ class _AllServicePageState extends State<AllServicePage> {
                         }
                       },
                     ),
-                    InkWell(
-                      child: const Tooltip(
-                        message: 'Chập nhận',
-                        child: Icon(
-                          Icons.done,
-                          color: Colors.green,
-                        ),
+                    BlocProvider(
+                      create: (context) => ServiceActivityCubit(),
+                      child: BlocConsumer<ServiceActivityCubit,
+                          ServiceActivityState>(
+                        listener: (context, state) {
+                          if (state is ServiceActivityFailed) {
+                            MyDialog.showSnackBar(context, state.msg);
+                          } else if (state is ServiceActivitySuccess) {
+                            context
+                                .read<ServiceBuyCubit>()
+                                .loadService(token: user.token, search: search);
+                          }
+                        },
+                        builder: (context, state) {
+                          return InkWell(
+                            onTap:
+                                (serviceBuy.value.servicestatus.item_StatusID ==
+                                            2 ||
+                                        serviceBuy.value.servicestatus
+                                                .item_StatusID ==
+                                            1)
+                                    ? null
+                                    : (state is ServiceActiviting)
+                                        ? null
+                                        : () async {
+                                            context
+                                                .read<ServiceActivityCubit>()
+                                                .accept(
+                                                    serviceID: serviceBuy.value
+                                                        .afterBuyServiceID,
+                                                    token: user.token);
+                                          },
+                            child: Tooltip(
+                              message: 'Chập nhận',
+                              child: (state is ServiceActiviting)
+                                  ? const CircularProgressIndicator()
+                                  : Icon(
+                                      Icons.done,
+                                      color: (serviceBuy.value.servicestatus
+                                                      .item_StatusID ==
+                                                  2 ||
+                                              serviceBuy.value.servicestatus
+                                                      .item_StatusID ==
+                                                  1)
+                                          ? Colors.grey
+                                          : Colors.green,
+                                    ),
+                            ),
+                          );
+                        },
                       ),
-                      onTap: () async {},
                     ),
                     InkWell(
-                      child: const Tooltip(
+                      onTap: (serviceBuy.value.servicestatus.item_StatusID ==
+                                  2 ||
+                              serviceBuy.value.servicestatus.item_StatusID == 1)
+                          ? null
+                          : () async {
+                              var check = await showDialog(
+                                context: context,
+                                builder: (context) => cancelServiceDialog(
+                                    context: context,
+                                    serviceId:
+                                        serviceBuy.value.afterBuyServiceID,
+                                    type: search.serviceType,
+                                    token: user.token),
+                              );
+                              if (check != null) {
+                                if (mounted) {
+                                  context.read<ServiceBuyCubit>().loadService(
+                                      token: user.token, search: search);
+                                }
+                              }
+                            },
+                      child: Tooltip(
                         message: 'Từ chối',
                         child: Icon(
                           Icons.cancel,
-                          color: Colors.red,
+                          color:
+                              (serviceBuy.value.servicestatus.item_StatusID ==
+                                          2 ||
+                                      serviceBuy.value.servicestatus
+                                              .item_StatusID ==
+                                          1)
+                                  ? Colors.grey
+                                  : Colors.red,
                         ),
                       ),
-                      onTap: () async {},
                     ),
                   ],
                 )),

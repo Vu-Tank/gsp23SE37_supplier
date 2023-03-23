@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsp23se37_supplier/src/page/service/data_exchange_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/exchange_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/return_page.dart';
 
@@ -16,7 +17,7 @@ class _ServicePageState extends State<ServicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-          length: 2,
+          length: 3,
           child: Column(
             children: [
               Container(
@@ -36,6 +37,11 @@ class _ServicePageState extends State<ServicePage> {
                       'Trả hàng',
                       style: AppStyle.buttom,
                     )),
+                    Tab(
+                        child: Text(
+                      'Đối soát',
+                      style: AppStyle.buttom,
+                    )),
                   ],
                 ),
               ),
@@ -43,6 +49,7 @@ class _ServicePageState extends State<ServicePage> {
                 child: TabBarView(children: [
                   ExchangePage(),
                   ReturnPage(),
+                  DataExchangePage(),
                 ]),
               ),
             ],

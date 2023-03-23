@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gsp23se37_supplier/src/page/order/canceled_page.dart';
 import 'package:gsp23se37_supplier/src/page/order/delivered_page.dart';
 import 'package:gsp23se37_supplier/src/page/order/delivering_page.dart';
+import 'package:gsp23se37_supplier/src/page/order/lost_order_page.dart';
 import 'package:gsp23se37_supplier/src/page/order/received_ship_page.dart';
 import 'package:gsp23se37_supplier/src/page/order/waiting_for_confirmation_page.dart';
 import 'package:gsp23se37_supplier/src/page/order/waiting_for_the_goods_page.dart';
@@ -20,7 +21,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-          length: 6,
+          length: 7,
           child: Column(
             children: [
               Container(
@@ -65,6 +66,12 @@ class _OrderPageState extends State<OrderPage> {
                         style: AppStyle.buttom,
                       ),
                     ),
+                    Tab(
+                      child: Text(
+                        'Bị mất',
+                        style: AppStyle.buttom,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -76,6 +83,7 @@ class _OrderPageState extends State<OrderPage> {
                   DeliveringPage(),
                   DeliveredPage(),
                   CanceledPage(),
+                  LostOrderPage(),
                 ]),
               ),
             ],

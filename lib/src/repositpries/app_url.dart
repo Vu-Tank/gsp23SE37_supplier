@@ -49,9 +49,12 @@ class AppUrl {
   static const String getItemDetail = '$baseUrl/Item/item_detail';
 
   static const String hiddenItem = '$baseUrl/Item/hidden_item';
+
   static const String unHiddenItem = '$baseUrl/Item/unhidden_item';
 
   static const String getOrders = '$baseUrl/Order/get_order_status';
+
+  static const String getDataExchange = '$baseUrl/DataExchange';
 
   static const String getTicket = '$baseUrl/Ship/get_ticket';
 
@@ -76,4 +79,6 @@ class AppUrl {
   static const String getService = '$baseUrl/AfterBuyService';
   static const String updateStoreAddress = '$baseUrl/Store/update_address';
   static const String getWithdrawal = '$baseUrl/Asset/get_store_withdrawal';
+  static const String cancelService = '$baseUrl/AfterBuyService/cancel';
+  static const String accpectService = '$baseUrl/AfterBuyService/accepct';
 }
