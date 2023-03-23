@@ -166,20 +166,22 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                                                     token: widget.token);
                                             return;
                                           case 'email':
-                                            // context
-                                            //     .read<UpdateSupplierInfoCubit>()
-                                            //     .updateEmail(
-                                            //         email: value.text.trim(),
-                                            //         user: user);
+                                            context
+                                                .read<UpdateStoreInfoCubit>()
+                                                .updateStoreEmail(
+                                                    store: widget.store,
+                                                    value: value.text.trim(),
+                                                    token: widget.token);
                                             return;
 
                                           case 'address':
                                             address.context = value.text.trim();
-                                            // context
-                                            //     .read<UpdateSupplierInfoCubit>()
-                                            //     .updateAddress(
-                                            //         address: address,
-                                            //         user: user);
+                                            context
+                                                .read<UpdateStoreInfoCubit>()
+                                                .updateAddress(
+                                                    address: address,
+                                                    store: widget.store,
+                                                    token: widget.token);
                                             break;
                                           default:
                                             return;

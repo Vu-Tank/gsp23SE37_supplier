@@ -123,10 +123,20 @@ class _StoreInfoDialogState extends State<StoreInfoDialog> {
                         'Email',
                         style: AppStyle.h2,
                       )),
-                      DataCell(Text(
-                        store.email,
-                        style: AppStyle.h2,
-                      )),
+                      DataCell(
+                        Text(
+                          store.email,
+                          style: AppStyle.h2,
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => StoreEditWidget(
+                                type: 'email', store: store, token: user.token),
+                          );
+                        },
+                      ),
                     ]),
                     DataRow(cells: [
                       DataCell(Text(
@@ -143,10 +153,22 @@ class _StoreInfoDialogState extends State<StoreInfoDialog> {
                         'Địa chỉ',
                         style: AppStyle.h2,
                       )),
-                      DataCell(Text(
-                        store.address.addressString(),
-                        style: AppStyle.h2,
-                      )),
+                      DataCell(
+                        Text(
+                          store.address.addressString(),
+                          style: AppStyle.h2,
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => StoreEditWidget(
+                                type: 'address',
+                                store: store,
+                                token: user.token),
+                          );
+                        },
+                      ),
                     ]),
                     DataRow(cells: [
                       DataCell(Text(

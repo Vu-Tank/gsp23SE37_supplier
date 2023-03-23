@@ -49,6 +49,7 @@ class SideBarWigdet extends StatelessWidget {
         SidebarXItem(icon: Icons.shop, label: 'Quản lý Đơn hàng'),
         SidebarXItem(icon: Icons.chat_outlined, label: 'Tin nhắn'),
         SidebarXItem(icon: Icons.room_service_outlined, label: 'Dịch vụ'),
+        SidebarXItem(icon: Icons.history, label: 'Lịch sử rút tiền'),
       ],
     );
   }

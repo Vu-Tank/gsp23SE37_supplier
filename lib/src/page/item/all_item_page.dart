@@ -298,8 +298,8 @@ class _AllItemPageState extends State<AllItemPage> {
         onTap: () async {
           showDialog(
             context: context,
-            builder: (context) =>
-                ItemDetailWidget(itemId: item.itemID, token: user.token),
+            builder: (context) => ItemDetailWidget(
+                itemId: item.itemID, token: user.token, edit: true),
           );
         },
       ),

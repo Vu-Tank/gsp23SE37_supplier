@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
+import 'package:gsp23se37_supplier/src/page/service/store_withdrawal_request_page.dart';
 import 'package:gsp23se37_supplier/src/page/service_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:gsp23se37_supplier/src/page/user/user_dialog.dart';
@@ -303,6 +304,8 @@ class _HomePageState extends State<HomePage>
                 return const ChatPage();
               case 4:
                 return const ServicePage();
+              case 5:
+                return const StoreWithdrawalRequestPage();
               default:
                 return const DashboardPage();
             }

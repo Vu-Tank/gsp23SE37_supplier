@@ -15,3 +15,12 @@ class AllOrderLoad extends AllOrderEvent {
   // TODO: implement props
   List<Object> get props => [orderSearch, token];
 }
+
+class OrderSelected extends AllOrderEvent {
+  final Order order;
+  final AllOrderLoaded state;
+  const OrderSelected({required this.order, required this.state});
+  @override
+  // TODO: implement props
+  List<Object> get props => [order, state];
+}

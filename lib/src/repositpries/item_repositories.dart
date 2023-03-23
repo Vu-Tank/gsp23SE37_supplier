@@ -147,6 +147,70 @@ class ItemRepositories {
     return apiResponse;
   }
 
+  static Future<ApiResponse> hiddenItem(
+      {required int itemID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'itemID': itemID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .put(Uri.parse('${AppUrl.hiddenItem}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          // apiResponse.data = ItemDetail.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> unHiddenItem(
+      {required int itemID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'itemID': itemID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .put(Uri.parse('${AppUrl.unHiddenItem}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          // apiResponse.data = ItemDetail.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
   static Future<ApiResponse> getItems(
       {required String token, required ItemSearch itemSearch}) async {
     ApiResponse apiResponse = ApiResponse();

@@ -20,7 +20,6 @@ import 'package:intl/intl.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
-import '../../cubit/order_detail/order_detail_cubit.dart';
 import '../../model/order/order.dart';
 import '../../model/store.dart';
 import '../video_dilog.dart';
@@ -73,14 +72,10 @@ class _AllOrderPageState extends State<AllOrderPage> {
             create: (context) => AllOrderBloc()
               ..add(AllOrderLoad(orderSearch: _orderSearch, token: user.token)),
           ),
-          BlocProvider(
-            create: (context) => OrderDetailCubit(),
-          )
         ],
         child: Center(
           child: BlocBuilder<AllOrderBloc, AllOrderState>(
             builder: (context, ordersState) {
-              context.read<OrderDetailCubit>().reset();
               return Column(
                 children: [
                   searchOrderWidget(
@@ -142,354 +137,82 @@ class _AllOrderPageState extends State<AllOrderPage> {
                                                   constraints: BoxConstraints(
                                                       minWidth:
                                                           constraints.maxWidth),
-                                                  child: DataTable(
-                                                    columns: [
-                                                      DataColumn(
-                                                        label: Text(
-                                                          'Mã',
-                                                          style: AppStyle.h2,
-                                                        ),
-                                                      ),
-                                                      DataColumn(
-                                                        label: Text(
-                                                          'Ngày đặt',
-                                                          style: AppStyle.h2,
-                                                        ),
-                                                      ),
-                                                      DataColumn(
-                                                          label: Text(
-                                                        'Tổng tiền',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                      DataColumn(
-                                                          label: Text(
-                                                        'Người nhận',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                      DataColumn(
-                                                          label: Text(
-                                                        'Phương thức',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                      DataColumn(
-                                                          label: Text(
-                                                        'Trạng thái',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                      DataColumn(
-                                                          label: Text(
-                                                        'Thao tác',
-                                                        style: AppStyle.h2,
-                                                      )),
-                                                    ],
-                                                    rows: [
-                                                      ...ordersState.listOrder
-                                                          .asMap()
-                                                          .entries
-                                                          .map((order) {
-                                                        return DataRow(cells: [
-                                                          DataCell(Text(
-                                                            order.value.orderID
-                                                                .toString(),
-                                                            style: AppStyle.h2,
-                                                          )),
-                                                          DataCell(Text(
-                                                            order.value
-                                                                .create_Date
-                                                                .split('T')
-                                                                .first,
-                                                            style: AppStyle.h2,
-                                                          )),
-                                                          DataCell(Tooltip(
-                                                            message:
-                                                                'Tiền hàng: ${NumberFormat.currency(locale: "vi-VN", decimalDigits: 0).format(order.value.priceItem)}\nTiền vận chuyển: ${NumberFormat.currency(locale: "vi-VN", decimalDigits: 0).format(order.value.feeShip)}',
-                                                            child: Text(
-                                                              NumberFormat.currency(
-                                                                      locale:
-                                                                          "vi-VN",
-                                                                      decimalDigits:
-                                                                          0)
-                                                                  .format(order
-                                                                          .value
-                                                                          .priceItem +
-                                                                      order
-                                                                          .value
-                                                                          .feeShip),
-                                                              style:
-                                                                  AppStyle.h2,
-                                                            ),
-                                                          )),
-                                                          DataCell(InkWell(
-                                                            child: Text(
-                                                              order.value.name,
-                                                              style: AppStyle.h2
-                                                                  .copyWith(
-                                                                      color: Colors
-                                                                          .blue),
-                                                            ),
-                                                            onTap: () async =>
-                                                                showDialog(
-                                                              context: context,
-                                                              builder: (context) =>
-                                                                  recipientInformationWidget(
-                                                                      context:
-                                                                          context,
-                                                                      name: order
-                                                                          .value
-                                                                          .name,
-                                                                      phone: order
-                                                                          .value
-                                                                          .tel,
-                                                                      address:
-                                                                          '${order.value.address}, ${order.value.ward},\n${order.value.district}, ${order.value.province}'),
-                                                            ),
-                                                          )),
-                                                          DataCell(Text(
-                                                            order.value
-                                                                .paymentMethod,
-                                                            style: AppStyle.h2,
-                                                          )),
-                                                          DataCell(
-                                                              Tooltip(
-                                                                message:
-                                                                    '${order.value.orderShip.status}${(order.value.reason != null) ? '\n Lý dó: ${order.value.reason}' : ''}',
-                                                                child: SizedBox(
-                                                                  width: 100,
-                                                                  child: Text(
-                                                                    order
-                                                                        .value
-                                                                        .orderShip
-                                                                        .status,
-                                                                    style: AppStyle
-                                                                        .h2
-                                                                        .copyWith(
-                                                                            color:
-                                                                                Colors.blue),
-                                                                    maxLines: 1,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              onTap: () async =>
-                                                                  showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder: (context) => shipOrderWidget(
-                                                                        context:
-                                                                            context,
-                                                                        orderID: order
-                                                                            .value
-                                                                            .orderID,
-                                                                        token: user
-                                                                            .token),
-                                                                  )),
-                                                          DataCell(Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            children: [
-                                                              InkWell(
-                                                                child:
-                                                                    const Tooltip(
-                                                                  message:
-                                                                      'Xem chi tiết đơn hàng',
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .visibility_outlined,
-                                                                    color: Colors
-                                                                        .blue,
-                                                                  ),
-                                                                ),
-                                                                onTap:
-                                                                    () async {
-                                                                  context.read<OrderDetailCubit>().loadOrderDetail(
-                                                                      order: order
-                                                                          .value,
+                                                  child: ordersView(
+                                                      context: context,
+                                                      state: ordersState),
+                                                ),
+                                                if (ordersState.totalPage > 1)
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      IconButton(
+                                                          onPressed: (ordersState
+                                                                      .currentPage ==
+                                                                  1)
+                                                              ? null
+                                                              : () => context
+                                                                  .read<
+                                                                      AllOrderBloc>()
+                                                                  .add(AllOrderLoad(
+                                                                      orderSearch: _orderSearch.copyWith(
+                                                                          page: ordersState.currentPage -
+                                                                              1),
                                                                       token: user
-                                                                          .token);
-                                                                },
-                                                              ),
-                                                              _videoPacking(
-                                                                  order.value),
-                                                              BlocProvider(
-                                                                create: (context) =>
-                                                                    OrderTicketCubit(),
-                                                                child: BlocConsumer<
-                                                                    OrderTicketCubit,
-                                                                    OrderTicketState>(
-                                                                  listener:
-                                                                      (context,
-                                                                          state) {
-                                                                    if (state
-                                                                        is OrderTicketFailed) {
-                                                                      MyDialog.showSnackBar(
-                                                                          context,
-                                                                          state
-                                                                              .msg);
-                                                                    }
-                                                                  },
-                                                                  builder: (context,
-                                                                      orderTicketState) {
-                                                                    return InkWell(
-                                                                      child: (orderTicketState
-                                                                              is OrderTicketLoading)
-                                                                          ? const CircularProgressIndicator()
-                                                                          : const Tooltip(
-                                                                              message: 'Tải tem vận chuyển',
-                                                                              child: Icon(
-                                                                                Icons.download,
-                                                                                color: Colors.blue,
-                                                                              ),
-                                                                            ),
-                                                                      onTap:
-                                                                          () async {
-                                                                        // await launchUrl(Uri.parse(
-                                                                        //     '${AppUrl.getTicket}?orderID=${order.value.orderID}'));
-                                                                        context.read<OrderTicketCubit>().getTicker(
-                                                                            orderID: order.value.orderID,
-                                                                            token: user.token,
-                                                                            onSuccess: (String data) {
-                                                                              AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,$data")
-                                                                                ..setAttribute("download", "esmp_ship_${order.value.orderID}.pdf")
-                                                                                ..click();
-                                                                            });
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ),
-                                                              InkWell(
-                                                                onTap: (_orderSearch
-                                                                            .shipOrderStatus ==
-                                                                        1)
-                                                                    ? () async {
-                                                                        bool?
-                                                                            success =
-                                                                            await showDialog<bool>(
-                                                                          context:
-                                                                              context,
-                                                                          barrierDismissible:
-                                                                              false,
-                                                                          builder: (context) => cancelOrderDialog(
-                                                                              context: context,
-                                                                              orderID: order.value.orderID,
-                                                                              token: user.token),
-                                                                        );
-                                                                        if (success !=
-                                                                                null &&
-                                                                            success) {
-                                                                          if (mounted) {
-                                                                            context.read<AllOrderBloc>().add(AllOrderLoad(
-                                                                                orderSearch: _orderSearch,
-                                                                                token: user.token));
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    : null,
-                                                                child: Tooltip(
-                                                                  message:
-                                                                      'Huỷ đơn hàng',
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color: (_orderSearch.shipOrderStatus ==
-                                                                            1)
-                                                                        ? Colors
-                                                                            .red
-                                                                        : Colors
-                                                                            .grey,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                                          .token)),
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .arrow_back_outlined,
+                                                            // color: Colors.black,
                                                           )),
-                                                        ]);
-                                                      })
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 8.0,
+                                                                right: 8.0),
+                                                        child: Text(
+                                                          ordersState
+                                                              .currentPage
+                                                              .toString(),
+                                                          style: AppStyle.h2,
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                          onPressed: (ordersState
+                                                                      .currentPage ==
+                                                                  ordersState
+                                                                      .totalPage)
+                                                              ? null
+                                                              : () => context
+                                                                  .read<
+                                                                      AllOrderBloc>()
+                                                                  .add(AllOrderLoad(
+                                                                      orderSearch: _orderSearch.copyWith(
+                                                                          page: ordersState.currentPage +
+                                                                              1),
+                                                                      token: user
+                                                                          .token)),
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .arrow_forward_outlined,
+                                                            // color: Colors.black,
+                                                          )),
                                                     ],
                                                   ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    IconButton(
-                                                        onPressed: (ordersState
-                                                                    .currentPage ==
-                                                                1)
-                                                            ? null
-                                                            : () => context
-                                                                .read<
-                                                                    AllOrderBloc>()
-                                                                .add(AllOrderLoad(
-                                                                    orderSearch:
-                                                                        _orderSearch.copyWith(
-                                                                            page: ordersState.currentPage -
-                                                                                1),
-                                                                    token: user
-                                                                        .token)),
-                                                        icon: const Icon(
-                                                          Icons
-                                                              .arrow_back_outlined,
-                                                          // color: Colors.black,
-                                                        )),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0,
-                                                              right: 8.0),
-                                                      child: Text(
-                                                        ordersState.currentPage
-                                                            .toString(),
-                                                        style: AppStyle.h2,
-                                                      ),
-                                                    ),
-                                                    IconButton(
-                                                        onPressed: (ordersState
-                                                                    .currentPage ==
-                                                                ordersState
-                                                                    .totalPage)
-                                                            ? null
-                                                            : () => context
-                                                                .read<
-                                                                    AllOrderBloc>()
-                                                                .add(AllOrderLoad(
-                                                                    orderSearch:
-                                                                        _orderSearch.copyWith(
-                                                                            page: ordersState.currentPage +
-                                                                                1),
-                                                                    token: user
-                                                                        .token)),
-                                                        icon: const Icon(
-                                                          Icons
-                                                              .arrow_forward_outlined,
-                                                          // color: Colors.black,
-                                                        )),
-                                                  ],
-                                                ),
-                                                BlocBuilder<OrderDetailCubit,
-                                                    OrderDetailState>(
-                                                  builder: (context,
-                                                      orderDetailState) {
-                                                    if (orderDetailState
-                                                        is OrderDetailInitial) {
-                                                      return Container();
-                                                    } else if (orderDetailState
-                                                        is OrderDetailLoaded) {
-                                                      return orderDetailWidget(
-                                                          context: context,
-                                                          token: user.token,
-                                                          order:
-                                                              orderDetailState
-                                                                  .order);
-                                                    } else {
-                                                      return const Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
-                                                      );
-                                                    }
-                                                  },
-                                                )
+                                                if (ordersState.selected !=
+                                                    null)
+                                                  ConstrainedBox(
+                                                    constraints: BoxConstraints(
+                                                        minWidth: constraints
+                                                            .maxWidth),
+                                                    child: orderDetailWidget(
+                                                        context: context,
+                                                        token: user.token,
+                                                        order: ordersState
+                                                            .selected!),
+                                                  )
                                               ],
                                             ),
                                           ),
@@ -504,6 +227,208 @@ class _AllOrderPageState extends State<AllOrderPage> {
             },
           ),
         ));
+  }
+
+  Widget ordersView(
+      {required BuildContext context, required AllOrderLoaded state}) {
+    return DataTable(
+      columns: [
+        DataColumn(
+          label: Text(
+            'Mã',
+            style: AppStyle.h2,
+          ),
+        ),
+        DataColumn(
+          label: Text(
+            'Ngày đặt',
+            style: AppStyle.h2,
+          ),
+        ),
+        DataColumn(
+            label: Text(
+          'Tổng tiền',
+          style: AppStyle.h2,
+        )),
+        DataColumn(
+            label: Text(
+          'Người nhận',
+          style: AppStyle.h2,
+        )),
+        DataColumn(
+            label: Text(
+          'Phương thức',
+          style: AppStyle.h2,
+        )),
+        DataColumn(
+            label: Text(
+          'Trạng thái',
+          style: AppStyle.h2,
+        )),
+        DataColumn(
+            label: Text(
+          'Thao tác',
+          style: AppStyle.h2,
+        )),
+      ],
+      rows: [
+        ...state.listOrder.asMap().entries.map((order) {
+          return DataRow(
+              color: (state.selected != null &&
+                      state.selected!.orderID == order.value.orderID)
+                  ? const MaterialStatePropertyAll(
+                      Color.fromARGB(255, 201, 235, 238))
+                  : null,
+              cells: [
+                DataCell(Text(
+                  order.value.orderID.toString(),
+                  style: AppStyle.h2,
+                )),
+                DataCell(Text(
+                  order.value.create_Date.split('T').first,
+                  style: AppStyle.h2,
+                )),
+                DataCell(Tooltip(
+                  message:
+                      'Tiền hàng: ${NumberFormat.currency(locale: "vi-VN", decimalDigits: 0).format(order.value.priceItem)}\nTiền vận chuyển: ${NumberFormat.currency(locale: "vi-VN", decimalDigits: 0).format(order.value.feeShip)}',
+                  child: Text(
+                    NumberFormat.currency(locale: "vi-VN", decimalDigits: 0)
+                        .format(order.value.priceItem + order.value.feeShip),
+                    style: AppStyle.h2,
+                  ),
+                )),
+                DataCell(InkWell(
+                  child: Text(
+                    order.value.name,
+                    style: AppStyle.h2.copyWith(color: Colors.blue),
+                  ),
+                  onTap: () async => showDialog(
+                    context: context,
+                    builder: (context) => recipientInformationWidget(
+                        context: context,
+                        name: order.value.name,
+                        phone: order.value.tel,
+                        address:
+                            '${order.value.address}, ${order.value.ward},\n${order.value.district}, ${order.value.province}'),
+                  ),
+                )),
+                DataCell(Text(
+                  order.value.paymentMethod,
+                  style: AppStyle.h2,
+                )),
+                DataCell(
+                    Tooltip(
+                      message:
+                          '${order.value.orderShip.status}${(order.value.reason != null) ? '\n Lý dó: ${order.value.reason}' : ''}',
+                      child: SizedBox(
+                        width: 100,
+                        child: Text(
+                          order.value.orderShip.status,
+                          style: AppStyle.h2.copyWith(color: Colors.blue),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    onTap: () async => showDialog(
+                          context: context,
+                          builder: (context) => shipOrderWidget(
+                              context: context,
+                              orderID: order.value.orderID,
+                              token: user.token),
+                        )),
+                DataCell(Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      child: const Tooltip(
+                        message: 'Xem chi tiết đơn hàng',
+                        child: Icon(
+                          Icons.visibility_outlined,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      onTap: () async {
+                        // context
+                        //     .read<OrderDetailCubit>()
+                        //     .loadOrderDetail(order: order.value, token: user.token);
+                        context.read<AllOrderBloc>().add(
+                            OrderSelected(order: order.value, state: state));
+                      },
+                    ),
+                    _videoPacking(order.value),
+                    BlocProvider(
+                      create: (context) => OrderTicketCubit(),
+                      child: BlocConsumer<OrderTicketCubit, OrderTicketState>(
+                        listener: (context, state) {
+                          if (state is OrderTicketFailed) {
+                            MyDialog.showSnackBar(context, state.msg);
+                          }
+                        },
+                        builder: (context, orderTicketState) {
+                          return InkWell(
+                            child: (orderTicketState is OrderTicketLoading)
+                                ? const CircularProgressIndicator()
+                                : const Tooltip(
+                                    message: 'Tải tem vận chuyển',
+                                    child: Icon(
+                                      Icons.download,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                            onTap: () async {
+                              context.read<OrderTicketCubit>().getTicker(
+                                  orderID: order.value.orderID,
+                                  token: user.token,
+                                  onSuccess: (String data) {
+                                    AnchorElement(
+                                        href:
+                                            "data:application/octet-stream;charset=utf-16le;base64,$data")
+                                      ..setAttribute("download",
+                                          "esmp_ship_${order.value.orderID}.pdf")
+                                      ..click();
+                                  });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (_orderSearch.shipOrderStatus == 1)
+                          ? () async {
+                              bool? success = await showDialog<bool>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => cancelOrderDialog(
+                                    context: context,
+                                    orderID: order.value.orderID,
+                                    token: user.token),
+                              );
+                              if (success != null && success) {
+                                if (mounted) {
+                                  context.read<AllOrderBloc>().add(AllOrderLoad(
+                                      orderSearch: _orderSearch,
+                                      token: user.token));
+                                }
+                              }
+                            }
+                          : null,
+                      child: Tooltip(
+                        message: 'Huỷ đơn hàng',
+                        child: Icon(
+                          Icons.close,
+                          color: (_orderSearch.shipOrderStatus == 1)
+                              ? Colors.red
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+              ]);
+        })
+      ],
+    );
   }
 
   _videoPacking(Order order) {

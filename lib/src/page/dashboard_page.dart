@@ -131,6 +131,15 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ),
+              Expanded(
+                  child: Card(
+                child: Column(children: [
+                  Text(
+                    'Top sản phẩm của Tháng',
+                    style: AppStyle.h2,
+                  )
+                ]),
+              ))
             ],
           ),
         ),
@@ -236,9 +245,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ]),
               Expanded(
-                  child: CustomerBarChart(
-                storeID: store.storeID,
-                token: user.token,
+                  child: Card(
+                child: CustomerBarChart(
+                  storeID: store.storeID,
+                  token: user.token,
+                ),
               ))
             ],
           ),

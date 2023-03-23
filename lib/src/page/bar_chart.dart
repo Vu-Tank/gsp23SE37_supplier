@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsp23se37_supplier/src/cubit/store_reveneu/store_reveneu_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/reveneu.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:gsp23se37_supplier/src/utils/utils.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
+import 'package:intl/intl.dart';
 
 class CustomerBarChart extends StatefulWidget {
   const CustomerBarChart(
@@ -20,35 +22,103 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => StoreReveneuCubit()
-        ..loadReveneu(token: widget.token, storeID: widget.storeID, time: 2023),
+        ..loadReveneu(
+          token: widget.token,
+          storeID: widget.storeID,
+        ),
       child: BlocBuilder<StoreReveneuCubit, StoreReveneuState>(
         builder: (context, state) {
           if (state is StoreReveneuLoaded) {
-            return LayoutBuilder(builder: (context, size) {
-              return BarChart(
-                BarChartData(
-                  barTouchData: barTouchData,
-                  titlesData: titlesData,
-                  borderData: borderData,
-                  barGroups: List.generate(state.list.length, (index) {
-                    Reveneu reveneu = state.list[index];
-                    return BarChartGroupData(
-                      x: reveneu.time,
-                      barRods: [
-                        BarChartRodData(
-                          toY: reveneu.amount,
-                          gradient: _barsGradient,
-                        )
-                      ],
-                      showingTooltipIndicators: [0],
-                    );
-                  }),
-                  gridData: FlGridData(show: false),
-                  alignment: BarChartAlignment.spaceAround,
-                  maxY: 200000,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 200,
+                  child: DropdownButtonFormField(
+                    value: (state.time == null)
+                        ? 'Chọn năm'
+                        : state.time!.toString(),
+                    icon: const Icon(Icons.arrow_downward),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(40)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppStyle.appColor, width: 2),
+                          borderRadius: BorderRadius.circular(40)),
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    isExpanded: true,
+                    elevation: 16,
+                    validator: (value) {
+                      return null;
+                    },
+                    style: AppStyle.h2,
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        context.read<StoreReveneuCubit>().loadReveneu(
+                            token: widget.token,
+                            storeID: widget.storeID,
+                            time: (value != 'Chọn năm')
+                                ? int.parse(value)
+                                : null);
+                      }
+                    },
+                    items: Utils.gennerationYearSelect()
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: AppStyle.h2,
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
-              );
-            });
+                (Utils.checkEmptyListReveneu(state.list))
+                    ? Expanded(
+                        child: Center(
+                          child: Text(
+                            'Không có dữ liệu',
+                            style: AppStyle.errorStyle,
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: BarChart(
+                          BarChartData(
+                            barTouchData: barTouchData,
+                            titlesData: titlesData,
+                            borderData: borderData,
+                            barGroups:
+                                List.generate(state.list.length, (index) {
+                              Reveneu reveneu = state.list[index];
+                              return BarChartGroupData(
+                                x: reveneu.time,
+                                barRods: [
+                                  BarChartRodData(
+                                    toY: reveneu.amount,
+                                    width: 30,
+                                    borderRadius:
+                                        const BorderRadius.all(Radius.zero),
+                                    gradient: _barsGradient,
+                                  )
+                                ],
+                                showingTooltipIndicators: [0],
+                              );
+                            }),
+                            gridData: FlGridData(show: false),
+                            alignment: BarChartAlignment.spaceAround,
+                            maxY: Utils.findMaxReveneu(state.list) +
+                                Utils.findMaxReveneu(state.list) * 0.1,
+                          ),
+                        ),
+                      ),
+              ],
+            );
           } else if (state is StoreReveneuLoadFailed) {
             return blocLoadFailed(
               msg: state.msg,
@@ -59,7 +129,7 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
               },
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -79,26 +149,23 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
             int rodIndex,
           ) {
             return BarTooltipItem(
-              rod.toY.round().toString(),
-              TextStyle(
-                color: AppStyle.appColor,
-                fontWeight: FontWeight.bold,
-              ),
+              NumberFormat.simpleCurrency(locale: 'vi-VN', decimalDigits: 0)
+                  .format(rod.toY.round()),
+              AppStyle.h2,
             );
           },
         ),
       );
 
   Widget getTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      // color: V,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
+    String text = value.toString();
+    if (value <= 12) {
+      text = 'Tháng $value';
+    }
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 4,
-      child: Text(value.toString(), style: style),
+      child: Text(text, style: AppStyle.h2),
     );
   }
 
@@ -123,13 +190,13 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
       );
 
   FlBorderData get borderData => FlBorderData(
-        show: false,
+        show: true,
       );
 
   LinearGradient get _barsGradient => const LinearGradient(
         colors: [
-          Color(0xFF0d47a1),
-          Color(0xFFe0f7fa),
+          Color.fromARGB(255, 139, 244, 169),
+          Color.fromARGB(255, 8, 154, 37),
         ],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,

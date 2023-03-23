@@ -5,6 +5,8 @@ import 'package:gsp23se37_supplier/src/model/item/specification_request.dart';
 import 'package:intl/intl.dart';
 
 import '../model/item/brand.dart';
+import '../model/reveneu.dart';
+import 'dart:math';
 
 class Utils {
   static String convertToFirebase(String value) {
@@ -48,7 +50,9 @@ class Utils {
           specificationID: listSpeci[i].specificationID,
           value: (listSpeci[i].specificationID == 5)
               ? '${lController.text.trim()}x${wController.text.trim()}x${hController.text.trim()} $selectLwhUnit'
-              : listValue[i].text.trim()
+              : (listSpeci[i].specificationID == 2)
+                  ? int.parse(listValue[i].text.trim()).toString()
+                  : listValue[i].text.trim()
           // : '${listValue[i].text.trim()}${(listSpeci[i].specificationID == 2) ? ' $selectWeightUnit' : ''}'
           );
       list.add(specificationRequest);
@@ -122,5 +126,29 @@ class Utils {
       return '';
     });
     return name;
+  }
+
+  static double findMaxReveneu(List<Reveneu> list) {
+    double maxs = 0;
+    if (list.isNotEmpty) {
+      maxs = list.map<double>((e) => e.amount).reduce(max);
+    }
+    return maxs;
+  }
+
+  static List<String> gennerationYearSelect() {
+    List<String> list = ['Chọn năm'];
+    int last = DateTime.now().year;
+    for (var i = last; i > 2019; i--) {
+      list.add(i.toString());
+    }
+    return list;
+  }
+
+  static bool checkEmptyListReveneu(List<Reveneu> list) {
+    for (var element in list) {
+      if (element.amount != 0) return false;
+    }
+    return true;
   }
 }

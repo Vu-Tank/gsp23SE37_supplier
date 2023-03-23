@@ -164,8 +164,8 @@ Widget orderDetailWidget(
                 ],
                 onSelectChanged: (value) => showDialog(
                   context: context,
-                  builder: (context) =>
-                      ItemDetailWidget(itemId: detail.itemID, token: token),
+                  builder: (context) => ItemDetailWidget(
+                      itemId: detail.itemID, token: token, edit: false),
                 ),
               );
             }),

@@ -9,6 +9,7 @@ class ServiceDetail {
   final int sub_ItemID;
   final String sub_ItemName;
   final String sub_ItemImage;
+  final int itemID;
   ServiceDetail({
     required this.afterBuyServiceDetailID,
     required this.pricePurchase,
@@ -17,7 +18,36 @@ class ServiceDetail {
     required this.sub_ItemID,
     required this.sub_ItemName,
     required this.sub_ItemImage,
+    required this.itemID,
   });
+
+  ServiceDetail copyWith({
+    int? afterBuyServiceDetailID,
+    double? pricePurchase,
+    double? discountPurchase,
+    int? amount,
+    int? sub_ItemID,
+    String? sub_ItemName,
+    String? sub_ItemImage,
+    int? itemID,
+  }) {
+    return ServiceDetail(
+      afterBuyServiceDetailID:
+          afterBuyServiceDetailID ?? this.afterBuyServiceDetailID,
+      pricePurchase: pricePurchase ?? this.pricePurchase,
+      discountPurchase: discountPurchase ?? this.discountPurchase,
+      amount: amount ?? this.amount,
+      sub_ItemID: sub_ItemID ?? this.sub_ItemID,
+      sub_ItemName: sub_ItemName ?? this.sub_ItemName,
+      sub_ItemImage: sub_ItemImage ?? this.sub_ItemImage,
+      itemID: itemID ?? this.itemID,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'ServiceDetail(afterBuyServiceDetailID: $afterBuyServiceDetailID, pricePurchase: $pricePurchase, discountPurchase: $discountPurchase, amount: $amount, sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, sub_ItemImage: $sub_ItemImage, itemID: $itemID)';
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -28,6 +58,7 @@ class ServiceDetail {
       'sub_ItemID': sub_ItemID,
       'sub_ItemName': sub_ItemName,
       'sub_ItemImage': sub_ItemImage,
+      'itemID': itemID,
     };
   }
 
@@ -40,6 +71,7 @@ class ServiceDetail {
       sub_ItemID: map['sub_ItemID'] as int,
       sub_ItemName: map['sub_ItemName'] as String,
       sub_ItemImage: map['sub_ItemImage'] as String,
+      itemID: map['itemID'] as int,
     );
   }
 
@@ -47,9 +79,4 @@ class ServiceDetail {
 
   factory ServiceDetail.fromJson(String source) =>
       ServiceDetail.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'ServiceDetail(afterBuyServiceDetailID: $afterBuyServiceDetailID, pricePurchase: $pricePurchase, discountPurchase: $discountPurchase, amount: $amount, sub_ItemID: $sub_ItemID, sub_ItemName: $sub_ItemName, sub_ItemImage: $sub_ItemImage)';
-  }
 }

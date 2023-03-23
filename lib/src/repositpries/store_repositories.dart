@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gsp23se37_supplier/src/model/address/address.dart';
 import 'package:gsp23se37_supplier/src/model/cash_flow.dart';
 import 'package:gsp23se37_supplier/src/model/cash_flow_search.dart';
 import 'package:gsp23se37_supplier/src/model/reveneu.dart';
@@ -278,11 +279,13 @@ class StoreRepositories {
       {required int orderID, int? time, required String token}) async {
     ApiResponse apiResponse = ApiResponse();
     try {
-      final queryParams = {
-        'storeID': orderID.toString(),
-        'year': time.toString(),
+      final query = {
+        "storeID": orderID,
+        "year": time,
       };
-      Utils.removeNullAndEmptyParams(queryParams);
+      Utils.removeNullAndEmptyParams(query);
+      final queryParams =
+          query.map((key, value) => MapEntry(key, value.toString()));
       String queryString = Uri(queryParameters: queryParams).query;
       final response = await http
           .get(Uri.parse('${AppUrl.storeReveneu}?$queryString'), headers: {
@@ -297,6 +300,54 @@ class StoreRepositories {
         if (apiResponse.isSuccess!) {
           apiResponse.data = List<Reveneu>.from((body['data'] as List)
               .map<Reveneu>((x) => Reveneu.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> storeUpdateAddress(
+      {required int storeID,
+      required String token,
+      required Adderss address}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'storeID': storeID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .put(Uri.parse('${AppUrl.updateStoreAddress}?$queryString'),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer $token',
+              },
+              body: jsonEncode({
+                "addressID": address.addressID,
+                "userName": address.userName,
+                "phone": address.phone,
+                "context": address.context,
+                "province": address.province,
+                "district": address.district,
+                "ward": address.ward,
+                "latitude": address.latitude,
+                "longitude": address.longitude,
+                "isActive": true
+              }))
+          .timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = Adderss.fromMap(body['data']);
         }
       } else {
         apiResponse.isSuccess = false;

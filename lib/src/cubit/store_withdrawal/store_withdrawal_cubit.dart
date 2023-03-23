@@ -23,7 +23,7 @@ class StoreWithdrawalCubit extends Cubit<StoreWithdrawalState> {
         token: token,
         price: price,
         numBankCart: numBankCart,
-        ownerBankCart: ownerBankCart,
+        ownerBankCart: ownerBankCart.toUpperCase(),
         bankName: bankName);
     if (apiResponse.isSuccess!) {
       if (isClosed) return;

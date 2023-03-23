@@ -27,5 +27,13 @@ class AllOrderBloc extends Bloc<AllOrderEvent, AllOrderState> {
             msg: apiResponse.msg!, orderSearch: event.orderSearch));
       }
     });
+    on<OrderSelected>((event, emit) {
+      if (isClosed) return;
+      emit(AllOrderLoaded(
+          listOrder: event.state.listOrder,
+          currentPage: event.state.currentPage,
+          totalPage: event.state.totalPage,
+          selected: event.order));
+    });
   }
 }

@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
-import 'package:gsp23se37_supplier/src/model/item/brand.dart';
 import 'package:gsp23se37_supplier/src/model/image.dart';
+import 'package:gsp23se37_supplier/src/model/item/brand.dart';
 import 'package:gsp23se37_supplier/src/model/item/item_status.dart';
 import 'package:gsp23se37_supplier/src/model/item/specification_tag.dart';
 import 'package:gsp23se37_supplier/src/model/item/sub_item.dart';
@@ -111,5 +111,43 @@ class ItemDetail {
   @override
   String toString() {
     return 'ItemDetail(itemID: $itemID, name: $name, description: $description, rate: $rate, maxPrice: $maxPrice, minPrice: $minPrice, discount: $discount, num_Sold: $num_Sold, num_Feedback: $num_Feedback, create_date: $create_date, sub_Category: $sub_Category, item_Status: $item_Status, list_Image: $list_Image, specification_Tag: $specification_Tag, listSubItem: $listSubItem, listModel: $listModel)';
+  }
+
+  ItemDetail copyWith({
+    int? itemID,
+    String? name,
+    String? description,
+    double? rate,
+    double? maxPrice,
+    double? minPrice,
+    double? discount,
+    int? num_Sold,
+    int? num_Feedback,
+    String? create_date,
+    String? sub_Category,
+    ItemStatus? item_Status,
+    List<Image>? list_Image,
+    List<SpecificationTag>? specification_Tag,
+    List<SubItem>? listSubItem,
+    List<Brand>? listModel,
+  }) {
+    return ItemDetail(
+      itemID: itemID ?? this.itemID,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      rate: rate ?? this.rate,
+      maxPrice: maxPrice ?? this.maxPrice,
+      minPrice: minPrice ?? this.minPrice,
+      discount: discount ?? this.discount,
+      num_Sold: num_Sold ?? this.num_Sold,
+      num_Feedback: num_Feedback ?? this.num_Feedback,
+      create_date: create_date ?? this.create_date,
+      sub_Category: sub_Category ?? this.sub_Category,
+      item_Status: item_Status ?? this.item_Status,
+      list_Image: list_Image ?? this.list_Image,
+      specification_Tag: specification_Tag ?? this.specification_Tag,
+      listSubItem: listSubItem ?? this.listSubItem,
+      listModel: listModel ?? this.listModel,
+    );
   }
 }

@@ -570,8 +570,8 @@ class _AddItemPageState extends State<AddItemPage> {
           Column(
             children: [
               SizedBox(
-                height: 200,
-                width: 200,
+                height: 300,
+                width: 300,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: (subItemState.listSub[index].data == null)

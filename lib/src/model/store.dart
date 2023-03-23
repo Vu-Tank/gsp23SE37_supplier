@@ -123,4 +123,54 @@ class Store {
 
   factory Store.fromJson(String source) =>
       Store.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  Store copyWith({
+    int? storeID,
+    String? storeName,
+    String? create_date,
+    String? email,
+    String? phone,
+    int? pick_date,
+    int? userID,
+    Adderss? address,
+    StoreStatus? store_Status,
+    Image? image,
+    double? asset,
+    int? momoTransactionID,
+    String? actice_Date,
+    double? actice_Amount,
+    String? firebaseID,
+    String? fcM_Firebase,
+    int? totalActiveItem,
+    int? totalBlockItem,
+    int? totalWatingItem,
+    int? totalOrder,
+    int? totalCancelOrder,
+    double? totalRating,
+  }) {
+    return Store(
+      storeID: storeID ?? this.storeID,
+      storeName: storeName ?? this.storeName,
+      create_date: create_date ?? this.create_date,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      pick_date: pick_date ?? this.pick_date,
+      userID: userID ?? this.userID,
+      address: address ?? this.address,
+      store_Status: store_Status ?? this.store_Status,
+      image: image ?? this.image,
+      asset: asset ?? this.asset,
+      momoTransactionID: momoTransactionID ?? this.momoTransactionID,
+      actice_Date: actice_Date ?? this.actice_Date,
+      actice_Amount: actice_Amount ?? this.actice_Amount,
+      firebaseID: firebaseID ?? this.firebaseID,
+      fcM_Firebase: fcM_Firebase ?? this.fcM_Firebase,
+      totalActiveItem: totalActiveItem ?? this.totalActiveItem,
+      totalBlockItem: totalBlockItem ?? this.totalBlockItem,
+      totalWatingItem: totalWatingItem ?? this.totalWatingItem,
+      totalOrder: totalOrder ?? this.totalOrder,
+      totalCancelOrder: totalCancelOrder ?? this.totalCancelOrder,
+      totalRating: totalRating ?? this.totalRating,
+    );
+  }
 }

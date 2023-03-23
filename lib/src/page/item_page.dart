@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gsp23se37_supplier/src/page/item/add_item_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_active_page.dart';
+import 'package:gsp23se37_supplier/src/page/item/item_hidden_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_pending_approval_page.dart';
 import 'package:gsp23se37_supplier/src/page/item/items_block_page.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
@@ -23,7 +24,7 @@ class _ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-          length: 4,
+          length: 5,
           child: Column(
             children: [
               Container(
@@ -50,6 +51,11 @@ class _ItemPageState extends State<ItemPage> {
                     )),
                     Tab(
                         child: Text(
+                      'Sản phẩm dừng bán',
+                      style: AppStyle.buttom,
+                    )),
+                    Tab(
+                        child: Text(
                       'Sản phẩm Vi phạm',
                       style: AppStyle.buttom,
                     )),
@@ -61,6 +67,7 @@ class _ItemPageState extends State<ItemPage> {
                   ItemActivePage(),
                   AddItemPage(),
                   ItemPendingApprovalPage(),
+                  ItemHiddenPage(),
                   ItemBlockPage(),
                 ]),
               ),

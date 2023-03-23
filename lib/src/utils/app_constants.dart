@@ -1,3 +1,5 @@
+import 'package:gsp23se37_supplier/src/model/withdrawal/withdrawal_status.dart';
+
 import '../model/item/sort_model.dart';
 
 class AppConstants {
@@ -32,5 +34,12 @@ class AppConstants {
     SortModel(name: 'Giá tăng dần', query: 'price_asc'),
     SortModel(name: 'Giá giảm dần', query: 'price_desc'),
     SortModel(name: 'Khuyến mãi', query: 'discount'),
+  ];
+  static List<WithdrawalStatus> listWithdrawalStatus = [
+    WithdrawalStatus(item_StatusID: -1, statusName: "Trạng thái"),
+    WithdrawalStatus(item_StatusID: 1, statusName: "Chờ tiếp nhận"),
+    WithdrawalStatus(item_StatusID: 2, statusName: "Đang xử lí"),
+    WithdrawalStatus(item_StatusID: 3, statusName: "Huỷ"),
+    WithdrawalStatus(item_StatusID: 4, statusName: "Hoàn thành"),
   ];
 }

@@ -4,7 +4,7 @@ abstract class AllOrderState extends Equatable {
   const AllOrderState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AllOrderInitial extends AllOrderState {}
@@ -15,13 +15,15 @@ class AllOrderLoaded extends AllOrderState {
   final List<Order> listOrder;
   final int currentPage;
   final int totalPage;
+  final Order? selected;
   const AllOrderLoaded(
       {required this.listOrder,
       required this.currentPage,
-      required this.totalPage});
+      required this.totalPage,
+      this.selected});
   @override
   // TODO: implement props
-  List<Object> get props => [listOrder, currentPage, totalPage];
+  List<Object?> get props => [listOrder, currentPage, totalPage, selected];
 }
 
 class AllOrderLoadFailed extends AllOrderState {

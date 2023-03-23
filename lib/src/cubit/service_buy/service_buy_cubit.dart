@@ -25,4 +25,14 @@ class ServiceBuyCubit extends Cubit<ServiceBuyState> {
       emit(ServiceBuyLoadFailed(apiResponse.msg!));
     }
   }
+
+  selectService(
+      {required ServiceBuy serviceBuy, required ServiceBuyLoadSuccess state}) {
+    if (isClosed) return;
+    emit(ServiceBuyLoadSuccess(
+        list: state.list,
+        totalPage: state.totalPage,
+        currentPage: state.currentPage,
+        selected: serviceBuy));
+  }
 }

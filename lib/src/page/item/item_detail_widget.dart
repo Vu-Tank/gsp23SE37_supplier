@@ -18,9 +18,13 @@ import '../../widget/bloc_load_failed.dart';
 
 class ItemDetailWidget extends StatefulWidget {
   const ItemDetailWidget(
-      {super.key, required this.itemId, required this.token});
+      {super.key,
+      required this.itemId,
+      required this.token,
+      required this.edit});
   final int itemId;
   final String token;
+  final bool edit;
   @override
   State<ItemDetailWidget> createState() => _ItemDetailWidgetState();
 }
@@ -441,7 +445,34 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                   ),
                 )),
           ]),
-        ))
+        )),
+        const SizedBox(
+          height: 8.0,
+        ),
+        if ((itemDetail.item_Status.item_StatusID == 1 ||
+                itemDetail.item_Status.item_StatusID == 4) &&
+            widget.edit)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+                onPressed: () {
+                  if (itemDetail.item_Status.item_StatusID == 1) {
+                    context
+                        .read<ItemDetailCubit>()
+                        .hidenItem(item: itemDetail, token: widget.token);
+                  } else {
+                    context
+                        .read<ItemDetailCubit>()
+                        .unHidenItem(item: itemDetail, token: widget.token);
+                  }
+                },
+                child: Text(
+                  (itemDetail.item_Status.item_StatusID == 1)
+                      ? 'Dừng bán'
+                      : 'Bán lại',
+                  style: AppStyle.textButtom,
+                )),
+          ),
       ],
     );
   }
