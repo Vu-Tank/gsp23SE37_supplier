@@ -10,7 +10,6 @@ import 'package:gsp23se37_supplier/src/model/service/service_detail.dart';
 import 'package:gsp23se37_supplier/src/model/service/service_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/page/service/cancel_service_dialog.dart';
-import 'package:gsp23se37_supplier/src/page/video_dilog.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
@@ -22,6 +21,7 @@ import '../../model/service/service.dart';
 import '../../model/store.dart';
 import '../item/item_detail_widget.dart';
 import '../order/recipient_information_wigdet.dart';
+import '../video_dilog.dart';
 
 class AllServicePage extends StatefulWidget {
   const AllServicePage({super.key, required this.search});
@@ -206,6 +206,7 @@ class _AllServicePageState extends State<AllServicePage> {
       required ServiceBuyLoadSuccess state}) {
     return DataTable(
       showCheckboxColumn: false,
+      headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue),
       columns: [
         DataColumn(
           label: Text(
@@ -332,7 +333,9 @@ class _AllServicePageState extends State<AllServicePage> {
                           showDialog(
                               context: context,
                               builder: (context) => VideoDialog(
-                                  url: serviceBuy.value.packingLinkCus));
+                                  url: serviceBuy.value.packingLinkCus
+                                      .replaceFirst('[', '')
+                                      .replaceAll(']', '')));
                         } else {
                           MyDialog.showAlertDialog(context,
                               'Người mua không đăng tình tạng đơn hàng');
@@ -462,6 +465,8 @@ class _AllServicePageState extends State<AllServicePage> {
             constraints: BoxConstraints(minWidth: size.maxWidth),
             child: DataTable(
               showCheckboxColumn: false,
+              headingRowColor:
+                  MaterialStateColor.resolveWith((states) => Colors.blue),
               columns: [
                 DataColumn(
                     label: Text(

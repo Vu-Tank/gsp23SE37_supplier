@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/cubit/item_hot/item_hot_cubit.dart';
+import 'package:gsp23se37_supplier/src/model/item/item.dart';
+import 'package:gsp23se37_supplier/src/page/item/item_detail_widget.dart';
 import 'package:gsp23se37_supplier/src/page/store/cash_flow_dialog.dart';
 import 'package:gsp23se37_supplier/src/page/store/store_withdrawal_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
+import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/auth/auth_bloc.dart';
@@ -54,15 +58,17 @@ class _DashboardPageState extends State<DashboardPage> {
     return Row(
       children: [
         Container(
-          color: Colors.grey,
           child: Column(
             children: [
               Card(
-                child: SizedBox(
-                  height: 200,
-                  width: 200,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                      minHeight: 300,
+                      minWidth: 300,
+                      maxHeight: 300,
+                      maxWidth: 300),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
@@ -133,12 +139,107 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Expanded(
                   child: Card(
-                child: Column(children: [
-                  Text(
-                    'Top sản phẩm của Tháng',
-                    style: AppStyle.h2,
-                  )
-                ]),
+                child: Expanded(
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
+                    SizedBox(
+                      width: 300,
+                      child: Center(
+                        child: Text(
+                          'Top sản phẩm',
+                          style: AppStyle.h2,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: BlocProvider(
+                        create: (context) => ItemHotCubit()
+                          ..loadHotItem(
+                              token: user.token, storeID: store.storeID),
+                        child: BlocBuilder<ItemHotCubit, ItemHotState>(
+                          builder: (context, state) {
+                            if (state is ItemHotLoaded) {
+                              if (state.list.isEmpty) {
+                                return Text(
+                                  'Không có dữ liệu',
+                                  style: AppStyle.h2,
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                        minHeight: 200,
+                                        minWidth: 200,
+                                        // maxHeight: 300,
+                                        maxWidth: 300),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: List.generate(
+                                            state.list.length, (index) {
+                                          Item item = state.list[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      ItemDetailWidget(
+                                                          itemId: item.itemID,
+                                                          token: user.token,
+                                                          edit: false),
+                                                );
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Image.network(
+                                                        item.item_Image),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      item.name,
+                                                      style: AppStyle.h2,
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            } else if (state is ItemHotFailed) {
+                              return blocLoadFailed(
+                                msg: state.msg,
+                                reload: () {
+                                  context.read<ItemHotCubit>().loadHotItem(
+                                      token: user.token,
+                                      storeID: store.storeID);
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
               ))
             ],
           ),
@@ -246,9 +347,12 @@ class _DashboardPageState extends State<DashboardPage> {
               ]),
               Expanded(
                   child: Card(
-                child: CustomerBarChart(
-                  storeID: store.storeID,
-                  token: user.token,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomerBarChart(
+                    storeID: store.storeID,
+                    token: user.token,
+                  ),
                 ),
               ))
             ],

@@ -232,6 +232,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
   Widget ordersView(
       {required BuildContext context, required AllOrderLoaded state}) {
     return DataTable(
+      headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue),
       columns: [
         DataColumn(
           label: Text(

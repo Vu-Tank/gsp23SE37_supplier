@@ -151,4 +151,25 @@ class Utils {
     }
     return true;
   }
+
+  static String generationStringFormBrand(Brand brand) {
+    String text = '';
+    text = '$text${brand.name} -';
+    for (var i = 1; i < brand.listModel.length; i++) {
+      text = ' $text${brand.listModel[i].name}';
+      if (i != brand.listModel.length - 1) {
+        text = '$text, ';
+      } else {
+        text = '$text.';
+      }
+    }
+    return text;
+  }
+
+  static List<Reveneu> removethisYear(List<Reveneu> list, int year) {
+    if (DateTime.now().year == year) {
+      list.length = DateTime.now().month;
+    }
+    return list;
+  }
 }

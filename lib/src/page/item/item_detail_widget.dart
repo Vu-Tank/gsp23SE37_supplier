@@ -11,6 +11,7 @@ import 'package:gsp23se37_supplier/src/model/item/specification_tag.dart';
 import 'package:gsp23se37_supplier/src/page/item/item_feedback.dart';
 import 'package:gsp23se37_supplier/src/page/item/sub_item_widget.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:gsp23se37_supplier/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 import '../../cubit/item_feedback/item_feedback_cubit.dart';
@@ -137,7 +138,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                                       return SizedBox(
                                                         child: Image.network(
                                                           image.path,
-                                                          fit: BoxFit.contain,
+                                                          fit: BoxFit.cover,
                                                         ),
                                                       );
                                                     },
@@ -191,6 +192,34 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                                     .itemDetail.description,
                                                 style: AppStyle.h2,
                                               )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Phương tiện có thể sử dụng',
+                                                style: AppStyle.h2,
+                                              ),
+                                              const SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              ...itemDetailState
+                                                  .itemDetail.listModel
+                                                  .map((e) => Container(
+                                                        child: Text(
+                                                          Utils.generationStringFormBrand(
+                                                                  e)
+                                                              .trim(),
+                                                          style: AppStyle.h2,
+                                                        ),
+                                                      ))
                                             ],
                                           ),
                                         ),

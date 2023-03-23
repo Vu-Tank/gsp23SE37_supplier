@@ -17,11 +17,11 @@ class _VideoDialogState extends State<VideoDialog> {
   late CustomVideoPlayerController _customVideoPlayerController;
   @override
   void initState() {
-    log(widget.url);
     super.initState();
     // _controller = VideoPlayerController.network(
     //   widget.url,
     // );
+    log(widget.url);
     videoPlayerController = VideoPlayerController.network(widget.url)
       ..initialize().then((value) => setState(() {}));
     _customVideoPlayerController = CustomVideoPlayerController(

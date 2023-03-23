@@ -18,6 +18,7 @@ class CustomerBarChart extends StatefulWidget {
 }
 
 class _CustomerBarChartState extends State<CustomerBarChart> {
+  int? year;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,7 +34,8 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: 150,
+                  height: 54,
                   child: DropdownButtonFormField(
                     value: (state.time == null)
                         ? 'Chọn năm'
@@ -51,13 +53,14 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
                     ),
                     borderRadius: BorderRadius.circular(20),
                     isExpanded: true,
-                    elevation: 16,
+                    elevation: 10,
                     validator: (value) {
                       return null;
                     },
                     style: AppStyle.h2,
                     onChanged: (String? value) {
                       if (value != null) {
+                        year = (value != 'Chọn năm') ? int.parse(value) : null;
                         context.read<StoreReveneuCubit>().loadReveneu(
                             token: widget.token,
                             storeID: widget.storeID,
@@ -78,6 +81,9 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
                     }).toList(),
                   ),
                 ),
+                const SizedBox(
+                  height: 5.0,
+                ),
                 (Utils.checkEmptyListReveneu(state.list))
                     ? Expanded(
                         child: Center(
@@ -93,8 +99,10 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
                             barTouchData: barTouchData,
                             titlesData: titlesData,
                             borderData: borderData,
-                            barGroups:
-                                List.generate(state.list.length, (index) {
+                            barGroups: List.generate(
+                                (year != null && year == DateTime.now().year)
+                                    ? DateTime.now().month
+                                    : state.list.length, (index) {
                               Reveneu reveneu = state.list[index];
                               return BarChartGroupData(
                                 x: reveneu.time,

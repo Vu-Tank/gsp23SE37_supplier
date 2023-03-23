@@ -46,6 +46,8 @@ class AppUrl {
 
   static const String getItems = '$baseUrl/Item/search_admin';
 
+  static const String getItemsHot = '$baseUrl/SaleReport/hot_item';
+
   static const String getItemDetail = '$baseUrl/Item/item_detail';
 
   static const String hiddenItem = '$baseUrl/Item/hidden_item';

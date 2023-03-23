@@ -282,4 +282,38 @@ class ItemRepositories {
     }
     return apiResponse;
   }
+
+  static Future<ApiResponse> getItemsHot(
+      {required String token, required int storeID}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      Map<String, dynamic> search = {'storeID': storeID, 'hot': true};
+      // Utils.removeNullAndEmptyParams(search);
+      final queryParams =
+          search.map((key, value) => MapEntry(key, value.toString()));
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.getItemsHot}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = List<Item>.from((body['data'] as List)
+              .map<Item>((x) => Item.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
 }
