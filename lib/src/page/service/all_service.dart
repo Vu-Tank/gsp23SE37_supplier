@@ -284,7 +284,9 @@ class _AllServicePageState extends State<AllServicePage> {
                       ? serviceBuy.value.reason
                       : '',
                   child: Text(
-                    serviceBuy.value.servicestatus.statusName,
+                    (serviceBuy.value.orderShip != null)
+                        ? serviceBuy.value.orderShip!.status
+                        : serviceBuy.value.servicestatus.statusName,
                     style: AppStyle.h2,
                   ),
                 )),
@@ -362,7 +364,7 @@ class _AllServicePageState extends State<AllServicePage> {
                                             2 ||
                                         serviceBuy.value.servicestatus
                                                 .item_StatusID ==
-                                            1)
+                                            5)
                                     ? null
                                     : (state is ServiceActiviting)
                                         ? null
@@ -385,7 +387,7 @@ class _AllServicePageState extends State<AllServicePage> {
                                                   2 ||
                                               serviceBuy.value.servicestatus
                                                       .item_StatusID ==
-                                                  1)
+                                                  5)
                                           ? Colors.grey
                                           : Colors.green,
                                     ),
@@ -397,7 +399,7 @@ class _AllServicePageState extends State<AllServicePage> {
                     InkWell(
                       onTap: (serviceBuy.value.servicestatus.item_StatusID ==
                                   2 ||
-                              serviceBuy.value.servicestatus.item_StatusID == 1)
+                              serviceBuy.value.servicestatus.item_StatusID == 5)
                           ? null
                           : () async {
                               var check = await showDialog(
@@ -425,7 +427,7 @@ class _AllServicePageState extends State<AllServicePage> {
                                           2 ||
                                       serviceBuy.value.servicestatus
                                               .item_StatusID ==
-                                          1)
+                                          5)
                                   ? Colors.grey
                                   : Colors.red,
                         ),

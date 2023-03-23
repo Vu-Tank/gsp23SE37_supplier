@@ -279,7 +279,10 @@ class _AllOrderPageState extends State<AllOrderPage> {
                       state.selected!.orderID == order.value.orderID)
                   ? const MaterialStatePropertyAll(
                       Color.fromARGB(255, 201, 235, 238))
-                  : null,
+                  : (order.value.orderStatus.item_StatusID == 6)
+                      ? const MaterialStatePropertyAll(
+                          Color.fromARGB(255, 238, 211, 187))
+                      : null,
               cells: [
                 DataCell(Text(
                   order.value.orderID.toString(),
