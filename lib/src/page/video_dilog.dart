@@ -1,7 +1,7 @@
 import 'dart:developer';
 
+import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 class VideoDialog extends StatefulWidget {
   const VideoDialog({super.key, required this.url});
@@ -11,18 +11,23 @@ class VideoDialog extends StatefulWidget {
 }
 
 class _VideoDialogState extends State<VideoDialog> {
-  // late VideoPlayerController controller;
   late VideoPlayerController _controller;
   // late Future<void> _initializeVideoPlayerFuture;
+  late VideoPlayerController videoPlayerController;
+  late CustomVideoPlayerController _customVideoPlayerController;
   @override
   void initState() {
     log(widget.url);
     super.initState();
-    _controller = VideoPlayerController.network(
-      widget.url,
-    )..initialize().then((_) {
-        setState(() {});
-      });
+    // _controller = VideoPlayerController.network(
+    //   widget.url,
+    // );
+    videoPlayerController = VideoPlayerController.network(widget.url)
+      ..initialize().then((value) => setState(() {}));
+    _customVideoPlayerController = CustomVideoPlayerController(
+      context: context,
+      videoPlayerController: videoPlayerController,
+    );
 
     // _initializeVideoPlayerFuture = _controller.initialize();
 
@@ -31,8 +36,8 @@ class _VideoDialogState extends State<VideoDialog> {
 
   @override
   void dispose() {
-    // controller.dispose();
-    _controller.dispose();
+    // _controller.dispose();
+    _customVideoPlayerController.dispose();
     super.dispose();
   }
 
@@ -94,12 +99,8 @@ class _VideoDialogState extends State<VideoDialog> {
       //     }
       //   },
       // ),
-      child: _controller.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )
-          : Container(),
+      child: CustomVideoPlayer(
+          customVideoPlayerController: _customVideoPlayerController),
     );
   }
 }
