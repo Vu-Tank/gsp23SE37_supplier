@@ -29,7 +29,10 @@ Widget searchOrderWidget(
                 child: IconButton(
                     onPressed: () {
                       searchController.text = '';
-                      onSearch(orderSearch.orderSearchDefault());
+                      onSearch(orderSearch = OrderSearch(
+                          storeID: orderSearch.storeID,
+                          page: 1,
+                          shipOrderStatus: orderSearch.shipOrderStatus));
                     },
                     icon: const Icon(Icons.arrow_back_outlined)),
               ),

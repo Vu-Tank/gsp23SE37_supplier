@@ -14,6 +14,7 @@ import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 import 'package:intl/intl.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
@@ -24,8 +25,10 @@ import '../order/recipient_information_wigdet.dart';
 import '../video_dilog.dart';
 
 class AllServicePage extends StatefulWidget {
-  const AllServicePage({super.key, required this.search});
+  const AllServicePage(
+      {super.key, required this.search, required this.sidebarXController});
   final ServiceSearch search;
+  final SidebarXController sidebarXController;
   @override
   State<AllServicePage> createState() => _AllServicePageState();
 }
@@ -309,6 +312,8 @@ class _AllServicePageState extends State<AllServicePage> {
                     context: context,
                     builder: (context) => recipientInformationWidget(
                         context: context,
+                        firebaseid: serviceBuy.value.firebaseID,
+                        controller: widget.sidebarXController,
                         name: serviceBuy.value.user_Name,
                         phone: serviceBuy.value.user_Tel,
                         address:

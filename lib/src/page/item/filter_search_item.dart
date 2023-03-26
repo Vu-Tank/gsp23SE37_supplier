@@ -481,16 +481,18 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                         ),
                       ),
                       onTap: () {
-                        context.pop(search.copyWith(
-                          brandID: null,
-                          brandModelID: null,
-                          cateID: null,
-                          max: null,
-                          min: null,
-                          rate: null,
-                          sortBy: null,
-                          subCateID: null,
-                        ));
+                        // search = ItemSearch(
+                        //     search: search.search,
+                        //     sortBy: AppConstants.listSortModel.first.query,
+                        //     storeID: search.storeID,
+                        //     page: 1,
+                        //     itemStatusID: search.itemStatusID);
+                        context.pop(ItemSearch(
+                            search: search.search,
+                            sortBy: AppConstants.listSortModel.first.query,
+                            storeID: search.storeID,
+                            page: 1,
+                            itemStatusID: search.itemStatusID));
                       },
                     ),
                     DataCell(

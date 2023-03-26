@@ -60,6 +60,7 @@ Widget searchItemWidget(
                 ),
               );
               if (search != null) {
+                itemSearch = search;
                 onSearch(itemSearch);
               }
             },

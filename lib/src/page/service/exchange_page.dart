@@ -4,14 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/service/service_search.dart';
 import 'package:gsp23se37_supplier/src/page/service/all_service.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../model/store.dart';
 import '../../model/user.dart';
 
 class ExchangePage extends StatefulWidget {
-  const ExchangePage({super.key});
-
+  const ExchangePage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
   @override
   State<ExchangePage> createState() => _ExchangePageState();
 }
@@ -48,6 +49,8 @@ class _ExchangePageState extends State<ExchangePage> {
   @override
   Widget build(BuildContext context) {
     return AllServicePage(
-        search: ServiceSearch(storeID: store.storeID, serviceType: 1, page: 1));
+      search: ServiceSearch(storeID: store.storeID, serviceType: 1, page: 1),
+      sidebarXController: widget.sidebarXController,
+    );
   }
 }

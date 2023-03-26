@@ -6,13 +6,15 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/page/order/all_order_page.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
 import '../../model/store.dart';
 
 class ReceivedShipPage extends StatefulWidget {
-  const ReceivedShipPage({super.key});
+  const ReceivedShipPage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
 
   @override
   State<ReceivedShipPage> createState() => _ReceivedShipPageState();
@@ -49,7 +51,9 @@ class _ReceivedShipPageState extends State<ReceivedShipPage> {
   @override
   Widget build(BuildContext context) {
     return AllOrderPage(
-        orderSearch:
-            OrderSearch(storeID: store.storeID, shipOrderStatus: 2, page: 1));
+      orderSearch:
+          OrderSearch(storeID: store.storeID, shipOrderStatus: 2, page: 1),
+      sidebarXController: widget.sidebarXController,
+    );
   }
 }

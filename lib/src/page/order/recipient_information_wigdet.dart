@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/cubit/chat/chat_cubit.dart';
+import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../utils/app_style.dart';
 
@@ -7,7 +11,9 @@ Widget recipientInformationWidget(
     {required BuildContext context,
     required String name,
     required String phone,
-    required String address}) {
+    required String address,
+    required String? firebaseid,
+    required SidebarXController controller}) {
   return Dialog(
     shape: const RoundedRectangleBorder(
         side: BorderSide(color: Colors.blue, width: 2),
@@ -62,22 +68,72 @@ Widget recipientInformationWidget(
       const SizedBox(
         height: 8.0,
       ),
-      SizedBox(
-        height: 54,
-        width: 200,
-        child: ElevatedButton(
-          onPressed: () => context.pop(),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(color: AppStyle.appColor),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 54,
+            width: 200,
+            child: ElevatedButton(
+              onPressed: () => context.pop(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: AppStyle.appColor),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+              ),
+              child: Text(
+                'Thoát',
+                style: AppStyle.buttom,
+              ),
+            ),
           ),
-          child: Text(
-            'Thoát',
-            style: AppStyle.buttom,
+          const SizedBox(
+            width: 8.0,
           ),
-        ),
+          SizedBox(
+            height: 54,
+            width: 200,
+            child: BlocConsumer<ChatCubit, ChatState>(
+              listener: (context, state) {
+                if (state is ChatSuccess) {
+                  // log('chat success');
+                  context.pop();
+                  controller.selectIndex(3);
+                }
+              },
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: (state is ChatLoading)
+                      ? null
+                      : () async {
+                          if (firebaseid != null) {
+                            context.read<ChatCubit>().chat(
+                                  userFirebaseID: firebaseid,
+                                );
+                          } else {
+                            MyDialog.showAlertDialog(context,
+                                'Không thể liên hệ với khách hàng này');
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: AppStyle.appColor),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20))),
+                  ),
+                  child: (state is ChatLoading)
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          'Liên hệ',
+                          style: AppStyle.buttom,
+                        ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       const SizedBox(
         height: 8.0,

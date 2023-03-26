@@ -25,19 +25,21 @@ class SideBarWigdet extends StatelessWidget {
       ),
       headerBuilder: (context, extended) => Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: ClipOval(
-            child: SizedBox.fromSize(
-          size: const Size.fromRadius(75),
-          child: GestureDetector(
-            child: Image.network(store.image.path, fit: BoxFit.cover),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => const StoreInfoDialog(),
-              );
-            },
-          ),
-        )),
+        child: LayoutBuilder(builder: (context, size) {
+          return ClipOval(
+              child: SizedBox.fromSize(
+            size: Size.fromRadius(size.maxWidth * 0.45),
+            child: GestureDetector(
+              child: Image.network(store.image.path, fit: BoxFit.cover),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const StoreInfoDialog(),
+                );
+              },
+            ),
+          ));
+        }),
       ),
       extendedTheme: SidebarXTheme(
           width: 250,

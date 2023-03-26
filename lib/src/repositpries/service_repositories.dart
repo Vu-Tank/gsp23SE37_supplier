@@ -53,6 +53,10 @@ class ServiceRepositorie {
       required WithdrawalSearch withdrawalSearch}) async {
     ApiResponse apiResponse = ApiResponse();
     try {
+      if (withdrawalSearch.statusID != null &&
+          withdrawalSearch.statusID == -1) {
+        withdrawalSearch.statusID = null;
+      }
       Map<String, dynamic> search = withdrawalSearch.toMap();
       Utils.removeNullAndEmptyParams(search);
       final queryParams =

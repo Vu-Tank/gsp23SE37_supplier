@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
@@ -12,7 +13,8 @@ import '../../model/store.dart';
 import 'all_order_page.dart';
 
 class DeliveredPage extends StatefulWidget {
-  const DeliveredPage({super.key});
+  const DeliveredPage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
 
   @override
   State<DeliveredPage> createState() => _DeliveredPageState();
@@ -49,7 +51,9 @@ class _DeliveredPageState extends State<DeliveredPage> {
   @override
   Widget build(BuildContext context) {
     return AllOrderPage(
-        orderSearch:
-            OrderSearch(storeID: store.storeID, shipOrderStatus: 5, page: 1));
+      orderSearch:
+          OrderSearch(storeID: store.storeID, shipOrderStatus: 5, page: 1),
+      sidebarXController: widget.sidebarXController,
+    );
   }
 }

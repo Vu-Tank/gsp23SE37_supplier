@@ -56,123 +56,149 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future:
-            CloudFirestoreService(uid: FirebaseAuth.instance.currentUser!.uid)
-                .getChats(widget.roomChat.roomID),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            default:
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    snapshot.error!.toString(),
-                    style: AppStyle.errorStyle,
-                  ),
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(), borderRadius: BorderRadius.circular(12)),
+      child: FutureBuilder(
+          future:
+              CloudFirestoreService(uid: FirebaseAuth.instance.currentUser!.uid)
+                  .getChats(widget.roomChat.roomID),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
-              } else if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  chats = snapshot.data;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    // mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: chatMessage(),
-                      ),
-                      Container(
-                        alignment: Alignment.bottomCenter,
-                        width: MediaQuery.of(context).size.width,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          width: MediaQuery.of(context).size.width,
-                          // color: mainColor,
-                          child: Row(children: [
-                            GestureDetector(
-                              onTap: () async {
-                                try {
-                                  final ImagePicker picker = ImagePicker();
-                                  XFile? image = await picker.pickImage(
-                                      source: ImageSource.gallery);
-                                  if (image != null) {
-                                    var data = await image.readAsBytes();
-                                    String fileName =
-                                        '${widget.roomChat.roomID}_${Utils.createFile()}';
-                                    String? filePath =
-                                        await FirebaseStorageService()
-                                            .uploadFileChat(data, fileName);
-                                    if (filePath != null) {
-                                      await sendImage(filePath);
-                                    }
-                                  } else {}
-                                } catch (e) {
-                                  MyDialog.showSnackBar(context, e.toString());
-                                }
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  color: AppStyle.appColor,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Center(
-                                    child: Icon(
-                                  Icons.image_outlined,
-                                  color: Colors.white,
-                                )),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                                child: TextField(
-                              controller: messageController,
-                              style: const TextStyle(color: Colors.black),
-                              onSubmitted: (_) {
-                                sendMessage();
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "nhắn tin",
-                                hintStyle: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                              ),
-                            )),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                sendMessage();
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  color: AppStyle.appColor,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Center(
-                                    child: Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                )),
-                              ),
-                            )
-                          ]),
-                        ),
-                      ),
-                    ],
+              default:
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      snapshot.error!.toString(),
+                      style: AppStyle.errorStyle,
+                    ),
                   );
+                } else if (snapshot.hasData) {
+                  if (snapshot.data != null) {
+                    chats = snapshot.data;
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      // mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          height: 54,
+                          decoration: BoxDecoration(
+                              color: AppStyle.appColor,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12))),
+                          child: Center(
+                            child: Text(
+                              widget.roomChat.receiverName,
+                              style: AppStyle.h2,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: chatMessage(),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          width: MediaQuery.of(context).size.width,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            width: MediaQuery.of(context).size.width,
+                            // color: mainColor,
+                            child: Row(children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  try {
+                                    final ImagePicker picker = ImagePicker();
+                                    XFile? image = await picker.pickImage(
+                                        source: ImageSource.gallery);
+                                    if (image != null) {
+                                      var data = await image.readAsBytes();
+                                      String fileName =
+                                          '${widget.roomChat.roomID}_${Utils.createFile()}';
+                                      String? filePath =
+                                          await FirebaseStorageService()
+                                              .uploadFileChat(data, fileName);
+                                      if (filePath != null) {
+                                        await sendImage(filePath);
+                                      }
+                                    } else {}
+                                  } catch (e) {
+                                    MyDialog.showSnackBar(
+                                        context, e.toString());
+                                  }
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: AppStyle.appColor,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Center(
+                                      child: Icon(
+                                    Icons.image_outlined,
+                                    color: Colors.white,
+                                  )),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Expanded(
+                                  child: TextField(
+                                controller: messageController,
+                                style: const TextStyle(color: Colors.black),
+                                onSubmitted: (_) {
+                                  sendMessage();
+                                },
+                                decoration: const InputDecoration(
+                                  hintText: "nhắn tin",
+                                  hintStyle: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                ),
+                              )),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  sendMessage();
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: AppStyle.appColor,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Center(
+                                      child: Icon(
+                                    Icons.send,
+                                    color: Colors.white,
+                                  )),
+                                ),
+                              )
+                            ]),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'Lỗi hệ thống',
+                        style: AppStyle.errorStyle,
+                      ),
+                    );
+                  }
                 } else {
                   return Center(
                     child: Text(
@@ -181,16 +207,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                   );
                 }
-              } else {
-                return Center(
-                  child: Text(
-                    'Lỗi hệ thống',
-                    style: AppStyle.errorStyle,
-                  ),
-                );
-              }
-          }
-        });
+            }
+          }),
+    );
   }
 
   chatMessage() {

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 
 class VideoDialog extends StatefulWidget {
   const VideoDialog({super.key, required this.url});
@@ -11,7 +13,7 @@ class VideoDialog extends StatefulWidget {
 }
 
 class _VideoDialogState extends State<VideoDialog> {
-  late VideoPlayerController _controller;
+  // late VideoPlayerController _controller;
   // late Future<void> _initializeVideoPlayerFuture;
   late VideoPlayerController videoPlayerController;
   late CustomVideoPlayerController _customVideoPlayerController;
@@ -22,8 +24,8 @@ class _VideoDialogState extends State<VideoDialog> {
     //   widget.url,
     // );
     log(widget.url);
-    videoPlayerController = VideoPlayerController.network(widget.url)
-      ..initialize().then((value) => setState(() {}));
+    videoPlayerController = VideoPlayerController.network(widget.url);
+    // ..initialize().then((value) => setState(() {}));
     _customVideoPlayerController = CustomVideoPlayerController(
       context: context,
       videoPlayerController: videoPlayerController,
@@ -43,64 +45,68 @@ class _VideoDialogState extends State<VideoDialog> {
 
   @override
   Widget build(BuildContext context) {
+    // return Dialog(
+    //   child: CustomVideoPlayer(
+    //       customVideoPlayerController: _customVideoPlayerController),
+    // );
     return Dialog(
-      // child: FutureBuilder(
-      //   future: _initializeVideoPlayerFuture,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       return AspectRatio(
-      //         aspectRatio: _controller.value.aspectRatio,
-      //         // Use the VideoPlayer widget to display the video.
-      //         child: Stack(
-      //           alignment: Alignment.bottomCenter,
-      //           children: [
-      //             VideoPlayer(_controller),
-      //             Row(
-      //               children: [
-      //                 Text(_controller.value.duration
-      //                     .toString()
-      //                     .split(".")[0]
-      //                     .toString()),
-      //                 Expanded(
-      //                   child: VideoProgressIndicator(_controller,
-      //                       allowScrubbing: true,
-      //                       colors: const VideoProgressColors(
-      //                         backgroundColor: Colors.redAccent,
-      //                         playedColor: Colors.green,
-      //                         bufferedColor: Colors.purple,
-      //                       )),
-      //                 ),
-      //                 IconButton(
-      //                     onPressed: () {
-      //                       setState(() {
-      //                         // If the video is playing, pause it.
-      //                         if (_controller.value.isPlaying) {
-      //                           _controller.pause();
-      //                         } else {
-      //                           // If the video is paused, play it.
-      //                           _controller.play();
-      //                         }
-      //                       });
-      //                     },
-      //                     icon: Icon(
-      //                       _controller.value.isPlaying
-      //                           ? Icons.pause
-      //                           : Icons.play_arrow,
-      //                     )),
-      //               ],
-      //             )
-      //           ],
-      //         ),
-      //       );
-      //     } else {
-      //       return const Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //   },
-      // ),
-      child: CustomVideoPlayer(
-          customVideoPlayerController: _customVideoPlayerController),
+      child: FutureBuilder(
+        future: videoPlayerController.initialize(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              if (!snapshot.hasError) {
+                videoPlayerController.play();
+                return Stack(
+                  alignment: AlignmentDirectional.topEnd,
+                  children: [
+                    CustomVideoPlayer(
+                        customVideoPlayerController:
+                            _customVideoPlayerController),
+                    IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: const Icon(
+                          Icons.cancel_outlined,
+                          color: Colors.red,
+                        ))
+                  ],
+                );
+              } else {
+                return Center(
+                  child: Column(children: [
+                    Text(
+                      snapshot.error.toString(),
+                      style: AppStyle.errorStyle,
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    SizedBox(
+                      height: 54,
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        style: AppStyle.myButtonStyle,
+                        child: Text(
+                          'Thoát',
+                          style: AppStyle.buttom,
+                        ),
+                      ),
+                    )
+                  ]),
+                );
+              }
+          }
+        },
+      ),
     );
   }
 }

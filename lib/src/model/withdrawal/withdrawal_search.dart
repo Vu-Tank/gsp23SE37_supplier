@@ -6,7 +6,7 @@ class WithdrawalSearch {
   final int page;
   final String? from;
   final String? to;
-  final int? statusID;
+  int? statusID;
   WithdrawalSearch({
     required this.storeID,
     required this.page,
@@ -15,7 +15,7 @@ class WithdrawalSearch {
     this.statusID,
   });
   bool isDefault() {
-    if (from != null || to != null) return false;
+    if (from != null || to != null || statusID != null) return false;
     return true;
   }
 

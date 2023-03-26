@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dart';
 import 'package:gsp23se37_supplier/src/page/store/cash_flow_dialog.dart';
 import 'package:gsp23se37_supplier/src/page/store/store_withdrawal_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:intl/intl.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
@@ -18,8 +20,8 @@ import 'bar_chart.dart';
 import 'item/item_detail_widget.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
-
+  const DashboardPage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
@@ -413,96 +415,128 @@ class _DashboardPageState extends State<DashboardPage> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Expanded(
                   child: Card(
-                    child: SizedBox(
-                      height: 150,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Sản phẩm đang bán',
-                              style: AppStyle.h2,
-                            ),
-                            Text(
-                              store.totalActiveItem.toString(),
-                              style: AppStyle.h2,
-                            )
-                          ]),
+                    child: InkWell(
+                      onTap: () {
+                        context.read<PageSeletedCubit>().selectPage(index: 0);
+                        widget.sidebarXController.selectIndex(1);
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sản phẩm đang bán',
+                                style: AppStyle.h2,
+                              ),
+                              Text(
+                                store.totalActiveItem.toString(),
+                                style: AppStyle.h2,
+                              )
+                            ]),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Card(
-                    child: SizedBox(
-                      height: 150,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Sản phẩm chờ duyệt',
-                              style: AppStyle.h2,
-                            ),
-                            Text(
-                              store.totalWatingItem.toString(),
-                              style: AppStyle.h2,
-                            )
-                          ]),
+                    child: InkWell(
+                      onTap: () {
+                        context.read<PageSeletedCubit>().selectPage(index: 2);
+                        widget.sidebarXController.selectIndex(1);
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sản phẩm chờ duyệt',
+                                style: AppStyle.h2,
+                              ),
+                              Text(
+                                store.totalWatingItem.toString(),
+                                style: AppStyle.h2,
+                              )
+                            ]),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Card(
-                    child: SizedBox(
-                      height: 150,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Sản phẩm vi phạm',
-                              style: AppStyle.h2,
-                            ),
-                            Text(
-                              store.totalBlockItem.toString(),
-                              style: AppStyle.h2,
-                            )
-                          ]),
+                    child: InkWell(
+                      onTap: () {
+                        context.read<PageSeletedCubit>().selectPage(index: 4);
+                        widget.sidebarXController.selectIndex(1);
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sản phẩm vi phạm',
+                                style: AppStyle.h2,
+                              ),
+                              Text(
+                                store.totalBlockItem.toString(),
+                                style: AppStyle.h2,
+                              )
+                            ]),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Card(
-                    child: SizedBox(
-                      height: 150,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Đơn hàng',
-                              style: AppStyle.h2,
-                            ),
-                            Text(
-                              store.totalOrder.toString(),
-                              style: AppStyle.h2,
-                            )
-                          ]),
+                    child: InkWell(
+                      onTap: () {
+                        context
+                            .read<PageSeletedCubit>()
+                            .selectPage(index: null);
+                        widget.sidebarXController.selectIndex(2);
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Đơn hàng',
+                                style: AppStyle.h2,
+                              ),
+                              Text(
+                                store.totalOrder.toString(),
+                                style: AppStyle.h2,
+                              )
+                            ]),
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Card(
-                    child: SizedBox(
-                      height: 150,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Tổng hoá đơn huỷ',
-                              style: AppStyle.h2,
-                            ),
-                            Text(
-                              store.totalCancelOrder.toString(),
-                              style: AppStyle.h2,
-                            )
-                          ]),
+                    child: InkWell(
+                      onTap: () {
+                        context.read<PageSeletedCubit>().selectPage(index: 5);
+                        widget.sidebarXController.selectIndex(2);
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'đơn huỷ',
+                                style: AppStyle.h2,
+                              ),
+                              Text(
+                                store.totalCancelOrder.toString(),
+                                style: AppStyle.h2,
+                              )
+                            ]),
+                      ),
                     ),
                   ),
                 ),

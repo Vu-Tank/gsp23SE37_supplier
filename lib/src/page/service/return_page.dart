@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
@@ -10,8 +11,8 @@ import '../../model/store.dart';
 import 'all_service.dart';
 
 class ReturnPage extends StatefulWidget {
-  const ReturnPage({super.key});
-
+  const ReturnPage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
   @override
   State<ReturnPage> createState() => _ReturnPageState();
 }
@@ -48,6 +49,8 @@ class _ReturnPageState extends State<ReturnPage> {
   @override
   Widget build(BuildContext context) {
     return AllServicePage(
-        search: ServiceSearch(storeID: store.storeID, serviceType: 2, page: 1));
+      search: ServiceSearch(storeID: store.storeID, serviceType: 2, page: 1),
+      sidebarXController: widget.sidebarXController,
+    );
   }
 }

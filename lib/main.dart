@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gsp23se37_supplier/src/bloc/auth/auth_bloc.dart';
 import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
+import 'package:gsp23se37_supplier/src/cubit/chat/chat_cubit.dart';
+import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dart';
 import 'package:gsp23se37_supplier/src/router/app_router.dart';
 
 import 'firebase_options.dart';
@@ -49,7 +51,13 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ShopBloc(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => PageSeletedCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ChatCubit(),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Esmp',

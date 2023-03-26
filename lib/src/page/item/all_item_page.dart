@@ -84,7 +84,7 @@ class _AllItemPageState extends State<AllItemPage> {
                           searchController: _searchController,
                           onSearch: (ItemSearch itemSearch) {
                             search = itemSearch;
-                            print(search.toString());
+                            // print(search.toString());
                             context.read<AllItemBloc>().add(AllItemLoad(
                                 token: user.token, itemSearch: search));
                           }),
@@ -212,7 +212,7 @@ class _AllItemPageState extends State<AllItemPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 18 / 9,
+              aspectRatio: 20 / 9,
               child: Image.network(
                 item.item_Image,
                 fit: BoxFit.cover,
@@ -225,11 +225,13 @@ class _AllItemPageState extends State<AllItemPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   //ten
-                  Text(
-                    item.name,
-                    style: AppStyle.h2,
-                    maxLines: 3,
-                    overflow: TextOverflow.fade,
+                  Container(
+                    child: Text(
+                      '${item.name}\n\n',
+                      style: AppStyle.h2,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   const SizedBox(
                     height: 8.0,

@@ -12,6 +12,7 @@ import 'package:gsp23se37_supplier/src/utils/app_constants.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
+import 'package:gsp23se37_supplier/src/widget/image_dialog.dart';
 import 'package:intl/intl.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
@@ -93,97 +94,167 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
   }
 
   Widget searchWidget({required BuildContext context}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextButton(
-            onPressed: () async {
-              DateTime? dateTime = await showDatePicker(
-                context: context,
-                locale: const Locale("vi", "VN"),
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2018),
-                lastDate: DateTime.now(),
-              );
-              if (dateTime != null) {
-                setState(() {
-                  from = dateTime;
-                });
-              }
-            },
-            child: Text(
-              (from != null) ? Utils.convertDateTimeToString(from!) : 'Từ ngày',
-              style: AppStyle.textButtom,
-            )),
-        TextButton(
-            onPressed: () async {
-              DateTime? dateTime = await showDatePicker(
-                context: context,
-                locale: const Locale("vi", "VN"),
-                initialDate: DateTime.now(),
-                firstDate: (from != null) ? from! : DateTime(2018),
-                lastDate: DateTime.now(),
-              );
-              if (dateTime != null) {
-                setState(() {
-                  to = dateTime;
-                });
-              }
-            },
-            child: Text(
-              (to != null) ? Utils.convertDateTimeToString(to!) : 'Đến ngày',
-              style: AppStyle.textButtom,
-            )),
-        SizedBox(
-          width: 200,
-          child: DropdownButtonFormField(
-            value: status ?? AppConstants.listWithdrawalStatus.first,
-            icon: const Icon(Icons.arrow_downward),
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(40)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppStyle.appColor, width: 2),
-                  borderRadius: BorderRadius.circular(40)),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!search.isDefault())
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                  onPressed: () {
+                    search = WithdrawalSearch(storeID: search.storeID, page: 1);
+                    context
+                        .read<StoreWithdrawalRequestCubit>()
+                        .load(search: search, token: user.token);
+                    from = null;
+                    to = null;
+                    status = AppConstants.listWithdrawalStatus.first;
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_outlined,
+                    color: Colors.black,
+                  )),
             ),
-            borderRadius: BorderRadius.circular(20),
-            isExpanded: true,
-            elevation: 16,
-            validator: (value) {
-              return null;
-            },
-            style: AppStyle.h2,
-            onChanged: (WithdrawalStatus? value) {
-              if (value != null) {
-                status = value;
-              }
-            },
-            items: AppConstants.listWithdrawalStatus
-                .map<DropdownMenuItem<WithdrawalStatus>>(
-                    (WithdrawalStatus value) {
-              return DropdownMenuItem<WithdrawalStatus>(
-                value: value,
+          SizedBox(
+            height: 54,
+            child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                        side: const BorderSide(width: 5))),
+                onPressed: () async {
+                  DateTime? dateTime = await showDatePicker(
+                    context: context,
+                    locale: const Locale("vi", "VN"),
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2018),
+                    lastDate: DateTime.now(),
+                  );
+                  if (dateTime != null) {
+                    setState(() {
+                      from = dateTime;
+                    });
+                  }
+                },
                 child: Text(
-                  value.statusName,
-                  style: AppStyle.h2,
-                ),
-              );
-            }).toList(),
+                  (from != null)
+                      ? Utils.convertDateTimeToString(from!)
+                      : 'Từ ngày',
+                  style: AppStyle.textButtom,
+                )),
           ),
-        ),
-        IconButton(
-            onPressed: () {
-              context.read<StoreWithdrawalRequestCubit>().load(
-                  search: search.copyWith(statusID: status?.item_StatusID),
-                  token: user.token);
-            },
-            icon: const Icon(
-              Icons.search,
-              color: Colors.blue,
-            ))
-      ],
+          const SizedBox(
+            width: 8.0,
+          ),
+          SizedBox(
+            height: 54,
+            child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                        side: const BorderSide(width: 5))),
+                onPressed: () async {
+                  DateTime? dateTime = await showDatePicker(
+                    context: context,
+                    locale: const Locale("vi", "VN"),
+                    initialDate: DateTime.now(),
+                    firstDate: (from != null) ? from! : DateTime(2018),
+                    lastDate: DateTime.now(),
+                  );
+                  if (dateTime != null) {
+                    setState(() {
+                      to = dateTime;
+                    });
+                  }
+                },
+                child: Text(
+                  (to != null)
+                      ? Utils.convertDateTimeToString(to!)
+                      : 'Đến ngày',
+                  style: AppStyle.textButtom,
+                )),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          SizedBox(
+            width: 200,
+            child: DropdownButtonFormField(
+              value: status ?? AppConstants.listWithdrawalStatus.first,
+              icon: const Icon(Icons.arrow_downward),
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppStyle.appColor, width: 2),
+                    borderRadius: BorderRadius.circular(40)),
+              ),
+              borderRadius: BorderRadius.circular(20),
+              isExpanded: true,
+              elevation: 16,
+              validator: (value) {
+                return null;
+              },
+              style: AppStyle.h2,
+              onChanged: (WithdrawalStatus? value) {
+                if (value != null) {
+                  status = value;
+                }
+              },
+              items: AppConstants.listWithdrawalStatus
+                  .map<DropdownMenuItem<WithdrawalStatus>>(
+                      (WithdrawalStatus value) {
+                return DropdownMenuItem<WithdrawalStatus>(
+                  value: value,
+                  child: Text(
+                    value.statusName,
+                    style: AppStyle.h2,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          const SizedBox(
+            width: 8.0,
+          ),
+          IconButton(
+              onPressed: () {
+                context.read<StoreWithdrawalRequestCubit>().load(
+                    search: search.copyWith(
+                      statusID: status?.item_StatusID,
+                      from: (from != null)
+                          ? Utils.convertDateTimeToString(from!)
+                          : null,
+                      to: (to != null)
+                          ? Utils.convertDateTimeToString(to!)
+                          : null,
+                    ),
+                    token: user.token);
+                setState(() {
+                  search = search.copyWith(
+                    statusID: status?.item_StatusID,
+                    from: (from != null)
+                        ? Utils.convertDateTimeToString(from!)
+                        : null,
+                    to: (to != null)
+                        ? Utils.convertDateTimeToString(to!)
+                        : null,
+                  );
+                  if (status != null && status!.item_StatusID == -1) {
+                    search.statusID = null;
+                  }
+                });
+              },
+              icon: const Icon(
+                Icons.search,
+                color: Colors.blue,
+              ))
+        ],
+      ),
     );
   }
 
@@ -212,6 +283,8 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
                           BoxConstraints(minWidth: constraints.maxWidth),
                       child: DataTable(
                           showCheckboxColumn: false,
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.blue),
                           columns: [
                             DataColumn(
                                 label: Text(
@@ -254,18 +327,26 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
                             return DataRow(
                                 onSelectChanged: (value) {
                                   if (withdrawal.image != null) {
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (context) => Dialog(
+                                    //     child: SizedBox(
+                                    //       height: 300,
+                                    //       width: 300,
+                                    //       child: Image.network(
+                                    //         withdrawal.image!.path,
+                                    //         fit: BoxFit.cover,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // );
                                     showDialog(
                                       context: context,
-                                      builder: (context) => Dialog(
-                                        child: SizedBox(
-                                          height: 300,
-                                          width: 300,
-                                          child: Image.network(
-                                            withdrawal.image!.path,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
+                                      builder: (context) => imageDialog(
+                                          context: context,
+                                          url: withdrawal.image!.path,
+                                          w: 200,
+                                          h: 200),
                                     );
                                   }
                                   if (withdrawal
@@ -347,7 +428,7 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
     } else {
       return Center(
         child: Text(
-          'Số kết quả trả về 0',
+          'Không tìm thấy kết quả nào',
           style: AppStyle.h2,
         ),
       );

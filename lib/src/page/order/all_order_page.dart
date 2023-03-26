@@ -17,6 +17,7 @@ import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 import 'package:intl/intl.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
@@ -27,8 +28,10 @@ import 'order_detail_widget.dart';
 import 'recipient_information_wigdet.dart';
 
 class AllOrderPage extends StatefulWidget {
-  const AllOrderPage({super.key, required this.orderSearch});
+  const AllOrderPage(
+      {super.key, required this.orderSearch, required this.sidebarXController});
   final OrderSearch orderSearch;
+  final SidebarXController sidebarXController;
   @override
   State<AllOrderPage> createState() => _AllOrderPageState();
 }
@@ -309,6 +312,8 @@ class _AllOrderPageState extends State<AllOrderPage> {
                   onTap: () async => showDialog(
                     context: context,
                     builder: (context) => recipientInformationWidget(
+                        controller: widget.sidebarXController,
+                        firebaseid: order.value.firebaseID,
                         context: context,
                         name: order.value.name,
                         phone: order.value.tel,

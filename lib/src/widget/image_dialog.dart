@@ -13,9 +13,13 @@ Widget imageDialog(
         child: Stack(
           alignment: AlignmentDirectional.topEnd,
           children: [
-            Image.network(
-              url,
-              fit: BoxFit.cover,
+            Center(
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+                // width: double.infinity,
+                // height: double.infinity,
+              ),
             ),
             IconButton(
                 onPressed: () {

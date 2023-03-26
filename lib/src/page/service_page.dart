@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gsp23se37_supplier/src/page/service/data_exchange_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/exchange_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/return_page.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 import '../utils/app_style.dart';
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({super.key});
-
+  const ServicePage({super.key, required this.sidebarXController});
+  final SidebarXController sidebarXController;
   @override
   State<ServicePage> createState() => _ServicePageState();
 }
@@ -45,11 +46,13 @@ class _ServicePageState extends State<ServicePage> {
                   ],
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(children: [
-                  ExchangePage(),
-                  ReturnPage(),
-                  DataExchangePage(),
+                  ExchangePage(
+                    sidebarXController: widget.sidebarXController,
+                  ),
+                  ReturnPage(sidebarXController: widget.sidebarXController),
+                  const DataExchangePage(),
                 ]),
               ),
             ],

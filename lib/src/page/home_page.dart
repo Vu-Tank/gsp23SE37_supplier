@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dart';
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
@@ -57,6 +58,16 @@ class _HomePageState extends State<HomePage>
       if (controller.selectedIndex == 3) {
         setState(() {
           tiltie = "Trò chuyện";
+        });
+      }
+      if (controller.selectedIndex == 4) {
+        setState(() {
+          tiltie = "DỊch vụ";
+        });
+      }
+      if (controller.selectedIndex == 5) {
+        setState(() {
+          tiltie = "Lịch sử rút tiền";
         });
       }
     });
@@ -285,30 +296,42 @@ class _HomePageState extends State<HomePage>
           store: store,
           controller: controller,
         ),
-        Expanded(
-            child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) {
-            switch (controller.selectedIndex) {
-              case 0:
-                return const DashboardPage();
-              case 1:
-                return ItemPage(
-                  key: widget.key,
-                );
-              case 2:
-                return OrderPage(
-                  key: widget.key,
-                );
-              case 3:
-                return const ChatPage();
-              case 4:
-                return const ServicePage();
-              case 5:
-                return const StoreWithdrawalRequestPage();
-              default:
-                return const DashboardPage();
-            }
+        Expanded(child: BlocBuilder<PageSeletedCubit, PageSeletedState>(
+          builder: (context, state) {
+            return AnimatedBuilder(
+              animation: controller,
+              builder: (context, child) {
+                switch (controller.selectedIndex) {
+                  case 0:
+                    return DashboardPage(
+                      sidebarXController: controller,
+                    );
+                  case 1:
+                    return ItemPage(
+                      key: widget.key,
+                      index: state.index,
+                    );
+                  case 2:
+                    return OrderPage(
+                      key: widget.key,
+                      index: state.index,
+                      sidebarXController: controller,
+                    );
+                  case 3:
+                    return const ChatPage();
+                  case 4:
+                    return ServicePage(
+                      sidebarXController: controller,
+                    );
+                  case 5:
+                    return const StoreWithdrawalRequestPage();
+                  default:
+                    return DashboardPage(
+                      sidebarXController: controller,
+                    );
+                }
+              },
+            );
           },
         )),
       ],
