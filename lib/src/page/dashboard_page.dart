@@ -62,7 +62,6 @@ class _DashboardPageState extends State<DashboardPage> {
                     maxHeight: 300,
                     maxWidth: 300),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
