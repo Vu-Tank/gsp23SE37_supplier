@@ -24,7 +24,6 @@ class _DashboardPageState extends State<DashboardPage> {
   late User user;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     AuthState authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticated) {
@@ -55,72 +54,63 @@ class _DashboardPageState extends State<DashboardPage> {
         Column(
           children: [
             Card(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                    minHeight: 300,
-                    minWidth: 300,
-                    maxHeight: 300,
-                    maxWidth: 300),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Tài khoản',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Tài khoản',
+                    style: AppStyle.h2,
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                    ),
+                    child: Text(
+                      NumberFormat.currency(locale: 'vi-VN', decimalDigits: 0)
+                          .format(store.asset),
                       style: AppStyle.h2,
                     ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                      ),
-                      child: Text(
-                        NumberFormat.currency(locale: 'vi-VN', decimalDigits: 0)
-                            .format(store.asset),
-                        style: AppStyle.h2,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              if (store.asset < 10000) {
-                                MyDialog.showAlertDialog(context,
-                                    'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => storeWithdraWalDialog(
-                                      context: context,
-                                      user: user,
-                                      store: store),
-                                );
-                              }
-                            },
-                            child: Text(
-                              'Rút tiền',
-                              style: AppStyle.textButtom,
-                            )),
-                        TextButton(
-                            onPressed: () {
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            if (store.asset < 10000) {
+                              MyDialog.showAlertDialog(context,
+                                  'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
+                            } else {
                               showDialog(
                                 context: context,
-                                builder: (context) => CashFlowDialog(
-                                    storeID: store.storeID, token: user.token),
+                                builder: (context) => storeWithdraWalDialog(
+                                    context: context, user: user, store: store),
                               );
-                            },
-                            child: Text(
-                              'Dòng tiền',
-                              style: AppStyle.textButtom,
-                            )),
-                      ],
-                    )
-                  ],
-                ),
+                            }
+                          },
+                          child: Text(
+                            'Rút tiền',
+                            style: AppStyle.textButtom,
+                          )),
+                      TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CashFlowDialog(
+                                  storeID: store.storeID, token: user.token),
+                            );
+                          },
+                          child: Text(
+                            'Dòng tiền',
+                            style: AppStyle.textButtom,
+                          )),
+                    ],
+                  )
+                ],
               ),
             ),
             Card(
