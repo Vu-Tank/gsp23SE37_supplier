@@ -11,7 +11,6 @@ import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
 import '../model/store.dart';
 import '../model/user.dart';
-import 'bar_chart.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -336,16 +335,16 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ]),
-              Expanded(
-                  child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomerBarChart(
-                    storeID: store.storeID,
-                    token: user.token,
-                  ),
-                ),
-              ))
+              // Expanded(
+              //     child: Card(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: CustomerBarChart(
+              //       storeID: store.storeID,
+              //       token: user.token,
+              //     ),
+              //   ),
+              // ))
             ],
           ),
         )
