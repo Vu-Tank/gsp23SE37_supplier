@@ -127,14 +127,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
                 Card(
-                  child: Column(children: [
-                    SizedBox(
-                      width: 300,
-                      child: Center(
-                        child: Text(
-                          'Top sản phẩm',
-                          style: AppStyle.h2,
-                        ),
+                  child: Column(mainAxisSize: MainAxisSize.max, children: [
+                    Center(
+                      child: Text(
+                        'Top sản phẩm',
+                        style: AppStyle.h2,
                       ),
                     ),
                     Expanded(
@@ -160,6 +157,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                         // maxHeight: 300,
                                         maxWidth: 300),
                                     child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
