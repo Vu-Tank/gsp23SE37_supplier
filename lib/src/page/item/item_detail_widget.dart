@@ -50,56 +50,58 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: LayoutBuilder(builder: (context, size) {
-              return ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 800),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: BlocBuilder<ItemDetailCubit, ItemDetailState>(
-                          builder: (context, itemDetailState) {
-                            if (itemDetailState is ItemDetailLoadFailed) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    itemDetailState.msg,
-                                    style: AppStyle.errorStyle,
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  SizedBox(
-                                    height: 54.0,
-                                    width: 200,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          context
-                                              .read<ItemDetailCubit>()
-                                              .loadItem(itemID: widget.itemId);
-                                        },
-                                        style: AppStyle.myButtonStyle,
-                                        child: Text(
-                                          'Thử lại',
-                                          style: AppStyle.buttom,
-                                        )),
-                                  )
-                                ],
-                              );
-                            } else if (itemDetailState is ItemDetailLoaded) {
-                              return ScrollConfiguration(
-                                behavior: ScrollConfiguration.of(context)
-                                    .copyWith(dragDevices: {
-                                  PointerDeviceKind.mouse,
-                                  PointerDeviceKind.touch,
-                                }),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  child: Column(
+              return ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(dragDevices: {
+                  PointerDeviceKind.mouse,
+                  PointerDeviceKind.touch,
+                }),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 800),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child:
+                                BlocBuilder<ItemDetailCubit, ItemDetailState>(
+                              builder: (context, itemDetailState) {
+                                if (itemDetailState is ItemDetailLoadFailed) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        itemDetailState.msg,
+                                        style: AppStyle.errorStyle,
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      SizedBox(
+                                        height: 54.0,
+                                        width: 200,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<ItemDetailCubit>()
+                                                  .loadItem(
+                                                      itemID: widget.itemId);
+                                            },
+                                            style: AppStyle.myButtonStyle,
+                                            child: Text(
+                                              'Thử lại',
+                                              style: AppStyle.buttom,
+                                            )),
+                                      )
+                                    ],
+                                  );
+                                } else if (itemDetailState
+                                    is ItemDetailLoaded) {
+                                  return Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
@@ -295,30 +297,30 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                         ),
                                       )
                                     ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          },
-                        ),
+                                  );
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: SizedBox(
+                              height: 56,
+                              width: 56,
+                              child: IconButton(
+                                  onPressed: () => context.pop(),
+                                  icon: const Icon(
+                                    Icons.cancel_outlined,
+                                    color: Colors.red,
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: SizedBox(
-                          height: 56,
-                          width: 56,
-                          child: IconButton(
-                              onPressed: () => context.pop(),
-                              icon: const Icon(
-                                Icons.cancel_outlined,
-                                color: Colors.red,
-                              )),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               );
