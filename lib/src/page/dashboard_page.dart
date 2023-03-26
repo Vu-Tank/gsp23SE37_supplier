@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gsp23se37_supplier/src/page/store/cash_flow_dialog.dart';
+import 'package:gsp23se37_supplier/src/page/store/store_withdrawal_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:intl/intl.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
 import '../model/store.dart';
 import '../model/user.dart';
+import '../utils/my_dialog.dart';
 import 'bar_chart.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -48,6 +52,80 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        LayoutBuilder(
+          builder: (p0, p1) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: p1.maxHeight, maxWidth: 300, minWidth: 300),
+              child: Column(mainAxisSize: MainAxisSize.max, children: [
+                Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Tài khoản',
+                        style: AppStyle.h2,
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                        ),
+                        child: Text(
+                          NumberFormat.currency(
+                                  locale: 'vi-VN', decimalDigits: 0)
+                              .format(store.asset),
+                          style: AppStyle.h2,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Row(
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                if (store.asset < 10000) {
+                                  MyDialog.showAlertDialog(context,
+                                      'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => storeWithdraWalDialog(
+                                        context: context,
+                                        user: user,
+                                        store: store),
+                                  );
+                                }
+                              },
+                              child: Text(
+                                'Rút tiền',
+                                style: AppStyle.textButtom,
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CashFlowDialog(
+                                      storeID: store.storeID,
+                                      token: user.token),
+                                );
+                              },
+                              child: Text(
+                                'Dòng tiền',
+                                style: AppStyle.textButtom,
+                              )),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ]),
+            );
+          },
+        ),
         // Column(
         //   children: [
         //     Card(
