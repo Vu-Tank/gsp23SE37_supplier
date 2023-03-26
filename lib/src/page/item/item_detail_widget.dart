@@ -67,254 +67,244 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                       child: Stack(
                         alignment: AlignmentDirectional.center,
                         children: [
-                          Expanded(
-                            child: Center(
-                              child:
-                                  BlocBuilder<ItemDetailCubit, ItemDetailState>(
-                                builder: (context, itemDetailState) {
-                                  if (itemDetailState is ItemDetailLoadFailed) {
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          itemDetailState.msg,
-                                          style: AppStyle.errorStyle,
-                                        ),
-                                        const SizedBox(
-                                          height: 8.0,
-                                        ),
-                                        SizedBox(
-                                          height: 54.0,
-                                          width: 200,
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                context
-                                                    .read<ItemDetailCubit>()
-                                                    .loadItem(
-                                                        itemID: widget.itemId);
-                                              },
-                                              style: AppStyle.myButtonStyle,
-                                              child: Text(
-                                                'Thử lại',
-                                                style: AppStyle.buttom,
-                                              )),
-                                        )
-                                      ],
-                                    );
-                                  } else if (itemDetailState
-                                      is ItemDetailLoaded) {
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Card(
-                                          shape: const RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              color: Colors.black,
-                                            ),
+                          Center(
+                            child:
+                                BlocBuilder<ItemDetailCubit, ItemDetailState>(
+                              builder: (context, itemDetailState) {
+                                if (itemDetailState is ItemDetailLoadFailed) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        itemDetailState.msg,
+                                        style: AppStyle.errorStyle,
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      SizedBox(
+                                        height: 54.0,
+                                        width: 200,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<ItemDetailCubit>()
+                                                  .loadItem(
+                                                      itemID: widget.itemId);
+                                            },
+                                            style: AppStyle.myButtonStyle,
+                                            child: Text(
+                                              'Thử lại',
+                                              style: AppStyle.buttom,
+                                            )),
+                                      )
+                                    ],
+                                  );
+                                } else if (itemDetailState
+                                    is ItemDetailLoaded) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Card(
+                                        shape: const RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: Colors.black,
                                           ),
-                                          child: SizedBox(
-                                            height: 350,
-                                            width: 800,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Center(
-                                                    child: PageView.builder(
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      itemCount: itemDetailState
-                                                          .itemDetail
-                                                          .list_Image
-                                                          .length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        var image =
-                                                            itemDetailState
-                                                                    .itemDetail
-                                                                    .list_Image[
-                                                                index];
-                                                        return SizedBox(
-                                                          child: Image.network(
-                                                            image.path,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
+                                        ),
+                                        child: SizedBox(
+                                          height: 350,
+                                          width: 800,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Center(
+                                                  child: PageView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount: itemDetailState
+                                                        .itemDetail
+                                                        .list_Image
+                                                        .length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var image =
+                                                          itemDetailState
+                                                                  .itemDetail
+                                                                  .list_Image[
+                                                              index];
+                                                      return SizedBox(
+                                                        child: Image.network(
+                                                          image.path,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      );
+                                                    },
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  width: 8.0,
-                                                ),
-                                                Expanded(
-                                                    child: _itemInfo(
-                                                        context,
-                                                        itemDetailState
-                                                            .itemDetail)),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8.0,
-                                        ),
-                                        Card(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                'Thông số kỹ thuật',
-                                                style: AppStyle.h1,
                                               ),
-                                              _specifiWidget(itemDetailState
-                                                  .itemDetail.specification_Tag)
+                                              const SizedBox(
+                                                width: 8.0,
+                                              ),
+                                              Expanded(
+                                                  child: _itemInfo(
+                                                      context,
+                                                      itemDetailState
+                                                          .itemDetail)),
                                             ],
                                           ),
                                         ),
-                                        Card(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Mô tả sản phẩm:',
-                                                  style: AppStyle.h2,
-                                                ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                Text(
-                                                  itemDetailState
-                                                      .itemDetail.description,
-                                                  style: AppStyle.h2,
-                                                )
-                                              ],
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Card(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'Thông số kỹ thuật',
+                                              style: AppStyle.h1,
                                             ),
+                                            _specifiWidget(itemDetailState
+                                                .itemDetail.specification_Tag)
+                                          ],
+                                        ),
+                                      ),
+                                      Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Mô tả sản phẩm:',
+                                                style: AppStyle.h2,
+                                              ),
+                                              const SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Text(
+                                                itemDetailState
+                                                    .itemDetail.description,
+                                                style: AppStyle.h2,
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Card(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Phương tiện có thể sử dụng',
-                                                  style: AppStyle.h2,
-                                                ),
-                                                const SizedBox(
-                                                  height: 8.0,
-                                                ),
-                                                ...itemDetailState
-                                                    .itemDetail.listModel
-                                                    .map((e) => Container(
-                                                          child: Text(
-                                                            Utils.generationStringFormBrand(
-                                                                    e)
-                                                                .trim(),
-                                                            style: AppStyle.h2,
-                                                          ),
-                                                        ))
-                                              ],
-                                            ),
+                                      ),
+                                      Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Phương tiện có thể sử dụng',
+                                                style: AppStyle.h2,
+                                              ),
+                                              const SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              ...itemDetailState
+                                                  .itemDetail.listModel
+                                                  .map((e) => Container(
+                                                        child: Text(
+                                                          Utils.generationStringFormBrand(
+                                                                  e)
+                                                              .trim(),
+                                                          style: AppStyle.h2,
+                                                        ),
+                                                      ))
+                                            ],
                                           ),
                                         ),
-                                        Card(
-                                          child: BlocBuilder<ItemFeedbackCubit,
-                                              ItemFeedbackState>(
-                                            builder: (context, state) {
-                                              if (state
-                                                  is ItemFeedbackLoadFailed) {
-                                                return blocLoadFailed(
-                                                  msg: state.msg,
-                                                  reload: () {
-                                                    context
-                                                        .read<
-                                                            ItemFeedbackCubit>()
-                                                        .loadFeedback(
-                                                            itemID:
-                                                                widget.itemId,
-                                                            page: state
-                                                                .currentPage,
-                                                            token:
-                                                                widget.token);
-                                                  },
-                                                );
-                                              } else if (state
-                                                  is ItemFeedbackLoaded) {
-                                                return Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    itemFeedback(
-                                                        context: context,
-                                                        feebacks:
-                                                            state.feedbacks),
-                                                    (state.currentPage != 1)
-                                                        ? Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  icon: const Icon(
-                                                                      Icons
-                                                                          .arrow_back_outlined)),
-                                                              Text(
-                                                                state
-                                                                    .currentPage
-                                                                    .toString(),
-                                                                style:
-                                                                    AppStyle.h2,
-                                                              ),
-                                                              IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  icon: const Icon(
-                                                                      Icons
-                                                                          .arrow_forward_outlined))
-                                                            ],
-                                                          )
-                                                        : Center(
-                                                            child: Text(
-                                                              'Có ${state.feedbacks.length} đánh giá',
+                                      ),
+                                      Card(
+                                        child: BlocBuilder<ItemFeedbackCubit,
+                                            ItemFeedbackState>(
+                                          builder: (context, state) {
+                                            if (state
+                                                is ItemFeedbackLoadFailed) {
+                                              return blocLoadFailed(
+                                                msg: state.msg,
+                                                reload: () {
+                                                  context
+                                                      .read<ItemFeedbackCubit>()
+                                                      .loadFeedback(
+                                                          itemID: widget.itemId,
+                                                          page:
+                                                              state.currentPage,
+                                                          token: widget.token);
+                                                },
+                                              );
+                                            } else if (state
+                                                is ItemFeedbackLoaded) {
+                                              return Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  itemFeedback(
+                                                      context: context,
+                                                      feebacks:
+                                                          state.feedbacks),
+                                                  (state.currentPage != 1)
+                                                      ? Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            IconButton(
+                                                                onPressed:
+                                                                    () {},
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .arrow_back_outlined)),
+                                                            Text(
+                                                              state.currentPage
+                                                                  .toString(),
                                                               style:
                                                                   AppStyle.h2,
                                                             ),
+                                                            IconButton(
+                                                                onPressed:
+                                                                    () {},
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .arrow_forward_outlined))
+                                                          ],
+                                                        )
+                                                      : Center(
+                                                          child: Text(
+                                                            'Có ${state.feedbacks.length} đánh giá',
+                                                            style: AppStyle.h2,
                                                           ),
-                                                  ],
-                                                );
-                                              } else {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              }
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  } else {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                },
-                              ),
+                                                        ),
+                                                ],
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             ),
                           ),
                           Positioned(
