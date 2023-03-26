@@ -164,7 +164,17 @@ class _AllServicePageState extends State<AllServicePage> {
                                                               serviceBuyState
                                                                   .totalPage)
                                                           ? null
-                                                          : () {},
+                                                          : () {
+                                                              context
+                                                                  .read<
+                                                                      ServiceBuyCubit>()
+                                                                  .loadService(
+                                                                      token: user
+                                                                          .token,
+                                                                      search: search.copyWith(
+                                                                          page: search.page +
+                                                                              1));
+                                                            },
                                                       icon: const Icon(
                                                         Icons
                                                             .arrow_forward_outlined,

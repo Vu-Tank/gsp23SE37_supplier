@@ -94,43 +94,38 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                       Row(
                         children: [
-                          Expanded(
-                            child: TextButton(
-                                onPressed: () {
-                                  if (store.asset < 10000) {
-                                    MyDialog.showAlertDialog(context,
-                                        'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          storeWithdraWalDialog(
-                                              context: context,
-                                              user: user,
-                                              store: store),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  'Rút tiền',
-                                  style: AppStyle.textButtom,
-                                )),
-                          ),
-                          Expanded(
-                            child: TextButton(
-                                onPressed: () {
+                          TextButton(
+                              onPressed: () {
+                                if (store.asset < 10000) {
+                                  MyDialog.showAlertDialog(context,
+                                      'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
+                                } else {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => CashFlowDialog(
-                                        storeID: store.storeID,
-                                        token: user.token),
+                                    builder: (context) => storeWithdraWalDialog(
+                                        context: context,
+                                        user: user,
+                                        store: store),
                                   );
-                                },
-                                child: Text(
-                                  'Dòng tiền',
-                                  style: AppStyle.textButtom,
-                                )),
-                          ),
+                                }
+                              },
+                              child: Text(
+                                'Rút tiền',
+                                style: AppStyle.textButtom,
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CashFlowDialog(
+                                      storeID: store.storeID,
+                                      token: user.token),
+                                );
+                              },
+                              child: Text(
+                                'Dòng tiền',
+                                style: AppStyle.textButtom,
+                              )),
                         ],
                       )
                     ],
