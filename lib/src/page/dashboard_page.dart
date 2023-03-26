@@ -124,8 +124,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             ),
-            Expanded(
-                child: Card(
+            Card(
               child: Expanded(
                 child: Column(mainAxisSize: MainAxisSize.max, children: [
                   SizedBox(
@@ -227,7 +226,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   // ),
                 ]),
               ),
-            ))
+            )
           ],
         ),
         // Expanded(
