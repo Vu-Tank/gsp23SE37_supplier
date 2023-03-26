@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
-import 'package:intl/intl.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
-import '../cubit/item_hot/item_hot_cubit.dart';
-import '../model/item/item.dart';
 import '../model/store.dart';
 import '../model/user.dart';
-import '../widget/bloc_load_failed.dart';
 import 'bar_chart.dart';
-import 'item/item_detail_widget.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -53,169 +48,169 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          children: [
-            Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Tài khoản',
-                    style: AppStyle.h2,
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                    ),
-                    child: Text(
-                      NumberFormat.currency(locale: 'vi-VN', decimalDigits: 0)
-                          .format(store.asset),
-                      style: AppStyle.h2,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  // Row(
-                  //   children: [
-                  //     TextButton(
-                  //         onPressed: () {
-                  //           if (store.asset < 10000) {
-                  //             MyDialog.showAlertDialog(context,
-                  //                 'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
-                  //           } else {
-                  //             showDialog(
-                  //               context: context,
-                  //               builder: (context) => storeWithdraWalDialog(
-                  //                   context: context, user: user, store: store),
-                  //             );
-                  //           }
-                  //         },
-                  //         child: Text(
-                  //           'Rút tiền',
-                  //           style: AppStyle.textButtom,
-                  //         )),
-                  //     TextButton(
-                  //         onPressed: () {
-                  //           showDialog(
-                  //             context: context,
-                  //             builder: (context) => CashFlowDialog(
-                  //                 storeID: store.storeID, token: user.token),
-                  //           );
-                  //         },
-                  //         child: Text(
-                  //           'Dòng tiền',
-                  //           style: AppStyle.textButtom,
-                  //         )),
-                  //   ],
-                  // )
-                ],
-              ),
-            ),
-            Card(
-              child: Column(children: [
-                SizedBox(
-                  width: 300,
-                  child: Center(
-                    child: Text(
-                      'Top sản phẩm',
-                      style: AppStyle.h2,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: BlocProvider(
-                    create: (context) => ItemHotCubit()
-                      ..loadHotItem(token: user.token, storeID: store.storeID),
-                    child: BlocBuilder<ItemHotCubit, ItemHotState>(
-                      builder: (context, state) {
-                        if (state is ItemHotLoaded) {
-                          if (state.list.isEmpty) {
-                            return Text(
-                              'Không có dữ liệu',
-                              style: AppStyle.h2,
-                            );
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                    minHeight: 200,
-                                    minWidth: 200,
-                                    // maxHeight: 300,
-                                    maxWidth: 300),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: List.generate(state.list.length,
-                                        (index) {
-                                      Item item = state.list[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  ItemDetailWidget(
-                                                      itemId: item.itemID,
-                                                      token: user.token,
-                                                      edit: false),
-                                            );
-                                          },
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                height: 50,
-                                                width: 50,
-                                                child: Image.network(
-                                                    item.item_Image),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  item.name,
-                                                  style: AppStyle.h2,
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        } else if (state is ItemHotFailed) {
-                          return blocLoadFailed(
-                            msg: state.msg,
-                            reload: () {
-                              context.read<ItemHotCubit>().loadHotItem(
-                                  token: user.token, storeID: store.storeID);
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ]),
-            )
-          ],
-        ),
+        // Column(
+        //   children: [
+        //     Card(
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         children: [
+        //           Text(
+        //             'Tài khoản',
+        //             style: AppStyle.h2,
+        //           ),
+        //           const SizedBox(
+        //             height: 8.0,
+        //           ),
+        //           Container(
+        //             decoration: BoxDecoration(
+        //               border: Border.all(),
+        //             ),
+        //             child: Text(
+        //               NumberFormat.currency(locale: 'vi-VN', decimalDigits: 0)
+        //                   .format(store.asset),
+        //               style: AppStyle.h2,
+        //             ),
+        //           ),
+        //           const SizedBox(
+        //             height: 8.0,
+        //           ),
+        //           // Row(
+        //           //   children: [
+        //           //     TextButton(
+        //           //         onPressed: () {
+        //           //           if (store.asset < 10000) {
+        //           //             MyDialog.showAlertDialog(context,
+        //           //                 'Số tiền Phải lơn hơn 10.000VNĐ mới có thể rút');
+        //           //           } else {
+        //           //             showDialog(
+        //           //               context: context,
+        //           //               builder: (context) => storeWithdraWalDialog(
+        //           //                   context: context, user: user, store: store),
+        //           //             );
+        //           //           }
+        //           //         },
+        //           //         child: Text(
+        //           //           'Rút tiền',
+        //           //           style: AppStyle.textButtom,
+        //           //         )),
+        //           //     TextButton(
+        //           //         onPressed: () {
+        //           //           showDialog(
+        //           //             context: context,
+        //           //             builder: (context) => CashFlowDialog(
+        //           //                 storeID: store.storeID, token: user.token),
+        //           //           );
+        //           //         },
+        //           //         child: Text(
+        //           //           'Dòng tiền',
+        //           //           style: AppStyle.textButtom,
+        //           //         )),
+        //           //   ],
+        //           // )
+        //         ],
+        //       ),
+        //     ),
+        //     Card(
+        //       child: Column(children: [
+        //         SizedBox(
+        //           width: 300,
+        //           child: Center(
+        //             child: Text(
+        //               'Top sản phẩm',
+        //               style: AppStyle.h2,
+        //             ),
+        //           ),
+        //         ),
+        //         Expanded(
+        //           child: BlocProvider(
+        //             create: (context) => ItemHotCubit()
+        //               ..loadHotItem(token: user.token, storeID: store.storeID),
+        //             child: BlocBuilder<ItemHotCubit, ItemHotState>(
+        //               builder: (context, state) {
+        //                 if (state is ItemHotLoaded) {
+        //                   if (state.list.isEmpty) {
+        //                     return Text(
+        //                       'Không có dữ liệu',
+        //                       style: AppStyle.h2,
+        //                     );
+        //                   } else {
+        //                     return Padding(
+        //                       padding: const EdgeInsets.all(8.0),
+        //                       child: ConstrainedBox(
+        //                         constraints: const BoxConstraints(
+        //                             minHeight: 200,
+        //                             minWidth: 200,
+        //                             // maxHeight: 300,
+        //                             maxWidth: 300),
+        //                         child: SingleChildScrollView(
+        //                           child: Column(
+        //                             crossAxisAlignment:
+        //                                 CrossAxisAlignment.start,
+        //                             children: List.generate(state.list.length,
+        //                                 (index) {
+        //                               Item item = state.list[index];
+        //                               return Padding(
+        //                                 padding: const EdgeInsets.symmetric(
+        //                                     vertical: 8.0),
+        //                                 child: InkWell(
+        //                                   onTap: () {
+        //                                     showDialog(
+        //                                       context: context,
+        //                                       builder: (context) =>
+        //                                           ItemDetailWidget(
+        //                                               itemId: item.itemID,
+        //                                               token: user.token,
+        //                                               edit: false),
+        //                                     );
+        //                                   },
+        //                                   child: Row(
+        //                                     children: [
+        //                                       SizedBox(
+        //                                         height: 50,
+        //                                         width: 50,
+        //                                         child: Image.network(
+        //                                             item.item_Image),
+        //                                       ),
+        //                                       Expanded(
+        //                                         child: Text(
+        //                                           item.name,
+        //                                           style: AppStyle.h2,
+        //                                           maxLines: 1,
+        //                                           overflow:
+        //                                               TextOverflow.ellipsis,
+        //                                         ),
+        //                                       )
+        //                                     ],
+        //                                   ),
+        //                                 ),
+        //                               );
+        //                             }),
+        //                           ),
+        //                         ),
+        //                       ),
+        //                     );
+        //                   }
+        //                 } else if (state is ItemHotFailed) {
+        //                   return blocLoadFailed(
+        //                     msg: state.msg,
+        //                     reload: () {
+        //                       context.read<ItemHotCubit>().loadHotItem(
+        //                           token: user.token, storeID: store.storeID);
+        //                     },
+        //                   );
+        //                 } else {
+        //                   return const Center(
+        //                     child: CircularProgressIndicator(),
+        //                   );
+        //                 }
+        //               },
+        //             ),
+        //           ),
+        //         ),
+        //       ]),
+        //     )
+        //   ],
+        // ),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.max,
