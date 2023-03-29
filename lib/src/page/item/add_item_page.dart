@@ -475,6 +475,9 @@ class _AddItemPageState extends State<AddItemPage> {
                                         return _subItemWidget(subItemState,
                                             index, context, addItemstate);
                                       }),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
                                   ElevatedButton(
                                     onPressed: () {
                                       if (subItemState.listSub.length >= 4) {
@@ -561,281 +564,315 @@ class _AddItemPageState extends State<AddItemPage> {
     );
   }
 
-  Padding _subItemWidget(SubItemState subItemState, int index,
+  Widget _subItemWidget(SubItemState subItemState, int index,
       BuildContext context, AddItemState addItemstate) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Column(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Container(
+        decoration: BoxDecoration(border: Border.all()),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             children: [
-              SizedBox(
-                height: 300,
-                width: 300,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: (subItemState.listSub[index].data == null)
-                      ? DottedBorder(
-                          color: AppStyle.appColor,
-                          dashPattern: const [6.7],
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(12),
-                          child: Center(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.image_outlined,
-                                    color: AppStyle.appColor,
-                                    size: 50,
-                                  ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  TextButton(
-                                      onPressed: () => context
-                                          .read<SubItemCubit>()
-                                          .pickImage(index: index),
-                                      child: Text(
-                                        'Chọn ảnh',
-                                        style: AppStyle.h2,
-                                      ))
-                                ]),
-                          ),
-                        )
-                      : Stack(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          children: [
-                            SizedBox(
-                              height: double.infinity,
-                              width: double.infinity,
-                              child: Image.memory(
-                                subItemState.listSub[index].data!,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () => context
-                                  .read<SubItemCubit>()
-                                  .pickImage(index: index),
-                              style: AppStyle.myButtonStyle,
-                              child: Text(
-                                'Chọn lại',
-                                style: AppStyle.h2,
+              Column(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: (subItemState.listSub[index].data == null)
+                          ? DottedBorder(
+                              color: Colors.black,
+                              dashPattern: const [6.7],
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(12),
+                              child: Center(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.image_outlined,
+                                        color: AppStyle.appColor,
+                                        size: 50,
+                                      ),
+                                      const SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      TextButton(
+                                          onPressed: () => context
+                                              .read<SubItemCubit>()
+                                              .pickImage(index: index),
+                                          child: Text(
+                                            'Chọn ảnh',
+                                            style: AppStyle.h2,
+                                          ))
+                                    ]),
                               ),
                             )
-                          ],
-                        ),
-                ),
+                          : Stack(
+                              alignment: AlignmentDirectional.bottomCenter,
+                              children: [
+                                SizedBox(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  child: Image.memory(
+                                    subItemState.listSub[index].data!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => context
+                                      .read<SubItemCubit>()
+                                      .pickImage(index: index),
+                                  style: AppStyle.myButtonStyle,
+                                  child: Text(
+                                    'Chọn lại',
+                                    style: AppStyle.h2,
+                                  ),
+                                )
+                              ],
+                            ),
+                    ),
+                  ),
+                  if (addItemstate is AddItemFailde &&
+                      addItemstate.subImageError != null &&
+                      index < addItemstate.subImageError!.length &&
+                      addItemstate.subImageError![index] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        addItemstate.subImageError![index]!,
+                        style: AppStyle.errorStyle,
+                      ),
+                    )
+                ],
               ),
-              if (addItemstate is AddItemFailde &&
-                  addItemstate.subImageError != null &&
-                  index < addItemstate.subImageError!.length &&
-                  addItemstate.subImageError![index] != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    addItemstate.subImageError![index]!,
-                    style: AppStyle.errorStyle,
+              const SizedBox(
+                width: 10.0,
+              ),
+              Expanded(
+                  child: Column(
+                children: [
+                  //tên
+                  TextFormField(
+                    controller: subItemState.listSub[index].subName,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    validator: Validations.valItemName,
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Tên hàng',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  // giá
+                  TextFormField(
+                    controller: subItemState.listSub[index].subPrice,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    validator: Validations.valPrice,
+                    inputFormatters: [
+                      CurrencyTextInputFormatter(
+                        locale: 'vi_VN',
+                        decimalDigits: 0,
+                        symbol: 'VNĐ',
+                      )
+                    ],
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Giá',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+
+                  // TextFormField(
+                  //   controller: subItemState.listSub[index].subPrice,
+                  //   textAlign: TextAlign.left,
+                  //   style: AppStyle.h2,
+                  //   maxLines: 1,
+                  //   inputFormatters: [
+                  //     CurrencyTextInputFormatter(
+                  //       locale: 'vi_VN',
+                  //       decimalDigits: 0,
+                  //       symbol: 'VNĐ',
+                  //     )
+                  //   ],
+                  //   validator: Validations.valPrice,
+                  //   decoration: InputDecoration(
+                  //     errorText: null,
+                  //     errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                  //     label: Text(
+                  //       'Giá',
+                  //       style: AppStyle.h2,
+                  //     ),
+                  //     border: const OutlineInputBorder(
+                  //         borderSide: BorderSide(color: Colors.black)),
+                  //     enabledBorder: const OutlineInputBorder(
+                  //       borderSide: BorderSide(color: Colors.black),
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  // //số lượng
+                  TextFormField(
+                    controller: subItemState.listSub[index].subAmount,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    validator: Validations.valAmount,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Số lượng',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  TextFormField(
+                    controller: subItemState.listSub[index].subDiscount,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    validator: Validations.valDiscount,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3)
+                    ],
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Khuyến mãi',
+                        style: AppStyle.h2,
+                      ),
+                      suffix: Text(
+                        '%',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  //bảo hành
+                  TextFormField(
+                    controller: subItemState.listSub[index].subWarrantiesTime,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    validator: Validations.valWarrantiesTime,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3)
+                    ],
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Bảo hành',
+                        style: AppStyle.h2,
+                      ),
+                      suffix: Text(
+                        'Tháng',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  //đổi trả
+                  TextFormField(
+                    controller:
+                        subItemState.listSub[index].subReturnAndExchange,
+                    textAlign: TextAlign.left,
+                    style: AppStyle.h2,
+                    maxLines: 1,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3)
+                    ],
+                    validator: Validations.valWarrantiesTime,
+                    decoration: InputDecoration(
+                      errorText: null,
+                      errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
+                      label: Text(
+                        'Đổi trả',
+                        style: AppStyle.h2,
+                      ),
+                      suffix: Text(
+                        'Ngày',
+                        style: AppStyle.h2,
+                      ),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+              if (index != 0)
+                Center(
+                  child: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      context.read<SubItemCubit>().deleteSubItem(index: index);
+                    },
                   ),
                 )
             ],
           ),
-          const SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              //tên
-              TextFormField(
-                controller: subItemState.listSub[index].subName,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                validator: Validations.valItemName,
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Tên hàng',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              // giá
-              TextFormField(
-                controller: subItemState.listSub[index].subPrice,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                inputFormatters: [
-                  // FilteringTextInputFormatter
-                  //     .digitsOnly,
-                  CurrencyTextInputFormatter(
-                    locale: 'vi_VN',
-                    decimalDigits: 0,
-                    symbol: 'VNĐ',
-                  )
-                ],
-                validator: Validations.valPrice,
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Giá',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              //số lượng
-              TextFormField(
-                controller: subItemState.listSub[index].subAmount,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                validator: Validations.valAmount,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Số lượng',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              TextFormField(
-                controller: subItemState.listSub[index].subDiscount,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                validator: Validations.valDiscount,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3)
-                ],
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Khuyến mãi',
-                    style: AppStyle.h2,
-                  ),
-                  suffix: Text(
-                    '%',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              //bảo hành
-              TextFormField(
-                controller: subItemState.listSub[index].subWarrantiesTime,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                validator: Validations.valWarrantiesTime,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3)
-                ],
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Bảo hành',
-                    style: AppStyle.h2,
-                  ),
-                  suffix: Text(
-                    'Tháng',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              //đổi trả
-              TextFormField(
-                controller: subItemState.listSub[index].subReturnAndExchange,
-                textAlign: TextAlign.left,
-                style: AppStyle.h2,
-                maxLines: 1,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3)
-                ],
-                validator: Validations.valWarrantiesTime,
-                decoration: InputDecoration(
-                  errorText: null,
-                  errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  label: Text(
-                    'Đổi trả',
-                    style: AppStyle.h2,
-                  ),
-                  suffix: Text(
-                    'Ngày',
-                    style: AppStyle.h2,
-                  ),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-            ],
-          )),
-          if (index != 0)
-            Center(
-              child: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  context.read<SubItemCubit>().deleteSubItem(index: index);
-                },
-              ),
-            )
-        ],
+        ),
       ),
     );
   }

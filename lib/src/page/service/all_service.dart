@@ -594,4 +594,23 @@ class _AllServicePageState extends State<AllServicePage> {
       );
     });
   }
+
+  Widget serviceSearch({required BuildContext context}) {
+    return Row(
+      children: [
+        OutlinedButton(
+            onPressed: () {},
+            child: Text(
+              'Từ ngày',
+              style: AppStyle.textButtom,
+            )),
+        OutlinedButton(
+            onPressed: () {},
+            child: Text(
+              'Từ ngày',
+              style: AppStyle.textButtom,
+            )),
+      ],
+    );
+  }
 }
