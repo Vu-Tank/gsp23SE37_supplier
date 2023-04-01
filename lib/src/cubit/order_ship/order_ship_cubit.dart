@@ -9,11 +9,14 @@ part 'order_ship_state.dart';
 
 class OrderShipCubit extends Cubit<OrderShipState> {
   OrderShipCubit() : super(OrderShipInitial());
-  loadOrderShipStatus({required int orderID, required String token}) async {
+  loadOrderShipStatus(
+      {required int? orderID,
+      required String token,
+      required int? serviceID}) async {
     if (isClosed) return;
     emit(OrderShiploading());
     ApiResponse apiResponse = await OrderRepositories.getOrderShipStatus(
-        orderID: orderID, token: token);
+        serviceID: serviceID, orderID: orderID, token: token);
     if (apiResponse.isSuccess!) {
       OrderShipStatus orderShipStatus = apiResponse.data;
       orderShipStatus.shipStatusModels.sort(

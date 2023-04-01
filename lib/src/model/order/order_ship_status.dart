@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:gsp23se37_supplier/src/model/order/ship_status_model.dart';
 
 class OrderShipStatus {
-  final int orderID;
+  final int? orderID;
   final String labelID;
   final List<ShipStatusModel> shipStatusModels;
   OrderShipStatus({
-    required this.orderID,
+    this.orderID,
     required this.labelID,
     required this.shipStatusModels,
   });
@@ -23,7 +23,7 @@ class OrderShipStatus {
 
   factory OrderShipStatus.fromMap(Map<String, dynamic> map) {
     return OrderShipStatus(
-      orderID: map['orderID'] as int,
+      orderID: (map['orderID'] == null) ? null : map['orderID'] as int,
       labelID: map['labelID'] as String,
       shipStatusModels: List<ShipStatusModel>.from(
         (map['shipStatusModels'] as List).map<ShipStatusModel>(

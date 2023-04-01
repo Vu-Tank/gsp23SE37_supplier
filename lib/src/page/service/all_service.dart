@@ -22,6 +22,7 @@ import '../../model/service/service.dart';
 import '../../model/store.dart';
 import '../item/item_detail_widget.dart';
 import '../order/recipient_information_wigdet.dart';
+import '../order/ship_order_widget.dart';
 import '../video_dilog.dart';
 
 class AllServicePage extends StatefulWidget {
@@ -292,17 +293,31 @@ class _AllServicePageState extends State<AllServicePage> {
                   serviceBuy.value.serviceType.statusName,
                   style: AppStyle.h2,
                 )),
-                DataCell(Tooltip(
-                  message: (serviceBuy.value.reason != null)
-                      ? serviceBuy.value.reason
-                      : '',
-                  child: Text(
-                    (serviceBuy.value.orderShip != null)
-                        ? serviceBuy.value.orderShip!.status
-                        : serviceBuy.value.servicestatus.statusName,
-                    style: AppStyle.h2,
-                  ),
-                )),
+                DataCell(
+                    Tooltip(
+                      message: (serviceBuy.value.reason != null)
+                          ? serviceBuy.value.reason
+                          : '',
+                      child: Text(
+                        (serviceBuy.value.orderShip != null)
+                            ? serviceBuy.value.orderShip!.status
+                            : serviceBuy.value.servicestatus.statusName,
+                        style: AppStyle.h2.copyWith(
+                            color: (serviceBuy.value.orderShip != null)
+                                ? Colors.blue
+                                : null),
+                      ),
+                    ),
+                    onTap: (serviceBuy.value.orderShip == null)
+                        ? null
+                        : () async => showDialog(
+                              context: context,
+                              builder: (context) => shipOrderWidget(
+                                  context: context,
+                                  serviceID: serviceBuy.value.afterBuyServiceID,
+                                  orderID: null,
+                                  token: user.token),
+                            )),
                 DataCell(InkWell(
                   child: Text(
                     serviceBuy.value.user_Name,

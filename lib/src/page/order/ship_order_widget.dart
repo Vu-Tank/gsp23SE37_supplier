@@ -10,22 +10,26 @@ import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 
 Widget shipOrderWidget(
     {required BuildContext context,
-    required int orderID,
+    required int? orderID,
+    required int? serviceID,
     required String token}) {
   return Dialog(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: BlocProvider(
         create: (context) => OrderShipCubit()
-          ..loadOrderShipStatus(orderID: orderID, token: token),
+          ..loadOrderShipStatus(
+              orderID: orderID, serviceID: serviceID, token: token),
         child: BlocBuilder<OrderShipCubit, OrderShipState>(
           builder: (context, orderShipState) {
             if (orderShipState is OrderShipLoadFailed) {
               return blocLoadFailed(
-                  msg: orderShipState.msg,
-                  reload: context
-                      .read<OrderShipCubit>()
-                      .loadOrderShipStatus(orderID: orderID, token: token));
+                msg: orderShipState.msg,
+                reload: () {
+                  context.read<OrderShipCubit>().loadOrderShipStatus(
+                      orderID: orderID, serviceID: serviceID, token: token);
+                },
+              );
             } else if (orderShipState is OrderShipLoadSuccess) {
               return ScrollConfiguration(
                 behavior:

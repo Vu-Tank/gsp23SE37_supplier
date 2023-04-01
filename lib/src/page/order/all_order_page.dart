@@ -343,6 +343,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
                           context: context,
                           builder: (context) => shipOrderWidget(
                               context: context,
+                              serviceID: null,
                               orderID: order.value.orderID,
                               token: user.token),
                         )),

@@ -392,6 +392,15 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
         const SizedBox(
           height: 8.0,
         ),
+        Text(
+          'Mã sản phẩm: ${itemDetail.itemID}',
+          style: AppStyle.h1,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

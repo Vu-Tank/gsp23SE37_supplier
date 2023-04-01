@@ -81,12 +81,19 @@ class OrderRepositories {
   }
 
   static Future<ApiResponse> getOrderShipStatus(
-      {required int orderID, required String token}) async {
+      {required int? orderID,
+      required int? serviceID,
+      required String token}) async {
     ApiResponse apiResponse = ApiResponse();
     try {
-      final queryParams = {
-        'orderID': orderID.toString(),
+      final data = {
+        'orderID': orderID,
+        'serviceID': serviceID,
       };
+      Utils.removeNullAndEmptyParams(data);
+      // String queryString = Uri(queryParameters: queryParams).query;
+      final queryParams =
+          data.map((key, value) => MapEntry(key, value.toString()));
       String queryString = Uri(queryParameters: queryParams).query;
       final response = await http.get(
           Uri.parse('${AppUrl.getOrderShipStatus}?$queryString'),
