@@ -30,7 +30,7 @@ class AppUrl {
 
   static const String getPriceActice = '$baseUrl/Store/get_price_actice';
 
-  static const String storePayment = '$baseUrl/Payment/momo_store_pay';
+  static const String storePayment = '$baseUrl/Payment/store_pay_url';
 
   static const String storeWithdrawal = '$baseUrl/Asset/store_withdrawal';
 

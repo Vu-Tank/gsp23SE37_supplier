@@ -32759,7 +32759,7 @@ n=A.A(["storeID",B.e.j(a)],i,i)
 h=A.dX(null,n).f
 m=h==null?"":h
 s=7
-return A.y(A.f1(A.bK("https://esmpfree-001-site1.etempurl.com/api/Payment/momo_store_pay?"+A.e(m)),A.A(["Content-Type","application/json; charset=UTF-8","Authorization","Bearer "+b],i,i)).cQ(0,B.W),$async$aGa)
+return A.y(A.f1(A.bK("https://esmpfree-001-site1.etempurl.com/api/Payment/store_pay_url?"+A.e(m)),A.A(["Content-Type","application/json; charset=UTF-8","Authorization","Bearer "+b],i,i)).cQ(0,B.W),$async$aGa)
 case 7:l=d
 if(l.b===200){i=l
 k=B.k.N(0,A.b2(J.n(A.b1(i.e).c.a,"charset")).N(0,i.w))
