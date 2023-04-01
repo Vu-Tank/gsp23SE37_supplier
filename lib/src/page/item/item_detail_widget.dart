@@ -446,40 +446,51 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
           style: AppStyle.h2,
         ),
         Expanded(
-            child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(children: [
-            ...itemDetail.listSubItem.map((e) => Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: OutlinedButton(
-                    onPressed: () async {
-                      bool? update = await showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => subItemWidget(
-                            context: context, subItems: e, token: widget.token),
-                      );
-                      if (update != null && update) {
-                        if (mounted) {
-                          context
-                              .read<ItemDetailCubit>()
-                              .loadItem(itemID: widget.itemId);
-                        }
-                      }
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(width: 1, color: Colors.blue),
-                    ),
-                    child: Text(
-                      e.sub_ItemName,
-                      style: AppStyle.textButtom,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                )),
-          ]),
-        )),
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                      itemDetail.listSubItem.length,
+                      (index) => Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                bool? update = await showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => subItemWidget(
+                                      context: context,
+                                      item: itemDetail,
+                                      index: index,
+                                      token: widget.token),
+                                );
+                                if (update != null && update) {
+                                  if (mounted) {
+                                    context
+                                        .read<ItemDetailCubit>()
+                                        .loadItem(itemID: widget.itemId);
+                                  }
+                                }
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: (itemDetail.listSubItem[index]
+                                                .subItem_Status.item_StatusID ==
+                                            1)
+                                        ? Colors.blue
+                                        : Colors.red),
+                              ),
+                              child: Text(
+                                itemDetail.listSubItem[index].sub_ItemName,
+                                style: AppStyle.textButtom,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          )))),
+        ),
         const SizedBox(
           height: 8.0,
         ),

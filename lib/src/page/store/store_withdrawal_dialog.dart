@@ -14,13 +14,13 @@ import '../../model/user.dart';
 
 Widget storeWithdraWalDialog(
     {required BuildContext context, required User user, required Store store}) {
-  String bankSelecte = AppConstants.banks.first;
-  TextEditingController bankNumber = TextEditingController();
-  TextEditingController bankOwner = TextEditingController();
-  TextEditingController price = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   return Dialog(
     child: StatefulBuilder(builder: (context, setStateDialo) {
+      String bankSelecte = AppConstants.banks.first;
+      TextEditingController bankNumber = TextEditingController();
+      TextEditingController bankOwner = TextEditingController();
+      TextEditingController price = TextEditingController();
+      final formKey = GlobalKey<FormState>();
       return MultiBlocProvider(
           providers: [
             BlocProvider(
@@ -106,8 +106,7 @@ Widget storeWithdraWalDialog(
                           ],
                           validator: Validations.valBankNumber,
                           decoration: InputDecoration(
-                            prefixIcon:
-                                const Icon(Icons.account_balance_outlined),
+                            prefixIcon: const Icon(Icons.payment),
                             label: Text(
                               'Số tài khoản',
                               style: AppStyle.h2,
@@ -165,14 +164,13 @@ Widget storeWithdraWalDialog(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(50),
                             CurrencyTextInputFormatter(
-                              locale: 'vi_VN',
+                              locale: 'vi-VN',
                               decimalDigits: 0,
                               symbol: 'VNĐ',
                             )
                           ],
                           decoration: InputDecoration(
-                            prefixIcon:
-                                const Icon(Icons.account_balance_outlined),
+                            prefixIcon: const Icon(Icons.attach_money_rounded),
                             label: Text(
                               'Số tiền muốn rút',
                               style: AppStyle.h2,

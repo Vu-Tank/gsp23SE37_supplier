@@ -30,4 +30,22 @@ class MyDialog {
       ),
     );
   }
+
+  static void showAlertDialogError(BuildContext context, String text) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          text,
+          style: AppStyle.h2.copyWith(color: Colors.red),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Thoát'),
+          ),
+        ],
+      ),
+    );
+  }
 }

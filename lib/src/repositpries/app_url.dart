@@ -52,7 +52,11 @@ class AppUrl {
 
   static const String hiddenItem = '$baseUrl/Item/hidden_item';
 
+  static const String hiddenSubItem = '$baseUrl/Item/hiden_subItem';
+
   static const String unHiddenItem = '$baseUrl/Item/unhidden_item';
+
+  static const String unHiddenSubItem = '$baseUrl/Item/unhiden_subItem';
 
   static const String getOrders = '$baseUrl/Order/get_order_status';
 

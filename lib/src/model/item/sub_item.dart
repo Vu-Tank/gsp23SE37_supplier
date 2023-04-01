@@ -12,7 +12,7 @@ class SubItem {
   final int warrantiesTime;
   final double discount;
   final int returnAndExchange;
-  final SubItemStatus subItem_Status;
+  SubItemStatus subItem_Status;
   SubItem({
     required this.sub_ItemID,
     required this.sub_ItemName,

@@ -4,6 +4,7 @@ import 'package:gsp23se37_supplier/src/model/api_response.dart';
 import 'package:gsp23se37_supplier/src/model/item/item.dart';
 import 'package:gsp23se37_supplier/src/model/item/item_detail.dart';
 import 'package:gsp23se37_supplier/src/model/item/item_search.dart';
+import 'package:gsp23se37_supplier/src/model/item/sub_item.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import '../utils/utils.dart';
@@ -199,6 +200,70 @@ class ItemRepositories {
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
           // apiResponse.data = ItemDetail.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> hiddenSubItem(
+      {required int subItemID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'subItemID': subItemID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .put(Uri.parse('${AppUrl.hiddenSubItem}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = SubItem.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> unHiddenSubItem(
+      {required int subItemID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'subItemID': subItemID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .put(Uri.parse('${AppUrl.unHiddenSubItem}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = SubItem.fromMap(body['data']);
         }
       } else {
         apiResponse.isSuccess = false;
