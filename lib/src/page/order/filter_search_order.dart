@@ -23,10 +23,10 @@ class _FilterSearchOrderState extends State<FilterSearchOrder> {
     super.initState();
     _orderSearch = widget.orderSearch;
     if (_orderSearch.dateFrom != null) {
-      dateFrom = DateFormat("yyyy-MM-dd").parse(_orderSearch.dateFrom!);
+      dateFrom = DateFormat("MM/dd/yyyy").parse(_orderSearch.dateFrom!);
     }
     if (_orderSearch.dateTo != null) {
-      dateTo = DateFormat("yyyy-MM-dd").parse(_orderSearch.dateTo!);
+      dateTo = DateFormat("MM/dd/yyyy").parse(_orderSearch.dateTo!);
     }
   }
 

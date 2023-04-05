@@ -255,7 +255,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   sendMessage() async {
     if (messageController.text.isNotEmpty) {
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+      String formattedDate = DateFormat('MM/dd/yyyy HH:mm:ss').format(now);
       Map<String, dynamic> chatMessageMap = {
         "message": messageController.text,
         "sender": FirebaseAuth.instance.currentUser!.uid,
@@ -280,7 +280,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   sendImage(String filePath) async {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    String formattedDate = DateFormat('MM/dd/yyyy HH:mm:ss').format(now);
     Map<String, dynamic> chatMessageMap = {
       "message": filePath,
       "sender": FirebaseAuth.instance.currentUser!.uid,

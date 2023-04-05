@@ -74,7 +74,7 @@ class CloudFirestoreService {
 
   Future createRoom({required String otherUid}) async {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    String formattedDate = DateFormat('MM/dd/yyyy HH:mm:ss').format(now);
     //create room
     DocumentReference roomDocumentReference = await roomCollection.add({
       "createDate": formattedDate,
