@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
@@ -21,7 +19,6 @@ class PickImageCubit extends Cubit<PickImageState> {
         emit(PickImageSuccess(image: image, data: data));
       } else {
         emit(const PickImageFailed('Không có hình ảnh được chọn'));
-        log('Không có hình ảnh được chọn');
       }
     } catch (e) {
       emit(PickImageFailed(e.toString()));

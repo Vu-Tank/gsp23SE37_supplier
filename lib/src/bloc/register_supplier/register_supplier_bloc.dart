@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +114,6 @@ class RegisterSupplierBloc
                 msg: apiResponse.msg));
           }
         } catch (e) {
-          log(e.toString());
           emit(RegisterSupplierFailed.fromOldState(state, msg: e.toString()));
         }
       } else {

@@ -16,6 +16,7 @@ class FeedbackRepositories {
       final queryParams = {
         'itemID': itemID.toString(),
         'page': page.toString(),
+        'role': '3',
       };
       String queryString = Uri(queryParameters: queryParams).query;
       final response = await http

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:gsp23se37_supplier/src/model/feedback_status.dart';
 import 'package:gsp23se37_supplier/src/model/image.dart';
 
 class FeedBack {
@@ -13,17 +14,18 @@ class FeedBack {
   final double rate;
   final String? comment;
   final String create_Date;
-  FeedBack({
-    required this.userName,
-    required this.userID,
-    required this.orderDetaiID,
-    required this.userAvatar,
-    required this.sub_itemName,
-    this.imagesFB,
-    required this.rate,
-    required this.comment,
-    required this.create_Date,
-  });
+  final FeedbackStatus feedback_Status;
+  FeedBack(
+      {required this.userName,
+      required this.userID,
+      required this.orderDetaiID,
+      required this.userAvatar,
+      required this.sub_itemName,
+      this.imagesFB,
+      required this.rate,
+      required this.comment,
+      required this.create_Date,
+      required this.feedback_Status});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -36,6 +38,7 @@ class FeedBack {
       'rate': rate,
       'comment': comment,
       'create_Date': create_Date,
+      'feedback_Status': feedback_Status.toMap(),
     };
   }
 
@@ -56,6 +59,8 @@ class FeedBack {
       rate: map['rate'] as double,
       comment: (map['comment'] != null) ? map['comment'] as String : null,
       create_Date: map['create_Date'] as String,
+      feedback_Status: FeedbackStatus.fromMap(
+          map['feedback_Status'] as Map<String, dynamic>),
     );
   }
 
@@ -66,6 +71,6 @@ class FeedBack {
 
   @override
   String toString() {
-    return 'FeedBack(userName: $userName, userID: $userID, orderDetaiID: $orderDetaiID, userAvatar: $userAvatar, sub_itemName: $sub_itemName, imagesFB: $imagesFB, rate: $rate, comment: $comment, create_Date: $create_Date)';
+    return 'FeedBack(userName: $userName, userID: $userID, orderDetaiID: $orderDetaiID, userAvatar: $userAvatar, sub_itemName: $sub_itemName, imagesFB: $imagesFB, rate: $rate, comment: $comment, create_Date: $create_Date, feedback_Status: $feedback_Status)';
   }
 }

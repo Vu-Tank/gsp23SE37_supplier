@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -1229,7 +1228,6 @@ class _AddItemPageState extends State<AddItemPage> {
                                           WeightUnitState>(
                                         listener: (context, state) {
                                           _selectWeightUnit = state.weightUnit;
-                                          log(state.weightUnit);
                                         },
                                         builder: (context, weightUnitState) {
                                           return IntrinsicHeight(
@@ -1253,7 +1251,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                           10),
                                                       FilteringTextInputFormatter
                                                           .allow(RegExp(
-                                                              r'(^\d*\,?\d*)')),
+                                                              r'(^\d+\.?\d*)')),
                                                     ],
                                                     validator: (value) =>
                                                         Validations.valWeight(
@@ -1340,6 +1338,25 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     style: AppStyle.h2,
                                                     onChanged: (String? value) {
                                                       if (value != null) {
+                                                        if (value !=
+                                                            weightUnitState
+                                                                .weightUnit) {
+                                                          if (value == 'kg') {
+                                                            textEditingController
+                                                                .text = (double.parse(
+                                                                        textEditingController
+                                                                            .text) ~/
+                                                                    1000)
+                                                                .toString();
+                                                          } else {
+                                                            textEditingController
+                                                                .text = (double.parse(
+                                                                        textEditingController
+                                                                            .text) *
+                                                                    1000)
+                                                                .toString();
+                                                          }
+                                                        }
                                                         context
                                                             .read<
                                                                 WeightUnitCubit>()
@@ -1438,9 +1455,11 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  'x',
-                                                  style: AppStyle.h2,
+                                                Center(
+                                                  child: Text(
+                                                    'x',
+                                                    style: AppStyle.h2,
+                                                  ),
                                                 ),
                                                 Expanded(
                                                   child: TextFormField(
@@ -1484,9 +1503,11 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  'x',
-                                                  style: AppStyle.h2,
+                                                Center(
+                                                  child: Text(
+                                                    'x',
+                                                    style: AppStyle.h2,
+                                                  ),
                                                 ),
                                                 Expanded(
                                                   child: TextFormField(
@@ -1964,7 +1985,6 @@ class _AddItemPageState extends State<AddItemPage> {
 
   Widget _modelDialog(BuildContext context) {
     ScrollController modelScroll = ScrollController();
-    log('message');
     return LayoutBuilder(builder: (_, constraints) {
       return Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 300, vertical: 30),

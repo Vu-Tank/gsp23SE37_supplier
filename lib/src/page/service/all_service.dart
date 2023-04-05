@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/shop/shop_bloc.dart';
 import '../../model/service/service.dart';
 import '../../model/store.dart';
+import '../../utils/utils.dart';
 import '../item/item_detail_widget.dart';
 import '../order/recipient_information_wigdet.dart';
 import '../order/ship_order_widget.dart';
@@ -38,6 +38,8 @@ class _AllServicePageState extends State<AllServicePage> {
   late ServiceSearch search;
   late Store store;
   late User user;
+  DateTime? from;
+  DateTime? to;
   @override
   void initState() {
     // TODO: implement initState
@@ -79,8 +81,112 @@ class _AllServicePageState extends State<AllServicePage> {
             return Column(
               children: [
                 //search
-                Container(),
-                //date
+                Row(
+                  children: [
+                    if (!search.isDefault())
+                      IconButton(
+                          onPressed: () {
+                            search = widget.search;
+                            context
+                                .read<ServiceBuyCubit>()
+                                .loadService(token: user.token, search: search);
+                            from = null;
+                            to = null;
+                          },
+                          icon: const Icon(Icons.arrow_back_outlined)),
+                    SizedBox(
+                      height: 54,
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  side: const BorderSide(width: 5))),
+                          onPressed: () async {
+                            DateTime? dateTime = await showDatePicker(
+                              context: context,
+                              locale: const Locale("vi", "VN"),
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2018),
+                              lastDate: DateTime.now(),
+                            );
+                            if (dateTime != null) {
+                              setState(() {
+                                from = dateTime;
+                              });
+                            }
+                          },
+                          child: Text(
+                            (from != null)
+                                ? Utils.convertDateTimeToString(from!)
+                                : 'Từ ngày',
+                            style: AppStyle.textButtom,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    SizedBox(
+                      height: 54,
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  side: const BorderSide(width: 5))),
+                          onPressed: () async {
+                            DateTime? dateTime = await showDatePicker(
+                              context: context,
+                              locale: const Locale("vi", "VN"),
+                              initialDate: DateTime.now(),
+                              firstDate:
+                                  (from != null) ? from! : DateTime(2018),
+                              lastDate: DateTime.now(),
+                            );
+                            if (dateTime != null) {
+                              setState(() {
+                                to = dateTime;
+                              });
+                            }
+                          },
+                          child: Text(
+                            (to != null)
+                                ? Utils.convertDateTimeToString(to!)
+                                : 'Đến ngày',
+                            style: AppStyle.textButtom,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          context.read<ServiceBuyCubit>().loadService(
+                              token: user.token,
+                              search: search.copyWith(
+                                from: (from != null)
+                                    ? Utils.convertDateTimeToString(from!)
+                                    : null,
+                                to: (to != null)
+                                    ? Utils.convertDateTimeToString(to!)
+                                    : null,
+                              ));
+                          setState(() {
+                            search = search.copyWith(
+                              from: (from != null)
+                                  ? Utils.convertDateTimeToString(from!)
+                                  : null,
+                              to: (to != null)
+                                  ? Utils.convertDateTimeToString(to!)
+                                  : null,
+                            );
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.search,
+                          color: Colors.blue,
+                        )),
+                  ],
+                ),
+                //data
                 Expanded(
                   child: (serviceBuyState is ServiceBuyLoadFailed)
                       ? blocLoadFailed(
@@ -126,6 +232,7 @@ class _AllServicePageState extends State<AllServicePage> {
                                           scrollDirection: Axis.vertical,
                                           child: Column(
                                             children: [
+                                              //view
                                               ConstrainedBox(
                                                   constraints: BoxConstraints(
                                                       minWidth:
@@ -361,7 +468,6 @@ class _AllServicePageState extends State<AllServicePage> {
                       ),
                       onTap: () async {
                         if (serviceBuy.value.packingLinkCus.isNotEmpty) {
-                          log(serviceBuy.value.packingLinkCus);
                           showDialog(
                               context: context,
                               builder: (context) => VideoDialog(

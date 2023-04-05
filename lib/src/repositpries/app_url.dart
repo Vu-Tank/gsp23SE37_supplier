@@ -10,6 +10,8 @@ class AppUrl {
 
   static const String login = '$baseUrl/user/suppliersign_in';
 
+  static const String logout = '$baseUrl/user/logout';
+
   static const String refeshtoken = '$baseUrl/user/refeshtoken';
 
   static const String province = '$baseUrl/Address/provine';
@@ -63,6 +65,10 @@ class AppUrl {
   static const String getDataExchange = '$baseUrl/DataExchange';
 
   static const String getTicket = '$baseUrl/Ship/get_ticket';
+
+  static const String hiddenFeedback = '$baseUrl/Order/hidden_feedback';
+
+  static const String unHiddenFeedback = '$baseUrl/Order/unhidden_feedback';
 
   static const String getOrderShipStatus = '$baseUrl/Ship/ship_status';
 

@@ -51,7 +51,8 @@ class Utils {
           value: (listSpeci[i].specificationID == 5)
               ? '${lController.text.trim()}x${wController.text.trim()}x${hController.text.trim()} $selectLwhUnit'
               : (listSpeci[i].specificationID == 2)
-                  ? int.parse(listValue[i].text.trim()).toString()
+                  ? (int.parse(listValue[i].text.trim()).toString() *
+                      ((selectWeightUnit == 'kg') ? 1000 : 1))
                   : listValue[i].text.trim()
           // : '${listValue[i].text.trim()}${(listSpeci[i].specificationID == 2) ? ' $selectWeightUnit' : ''}'
           );

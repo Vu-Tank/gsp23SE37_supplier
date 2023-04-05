@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -26,13 +24,11 @@ class CloudFirestoreService {
     List<String> roomsId = [];
     DocumentSnapshot user = await userCollection.doc(uid).get();
     if (user.exists) {
-      log(user['userName']);
       // final data=user.data();
       if ((user['rooms'] as List).isEmpty) return null;
       for (var element in (user['rooms'] as List)) {
         roomsId.add(element.toString());
       }
-      log(roomsId.toString());
     }
     final result = roomCollection
         .orderBy('time', descending: true)
@@ -127,8 +123,6 @@ class CloudFirestoreService {
   }
 
   Future<RoomChat?> checkExistRoom(String otherUid) async {
-    log('uid: $uid');
-    log('uid: $otherUid');
     QueryDocumentSnapshot? room;
     await roomCollection
         .where('members.user1', isEqualTo: uid)
@@ -136,15 +130,11 @@ class CloudFirestoreService {
         .get()
         .then((value) async {
       // return true;
-      QuerySnapshot querySnapshot = value;
-      for (var doc in querySnapshot.docs) {
-        log(doc["roomID"]);
-      }
+      // QuerySnapshot querySnapshot = value;
       if (value.docs.length == 1) {
         room = value.docs[0];
       }
     }).catchError((e) {
-      log(e.toString());
       throw Exception(e.toString());
     });
     await roomCollection
@@ -153,15 +143,11 @@ class CloudFirestoreService {
         .get()
         .then((value) {
       // return true;
-      QuerySnapshot querySnapshot = value;
-      for (var doc in querySnapshot.docs) {
-        log(doc["roomID"]);
-      }
+      // QuerySnapshot querySnapshot = value;
       if (value.docs.length == 1) {
         room = value.docs[0];
       }
     }).catchError((e) {
-      log(e.toString());
       throw Exception(e.toString());
     });
     RoomChat? roomChat;
@@ -205,6 +191,13 @@ class CloudFirestoreService {
 
   updateUserImage(String imageUrl) async {
     return userCollection.doc(uid).update({
+      'imageUrl': imageUrl,
+    });
+  }
+
+  updateStore(String imageUrl, String storeName) async {
+    return userCollection.doc(uid).update({
+      'userName': storeName,
       'imageUrl': imageUrl,
     });
   }

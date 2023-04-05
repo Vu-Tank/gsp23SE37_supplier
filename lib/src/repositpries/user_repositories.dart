@@ -172,6 +172,40 @@ class UserRepositories {
     return apiResponse;
   }
 
+  static Future<ApiResponse> logout(
+      {required int userID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'userID': userID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      var response = await http.post(
+        Uri.parse('${AppUrl.logout}?$queryString'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          // apiResponse.data = User.fromMap(body['data']);
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
   static Future<ApiResponse> updateImage({
     required int userID,
     required XFile file,

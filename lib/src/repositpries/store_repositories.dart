@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gsp23se37_supplier/src/model/address/address.dart';
 import 'package:gsp23se37_supplier/src/model/cash_flow.dart';
 import 'package:gsp23se37_supplier/src/model/cash_flow_search.dart';
 import 'package:gsp23se37_supplier/src/model/reveneu.dart';
+import 'package:gsp23se37_supplier/src/repositpries/cloud_firestore_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -227,7 +229,10 @@ class StoreRepositories {
         apiResponse.isSuccess = body['success'];
         apiResponse.totalPage = int.parse(body['totalPage'].toString());
         if (apiResponse.isSuccess!) {
-          apiResponse.data = Store.fromMap(body['data']);
+          Store store = Store.fromMap(body['data']);
+          apiResponse.data = store;
+          CloudFirestoreService(uid: FirebaseAuth.instance.currentUser!.uid)
+              .updateStore(store.image.path, store.storeName);
         }
       } else {
         apiResponse.msg = response.statusCode.toString();

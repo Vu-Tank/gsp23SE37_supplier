@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,8 +13,7 @@ class FirebaseStorageService {
       await imagesRef.putData(file);
       String? urlDownload = await imagesRef.getDownloadURL();
       return urlDownload;
-    } on FirebaseException catch (e) {
-      log('Load error: ${e.message!}');
+    } on FirebaseException {
       return null;
     }
   }
@@ -32,7 +30,6 @@ class FirebaseStorageService {
         return url;
       }
     } catch (e) {
-      log('error: ${e.toString()}');
       return url;
     }
   }

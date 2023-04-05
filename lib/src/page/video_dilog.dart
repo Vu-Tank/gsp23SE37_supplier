@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +21,6 @@ class _VideoDialogState extends State<VideoDialog> {
     // _controller = VideoPlayerController.network(
     //   widget.url,
     // );
-    log(widget.url);
     videoPlayerController = VideoPlayerController.network(widget.url);
     // ..initialize().then((value) => setState(() {}));
     _customVideoPlayerController = CustomVideoPlayerController(

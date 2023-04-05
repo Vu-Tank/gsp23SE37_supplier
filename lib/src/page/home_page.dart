@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   TextButton(
                       onPressed: () =>
-                          context.read<AuthBloc>().add(UserLoggedOut()),
+                          context.read<AuthBloc>().add(UserLoggedOut(user)),
                       child: Text(
                         'Đăng xuất',
                         style: AppStyle.buttom,

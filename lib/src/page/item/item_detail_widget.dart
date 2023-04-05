@@ -253,9 +253,21 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                                 children: [
                                                   itemFeedback(
                                                       context: context,
-                                                      feebacks:
-                                                          state.feedbacks),
-                                                  (state.currentPage != 1)
+                                                      feebacks: state.feedbacks,
+                                                      token: widget.token,
+                                                      reload: () {
+                                                        context
+                                                            .read<
+                                                                ItemFeedbackCubit>()
+                                                            .loadFeedback(
+                                                                itemID: widget
+                                                                    .itemId,
+                                                                page: state
+                                                                    .currentPage,
+                                                                token: widget
+                                                                    .token);
+                                                      }),
+                                                  (state.totalPage != 1)
                                                       ? Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -263,7 +275,15 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                                           children: [
                                                             IconButton(
                                                                 onPressed:
-                                                                    () {},
+                                                                    (state.currentPage <=
+                                                                            1)
+                                                                        ? null
+                                                                        : () {
+                                                                            context.read<ItemFeedbackCubit>().loadFeedback(
+                                                                                itemID: widget.itemId,
+                                                                                page: state.currentPage - 1,
+                                                                                token: widget.token);
+                                                                          },
                                                                 icon: const Icon(
                                                                     Icons
                                                                         .arrow_back_outlined)),
@@ -274,8 +294,20 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                                                   AppStyle.h2,
                                                             ),
                                                             IconButton(
-                                                                onPressed:
-                                                                    () {},
+                                                                onPressed: (state
+                                                                            .currentPage >=
+                                                                        state
+                                                                            .totalPage)
+                                                                    ? null
+                                                                    : () {
+                                                                        context.read<ItemFeedbackCubit>().loadFeedback(
+                                                                            itemID: widget
+                                                                                .itemId,
+                                                                            page: state.currentPage +
+                                                                                1,
+                                                                            token:
+                                                                                widget.token);
+                                                                      },
                                                                 icon: const Icon(
                                                                     Icons
                                                                         .arrow_forward_outlined))
@@ -335,7 +367,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
       padding: const EdgeInsets.all(8.0),
       child: Table(
         children: List.generate(
-            listSpecifi.length / 2 as int,
+            listSpecifi.length ~/ 2,
             (index) => TableRow(
                   children: [
                     Padding(
@@ -348,7 +380,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${listSpecifi[index * 2].value} ',
+                        '${listSpecifi[index * 2].value}${(listSpecifi[index * 2].specificationID == 2) ? ' Grams' : ''}',
                         maxLines: 1,
                         overflow: TextOverflow.fade,
                         style: AppStyle.h2,
@@ -366,7 +398,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          listSpecifi[index * 2 + 1].value,
+                          '${listSpecifi[index * 2 + 1].value}${(listSpecifi[index * 2 + 1].specificationID == 2) ? ' Grams' : ''}',
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           style: AppStyle.h2,

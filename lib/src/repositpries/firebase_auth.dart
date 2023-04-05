@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../repositpries/user_repositories.dart';
@@ -20,8 +18,6 @@ class FirebaseAuthService {
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) {},
         verificationFailed: (FirebaseAuthException e) {
-          log("error code: ${e.code}");
-          log("error message: ${e.message}");
           String? err;
           if (e.code == 'too-many-requests') {
             err =

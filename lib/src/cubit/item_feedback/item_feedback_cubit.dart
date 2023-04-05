@@ -18,7 +18,7 @@ class ItemFeedbackCubit extends Cubit<ItemFeedbackState> {
       if (isClosed) return;
       emit(ItemFeedbackLoaded(
           feedbacks: apiResponse.data,
-          currentPage: page++,
+          currentPage: page,
           totalPage: apiResponse.totalPage!));
     } else {
       if (isClosed) return;

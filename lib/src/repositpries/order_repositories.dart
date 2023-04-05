@@ -57,7 +57,7 @@ class OrderRepositories {
       final response = await http
           .get(Uri.parse('${AppUrl.getTicket}?$queryString'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        'AuthorizatiNativeUint8Liston': 'Bearer $token',
+        'Authorization': 'Bearer $token',
       }).timeout(ApiSetting.timeOut);
       if (response.statusCode == 200) {
         final body = json.decode(response.body);
@@ -68,6 +68,72 @@ class OrderRepositories {
           // final List<int> codeUnits = body['data'].codeUnits;
           // final Uint8List unit8List = Uint8List.fromList(codeUnits);
           apiResponse.data = body['data'];
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> hiddenFeedback(
+      {required int orderDetailID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'orderDetailID': orderDetailID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+
+      final response = await http
+          .put(Uri.parse('${AppUrl.hiddenFeedback}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          // apiResponse.data = body['data'];
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> unHiddenFeedback(
+      {required int orderDetailID, required String token}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'orderDetailID': orderDetailID.toString(),
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+
+      final response = await http
+          .put(Uri.parse('${AppUrl.unHiddenFeedback}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          // apiResponse.data = body['data'];
         }
       } else {
         apiResponse.isSuccess = false;
