@@ -31,7 +31,7 @@ class Utils {
   }
 
   static String convertDateTimeToString(DateTime dateTime) {
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    DateFormat dateFormat = DateFormat("dd-MM-yyyy");
     return dateFormat.format(dateTime);
   }
 
