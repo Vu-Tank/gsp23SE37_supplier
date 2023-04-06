@@ -82,6 +82,7 @@ class _AllServicePageState extends State<AllServicePage> {
               children: [
                 //search
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (!search.isDefault())
                       IconButton(

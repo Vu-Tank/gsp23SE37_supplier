@@ -7,6 +7,7 @@ import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dar
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
+import 'package:gsp23se37_supplier/src/page/over_view/over_view_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/store_withdrawal_request_page.dart';
 import 'package:gsp23se37_supplier/src/page/service_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
@@ -68,6 +69,11 @@ class _HomePageState extends State<HomePage>
       if (controller.selectedIndex == 5) {
         setState(() {
           tiltie = "Lịch sử rút tiền";
+        });
+      }
+      if (controller.selectedIndex == 6) {
+        setState(() {
+          tiltie = "Giới thiệu";
         });
       }
     });
@@ -325,6 +331,8 @@ class _HomePageState extends State<HomePage>
                     );
                   case 5:
                     return const StoreWithdrawalRequestPage();
+                  case 6:
+                    return const OverViewPage();
                   default:
                     return DashboardPage(
                       sidebarXController: controller,
