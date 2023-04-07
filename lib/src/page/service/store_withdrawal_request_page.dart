@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/store_withdrawal_request.dart/store_withdrawal_request_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:gsp23se37_supplier/src/model/withdrawal/withdrawal.dart';
@@ -48,17 +47,9 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
             search = WithdrawalSearch(storeID: store.storeID, page: 1);
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

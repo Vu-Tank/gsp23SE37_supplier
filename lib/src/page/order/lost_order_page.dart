@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -33,17 +32,9 @@ class _LostOrderPageState extends State<LostOrderPage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

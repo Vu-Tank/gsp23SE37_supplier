@@ -14,8 +14,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthNotAuthenticated()) {
     on<UserLoggedIn>(((event, emit) async {
       // await UserSharedPre.saveUser(event.user);
+      if (isClosed) return;
+      emit(AuthLoading());
       LocalStorage.saveValue('userID', event.user.userID.toString());
       LocalStorage.saveValue('token', event.user.token);
+      if (isClosed) return;
       emit(AuthAuthenticated(user: event.user));
     }));
     on<UserLoggedOut>(((event, emit) async {
@@ -30,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthAuthenticated(user: event.user));
       }
     }));
+
     on<AppLoaded>((event, emit) async {
       try {
         if (isClosed) return;

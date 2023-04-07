@@ -4,7 +4,6 @@ import 'dart:html';
 // import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/bloc/all_order/all_order_bloc.dart';
 import 'package:gsp23se37_supplier/src/cubit/order_packing_video/order_packing_video_cubit.dart';
 import 'package:gsp23se37_supplier/src/cubit/order_ticket/order_ticket_cubit.dart';
@@ -53,17 +52,9 @@ class _AllOrderPageState extends State<AllOrderPage> {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
             _orderSearch = widget.orderSearch;
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

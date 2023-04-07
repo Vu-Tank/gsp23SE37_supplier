@@ -1,7 +1,6 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:gsp23se37_supplier/src/page/order/all_order_page.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -35,17 +34,9 @@ class _WaitingForConfirmationPageState
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

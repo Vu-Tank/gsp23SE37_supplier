@@ -39,17 +39,9 @@ class _DashboardPageState extends State<DashboardPage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-          } else {
-            // context.read<AuthBloc>().add(AppLoaded());
           }
-        } else {
-          // context.read<AuthBloc>().add(AppLoaded());
         }
-      } else {
-        // context.read<AuthBloc>().add(AppLoaded());
       }
-    } else {
-      // context.read<AuthBloc>().add(AppLoaded());
     }
   }
 

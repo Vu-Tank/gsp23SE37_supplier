@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/bloc/shop/shop_bloc.dart';
 import 'package:gsp23se37_supplier/src/cubit/update_store_info/update_store_info_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
@@ -28,8 +27,6 @@ class _StoreInfoDialogState extends State<StoreInfoDialog> {
     AuthState authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticated) {
       user = authState.user;
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

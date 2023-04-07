@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ import 'package:gsp23se37_supplier/src/utils/min_size.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 // ignore: avoid_web_libraries_in_flutter
+// import 'dart:js' as js;
 import 'dart:js' as js;
 import '../bloc/auth/auth_bloc.dart';
 import '../bloc/shop/shop_bloc.dart';
@@ -40,11 +40,11 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    AuthState state = context.read<AuthBloc>().state;
-    if (state is AuthAuthenticated) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // executes after build
       context.read<AuthBloc>().add(AppLoaded());
-    }
-    log('homg page');
+    });
+
     controller = SidebarXController(selectedIndex: 0, extended: true);
     controller.addListener(() {
       if (controller.selectedIndex == 0) {
@@ -231,11 +231,11 @@ class _HomePageState extends State<HomePage>
                                   height: 54.0,
                                   width: 350,
                                   child: ElevatedButton(
-                                    onPressed: () => context
-                                        .read<ShopBloc>()
-                                        .add(ShopLogin(
-                                            userID: user.userID,
-                                            token: user.token)),
+                                    onPressed: () {
+                                      context.read<ShopBloc>().add(ShopLogin(
+                                          userID: user.userID,
+                                          token: user.token));
+                                    },
                                     style: AppStyle.myButtonStyle,
                                     child: Text(
                                       'Thử lại',

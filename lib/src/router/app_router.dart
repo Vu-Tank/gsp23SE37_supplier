@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/page/home_page.dart';
@@ -27,12 +28,15 @@ class AppRouter {
       GoRoute(
           path: '/',
           name: AppRouterConstants.homeRouteName,
-          builder: (context, state) {
-            return BlocProvider.value(
-              value: BlocProvider.of<AuthBloc>(context),
-              child: const HomePage(),
-            );
-          },
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: HomePage()),
+          // builder: (context, state) {
+          //   return const HomePage();
+          //   // return BlocProvider.value(
+          //   //   value: BlocProvider.of<AuthBloc>(context),
+          //   //   child: const HomePage(),
+          //   // );
+          // },
           routes: <GoRoute>[
             //login
             GoRoute(

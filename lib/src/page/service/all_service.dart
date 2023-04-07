@@ -53,17 +53,9 @@ class _AllServicePageState extends State<AllServicePage> {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
             search = widget.search;
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

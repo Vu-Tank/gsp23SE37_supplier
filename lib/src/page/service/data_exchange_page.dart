@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/data_exchange/data_exchange_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/data_exchange/data_exchange.dart';
 import 'package:gsp23se37_supplier/src/model/data_exchange/data_exchange_search.dart';
@@ -40,17 +39,9 @@ class _DataExchangePageState extends State<DataExchangePage> {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
             search = DataExchangeSearch(storeID: store.storeID, page: 1);
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 

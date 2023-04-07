@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/store.dart';
 import 'package:gsp23se37_supplier/src/page/item/all_item_page.dart';
 
@@ -32,17 +31,9 @@ class _ItemActivePageState extends State<ItemActivePage> {
         if (shopState is ShopCreated) {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
-          } else {
-            GoRouter.of(context).pushReplacementNamed('/');
           }
-        } else {
-          GoRouter.of(context).pushReplacementNamed('/');
         }
-      } else {
-        GoRouter.of(context).pushReplacementNamed('/');
       }
-    } else {
-      GoRouter.of(context).pushReplacementNamed('/');
     }
   }
 
