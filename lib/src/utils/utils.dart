@@ -35,6 +35,11 @@ class Utils {
     return dateFormat.format(dateTime);
   }
 
+  static String convertDateTimeToStringToRegister(DateTime dateTime) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    return dateFormat.format(dateTime);
+  }
+
   static List<SpecificationRequest> getSpecificationRequest({
     required List<Specification> listSpeci,
     required List<TextEditingController> listValue,

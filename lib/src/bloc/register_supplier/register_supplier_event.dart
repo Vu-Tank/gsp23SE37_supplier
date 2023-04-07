@@ -11,6 +11,7 @@ abstract class RegisterSupplierEvent extends Equatable {
 class RegisterSupplierInit extends RegisterSupplierEvent {}
 
 class RegisterSupplierPressed extends RegisterSupplierEvent {
+  final bool check;
   final String fullName;
   final String email;
   final DateTime? dob;
@@ -25,6 +26,7 @@ class RegisterSupplierPressed extends RegisterSupplierEvent {
   final String phone;
   final Function onSuccess;
   const RegisterSupplierPressed({
+    required this.check,
     required this.fullName,
     required this.email,
     required this.dob,
@@ -43,6 +45,7 @@ class RegisterSupplierPressed extends RegisterSupplierEvent {
   @override
   // TODO: implement props
   List<Object?> get props => [
+        check,
         fullName,
         email,
         dob,

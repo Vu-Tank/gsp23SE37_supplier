@@ -21,7 +21,7 @@ class RegisterStoreBloc extends Bloc<RegisterStoreEvent, RegisterStoreState> {
   RegisterStoreBloc() : super(RegisterStoreInitial()) {
     on<RegisterStorePressed>((event, emit) async {
       emit(RegisterStoreing());
-      bool check = true;
+      bool check = event.check;
       ValidationItem fullName = Validations.validUserName(event.storeName);
       if (fullName.error != null) check = false;
       ValidationItem email = Validations.valEmail(event.email);

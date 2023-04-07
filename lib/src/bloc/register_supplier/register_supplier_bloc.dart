@@ -41,7 +41,7 @@ class RegisterSupplierBloc
     );
     on<RegisterSupplierPressed>((event, emit) async {
       emit(RegisterSuppliering.fromOldState(state));
-      bool check = true;
+      bool check = event.check;
       ValidationItem fullName = Validations.validUserName(event.fullName);
       if (fullName.error != null) check = false;
       ValidationItem email = Validations.valEmail(event.email);
@@ -87,7 +87,7 @@ class RegisterSupplierBloc
               imageName: 'defaultAvatar',
               imagepath: AppConstants.defaultAvatar,
               contextAddress: address.value,
-              dateOfBirth: Utils.convertDateTimeToString(event.dob!),
+              dateOfBirth: Utils.convertDateTimeToStringToRegister(event.dob!),
               gender: event.gender,
               latitude: lat,
               longitude: lng,

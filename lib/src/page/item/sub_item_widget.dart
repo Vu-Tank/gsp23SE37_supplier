@@ -13,6 +13,7 @@ Widget subItemWidget(
     {required BuildContext context,
     required ItemDetail item,
     required int index,
+    required bool edit,
     required String token}) {
   SubItem subItem = item.listSubItem[index];
   bool isUpdate = false;
@@ -151,44 +152,47 @@ Widget subItemWidget(
                               'Thoát',
                               style: AppStyle.textButtom,
                             ))),
-                        DataCell(TextButton(
-                            onPressed: (state is ItemDetailLoading)
-                                ? null
-                                : () {
-                                    if (item.listSubItem.length == 1) {
-                                      MyDialog.showAlertDialogError(
-                                          context, 'Không thể Dừng bán');
-                                    } else {
-                                      if (subItem
-                                              .subItem_Status.item_StatusID ==
-                                          1) {
-                                        context
-                                            .read<ItemDetailCubit>()
-                                            .hidenSubItem(
-                                                item: item,
-                                                token: token,
-                                                index: index);
-                                      } else if (subItem
-                                              .subItem_Status.item_StatusID ==
-                                          4) {
-                                        context
-                                            .read<ItemDetailCubit>()
-                                            .unHidenSubItem(
-                                                item: item,
-                                                token: token,
-                                                index: index);
-                                      }
-                                    }
-                                  },
-                            child: (state is ItemDetailLoading)
-                                ? const CircularProgressIndicator()
-                                : Text(
-                                    (subItem.subItem_Status.item_StatusID == 1)
-                                        ? 'Dừng bán'
-                                        : 'Bán lại',
-                                    style: AppStyle.textButtom
-                                        .copyWith(color: Colors.red),
-                                  ))),
+                        DataCell((!edit)
+                            ? Container()
+                            : TextButton(
+                                onPressed: (state is ItemDetailLoading)
+                                    ? null
+                                    : () {
+                                        if (item.listSubItem.length == 1) {
+                                          MyDialog.showAlertDialogError(
+                                              context, 'Không thể Dừng bán');
+                                        } else {
+                                          if (subItem.subItem_Status
+                                                  .item_StatusID ==
+                                              1) {
+                                            context
+                                                .read<ItemDetailCubit>()
+                                                .hidenSubItem(
+                                                    item: item,
+                                                    token: token,
+                                                    index: index);
+                                          } else if (subItem.subItem_Status
+                                                  .item_StatusID ==
+                                              4) {
+                                            context
+                                                .read<ItemDetailCubit>()
+                                                .unHidenSubItem(
+                                                    item: item,
+                                                    token: token,
+                                                    index: index);
+                                          }
+                                        }
+                                      },
+                                child: (state is ItemDetailLoading)
+                                    ? const CircularProgressIndicator()
+                                    : Text(
+                                        (subItem.subItem_Status.item_StatusID ==
+                                                1)
+                                            ? 'Dừng bán'
+                                            : 'Bán lại',
+                                        style: AppStyle.textButtom
+                                            .copyWith(color: Colors.red),
+                                      ))),
                       ]),
                     ]),
                   ],

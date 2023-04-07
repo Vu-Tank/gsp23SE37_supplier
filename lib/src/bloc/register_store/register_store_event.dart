@@ -8,6 +8,7 @@ abstract class RegisterStoreEvent extends Equatable {
 }
 
 class RegisterStorePressed extends RegisterStoreEvent {
+  final bool check;
   final String storeName;
   final String email;
   final String contextAddress;
@@ -21,7 +22,8 @@ class RegisterStorePressed extends RegisterStoreEvent {
   final String uid;
   final Function onSuccess;
   const RegisterStorePressed(
-      {required this.storeName,
+      {required this.check,
+      required this.storeName,
       required this.email,
       required this.contextAddress,
       required this.userID,
@@ -36,6 +38,7 @@ class RegisterStorePressed extends RegisterStoreEvent {
   @override
   // TODO: implement props
   List<Object?> get props => [
+        check,
         storeName,
         email,
         contextAddress,

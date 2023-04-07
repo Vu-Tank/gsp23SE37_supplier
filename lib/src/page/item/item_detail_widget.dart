@@ -504,6 +504,7 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                       context: context,
                                       item: itemDetail,
                                       index: index,
+                                      edit: widget.edit,
                                       token: widget.token),
                                 );
                                 if (update != null && update) {
