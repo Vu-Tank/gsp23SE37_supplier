@@ -892,9 +892,9 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                                 district: _district,
                                                 ward: _ward,
                                                 onSuccess: () {
-                                                  context
-                                                      .read<AuthBloc>()
-                                                      .add(AppLoaded());
+                                                  // context
+                                                  //     .read<AuthBloc>()
+                                                  //     .add(AppLoaded());
                                                   GoRouter.of(context)
                                                       .pushReplacementNamed(
                                                           AppRouterConstants

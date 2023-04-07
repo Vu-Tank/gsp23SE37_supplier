@@ -39,6 +39,10 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    AuthState state = context.read<AuthBloc>().state;
+    if (state is AuthAuthenticated) {
+      context.read<AuthBloc>().add(AppLoaded());
+    }
     controller = SidebarXController(selectedIndex: 0, extended: true);
     controller.addListener(() {
       if (controller.selectedIndex == 0) {

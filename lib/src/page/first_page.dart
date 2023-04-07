@@ -36,7 +36,6 @@ class _FirstPageState extends State<FirstPage>
   void didChangeMetrics() {
     setState(() {
       _lastSize = WidgetsBinding.instance.window.physicalSize;
-      print(_lastSize.width);
     });
   }
 

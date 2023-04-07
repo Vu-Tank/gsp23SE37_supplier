@@ -28,14 +28,7 @@ class AppRouter {
           path: '/',
           name: AppRouterConstants.homeRouteName,
           builder: (context, state) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<AuthBloc>.value(
-                  value: BlocProvider.of<AuthBloc>(context),
-                )
-              ],
-              child: const HomePage(),
-            );
+            return const HomePage();
           },
           routes: <GoRoute>[
             //login

@@ -30,7 +30,6 @@ class _UserDialogState extends State<UserDialog> {
       builder: (context, state) {
         if (state is AuthAuthenticated) {
           User user = state.user;
-          print(user.token);
           return Dialog(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,

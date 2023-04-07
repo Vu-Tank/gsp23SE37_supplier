@@ -307,7 +307,7 @@ class _UserEditDialogState extends State<UserEditDialog> {
                                                 .read<UpdateSupplierInfoCubit>()
                                                 .updateDOB(
                                                     dob: Utils
-                                                        .convertDateTimeToString(
+                                                        .convertDateTimeToStringToRegister(
                                                             dob),
                                                     user: user);
                                             return;
