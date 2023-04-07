@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
+import '../../bloc/shop/shop_bloc.dart';
 import '../../bloc/verify/time/cubit/timer_cubit.dart';
 import '../../bloc/verify/verify_bloc.dart';
 import '../../model/user.dart';
@@ -203,6 +204,8 @@ class _VerifyPageState extends State<VerifyPage> {
                                 context
                                     .read<AuthBloc>()
                                     .add(UserLoggedIn(user: user));
+                                context.read<ShopBloc>().add(ShopLogin(
+                                    userID: user.userID, token: user.token));
                                 GoRouter.of(context).pushReplacementNamed(
                                   AppRouterConstants.homeRouteName,
                                 );

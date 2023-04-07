@@ -152,7 +152,7 @@ Widget subItemWidget(
                               'Thoát',
                               style: AppStyle.textButtom,
                             ))),
-                        DataCell((!edit)
+                        DataCell((!edit || item.item_Status.item_StatusID != 1)
                             ? Container()
                             : TextButton(
                                 onPressed: (state is ItemDetailLoading)

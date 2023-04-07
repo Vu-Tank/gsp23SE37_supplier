@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dart';
 import 'package:gsp23se37_supplier/src/page/store/cash_flow_dialog.dart';
 import 'package:gsp23se37_supplier/src/page/store/store_withdrawal_dialog.dart';
@@ -41,16 +40,16 @@ class _DashboardPageState extends State<DashboardPage> {
           if (shopState.store.store_Status.item_StatusID == 1) {
             store = shopState.store;
           } else {
-            GoRouter.of(context).pushReplacementNamed('/');
+            // context.read<AuthBloc>().add(AppLoaded());
           }
         } else {
-          GoRouter.of(context).pushReplacementNamed('/');
+          // context.read<AuthBloc>().add(AppLoaded());
         }
       } else {
-        GoRouter.of(context).pushReplacementNamed('/');
+        // context.read<AuthBloc>().add(AppLoaded());
       }
     } else {
-      GoRouter.of(context).pushReplacementNamed('/');
+      // context.read<AuthBloc>().add(AppLoaded());
     }
   }
 

@@ -214,14 +214,14 @@ class Validations {
       if (weightUnit == 'kg' && weight > 20) {
         return 'Khối lượng sản phẩm phải nhỏ hơn hoặc bằng 20kg';
       }
-      if (weightUnit == 'kg' && weight < 0.5) {
-        return 'Khối lượng sản phẩm phải lớn hơn hoặc bằng 0.5 kg';
+      if (weightUnit == 'kg' && weight < 0.01) {
+        return 'Khối lượng sản phẩm phải lớn hơn hoặc bằng 0.01 kg';
       }
       if (weightUnit == 'grams' && weight > 20000) {
         return 'Khối lượng sản phẩm phải nhỏ hơn hoặc bằng 20000 grams';
       }
-      if (weightUnit == 'grams' && weight < 500) {
-        return 'Khối lượng sản phẩm phải lớn hơn hoặc bằng 500 grams';
+      if (weightUnit == 'grams' && weight < 10) {
+        return 'Khối lượng sản phẩm phải lớn hơn hoặc bằng 10 grams';
       }
     } catch (e) {
       return 'vui lòng nhập số';

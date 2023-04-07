@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -39,7 +40,11 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AppLoaded());
+    AuthState state = context.read<AuthBloc>().state;
+    if (state is AuthAuthenticated) {
+      context.read<AuthBloc>().add(AppLoaded());
+    }
+    log('homg page');
     controller = SidebarXController(selectedIndex: 0, extended: true);
     controller.addListener(() {
       if (controller.selectedIndex == 0) {

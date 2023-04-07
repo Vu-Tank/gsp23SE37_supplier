@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthBloc(),
+          create: (context) => AuthBloc()..add(AppLoaded()),
         ),
         BlocProvider(
           create: (context) => ShopBloc(),

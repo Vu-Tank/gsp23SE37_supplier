@@ -12,6 +12,7 @@ class TimerCubit extends Cubit<TimerState> {
   startTimer([int? time]) {
     Wakelock.enable();
     if (time != null) {
+      if (isClosed) return;
       emit(TimerProgress(time));
     } else {
       // emit(const TimerProgress(0));
@@ -22,10 +23,12 @@ class TimerCubit extends Cubit<TimerState> {
   onTick(Timer timer) {
     if (state is TimerProgress) {
       if (state.elapsed! > 0) {
+        if (isClosed) return;
         emit(TimerProgress(state.elapsed! - 1));
       } else {
         _timer!.cancel();
         Wakelock.disable();
+        if (isClosed) return;
         emit(const TimerInitial());
       }
     }
