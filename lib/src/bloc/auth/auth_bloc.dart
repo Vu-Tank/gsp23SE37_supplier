@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }));
     on<AppLoaded>((event, emit) async {
       try {
+        if (isClosed) return;
         emit(AuthLoading());
         String? userID = LocalStorage.getValue('userID');
         String? token = LocalStorage.getValue('token');
@@ -41,15 +42,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (apiResponse.isSuccess!) {
             MyUser.User user = apiResponse.data;
             LocalStorage.saveValue('token', user.token);
+            if (isClosed) return;
             emit(AuthAuthenticated(user: user));
           } else {
             LocalStorage.clearAll();
+            if (isClosed) return;
             emit(AuthNotAuthenticated());
           }
         } else {
+          if (isClosed) return;
           emit(AuthNotAuthenticated());
         }
       } catch (e) {
+        if (isClosed) return;
         emit(AuthNotAuthenticated());
       }
     });

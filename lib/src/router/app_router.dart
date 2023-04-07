@@ -28,7 +28,10 @@ class AppRouter {
           path: '/',
           name: AppRouterConstants.homeRouteName,
           builder: (context, state) {
-            return const HomePage();
+            return BlocProvider.value(
+              value: BlocProvider.of<AuthBloc>(context),
+              child: const HomePage(),
+            );
           },
           routes: <GoRoute>[
             //login
