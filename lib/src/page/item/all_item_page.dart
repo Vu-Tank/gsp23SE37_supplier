@@ -76,6 +76,9 @@ class _AllItemPageState extends State<AllItemPage> {
                           onSearch: (ItemSearch itemSearch) {
                             search = itemSearch;
                             // print(search.toString());
+                            if (search.search == null) {
+                              _searchController.text = '';
+                            }
                             context.read<AllItemBloc>().add(AllItemLoad(
                                 token: user.token, itemSearch: search));
                           }),
