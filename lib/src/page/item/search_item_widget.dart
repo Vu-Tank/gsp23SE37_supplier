@@ -12,6 +12,17 @@ Widget searchItemWidget(
     required Function onSearch}) {
   return Row(
     children: [
+      if (!itemSearch.isDefault())
+        IconButton(
+            onPressed: () {
+              onSearch(ItemSearch(
+                  sortBy: itemSearch.sortBy,
+                  storeID: itemSearch.storeID,
+                  page: itemSearch.page,
+                  itemStatusID: itemSearch.itemStatusID,
+                  search: itemSearch.search));
+            },
+            icon: const Icon(Icons.arrow_back_outlined)),
       Expanded(
         child: TextFormField(
           controller: searchController,
@@ -54,7 +65,7 @@ Widget searchItemWidget(
             onPressed: () async {
               ItemSearch? search = await showDialog<ItemSearch>(
                 context: context,
-                barrierDismissible: false,
+                // barrierDismissible: false,
                 builder: (context) => Dialog(
                   child: FilterSeachItem(search: itemSearch),
                 ),

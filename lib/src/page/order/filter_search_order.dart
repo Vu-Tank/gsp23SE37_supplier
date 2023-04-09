@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/model/order/order_search.dart';
 import 'package:intl/intl.dart';
@@ -43,16 +42,33 @@ class _FilterSearchOrderState extends State<FilterSearchOrder> {
       ], rows: [
         DataRow(cells: [
           DataCell(TextButton(
-              onPressed: () => DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(2018, 3, 5),
-                      maxTime: DateTime.now(), onChanged: (date) {
-                    // log('change $date');
-                  }, onConfirm: (date) {
-                    setState(() => dateFrom = date);
-                    _orderSearch.dateTo = Utils.convertDateTimeToString(date);
-                    _orderSearch.page = 1;
-                  }, currentTime: DateTime.now(), locale: LocaleType.vi),
+              // onPressed: () => DatePicker.showDatePicker(context,
+              //         showTitleActions: true,
+              //         minTime: DateTime(2018, 3, 5),
+              //         maxTime: DateTime.now(), onChanged: (date) {
+              //       // log('change $date');
+              //     }, onConfirm: (date) {
+              //       setState(() => dateFrom = date);
+              //       _orderSearch.dateTo = Utils.convertDateTimeToString(date);
+              //       _orderSearch.page = 1;
+              //     }, currentTime: DateTime.now(), locale: LocaleType.vi),
+              onPressed: () async {
+                DateTime? dateTime = await showDatePicker(
+                  context: context,
+                  locale: const Locale("vi", "VN"),
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2018),
+                  lastDate: DateTime.now(),
+                );
+                if (dateTime != null) {
+                  setState(() {
+                    dateFrom = dateTime;
+                  });
+                  _orderSearch.dateFrom =
+                      Utils.convertDateTimeToString(dateTime);
+                  _orderSearch.page = 1;
+                }
+              },
               child: Text(
                 'Từ ngày',
                 style: AppStyle.h2.copyWith(color: Colors.blue),
@@ -64,16 +80,33 @@ class _FilterSearchOrderState extends State<FilterSearchOrder> {
         ]),
         DataRow(cells: [
           DataCell(TextButton(
-              onPressed: () => DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: dateFrom ?? DateTime(2018, 3, 5),
-                      maxTime: DateTime.now(), onChanged: (date) {
-                    // log('change $date');
-                  }, onConfirm: (date) {
-                    setState(() => dateTo = date);
-                    _orderSearch.dateTo = Utils.convertDateTimeToString(date);
+              // onPressed: () => DatePicker.showDatePicker(context,
+              //         showTitleActions: true,
+              //         minTime: dateFrom ?? DateTime(2018, 3, 5),
+              //         maxTime: DateTime.now(), onChanged: (date) {
+              //       // log('change $date');
+              //     }, onConfirm: (date) {
+              //       setState(() => dateTo = date);
+              //       _orderSearch.dateTo = Utils.convertDateTimeToString(date);
+              //       _orderSearch.page = 1;
+              //     }, currentTime: DateTime.now(), locale: LocaleType.vi),
+              onPressed: () async {
+                DateTime? dateTime = await showDatePicker(
+                  context: context,
+                  locale: const Locale("vi", "VN"),
+                  initialDate: DateTime.now(),
+                  firstDate: (dateFrom != null) ? dateFrom! : DateTime(2018),
+                  lastDate: DateTime.now(),
+                );
+                if (dateTime != null) {
+                  setState(() {
+                    dateTo = dateTime;
+                    _orderSearch.dateTo =
+                        Utils.convertDateTimeToString(dateTime);
                     _orderSearch.page = 1;
-                  }, currentTime: DateTime.now(), locale: LocaleType.vi),
+                  });
+                }
+              },
               child: Text(
                 'Đến ngày',
                 style: AppStyle.h2.copyWith(color: Colors.blue),
@@ -89,8 +122,12 @@ class _FilterSearchOrderState extends State<FilterSearchOrder> {
               'Thiết lập lại',
               style: AppStyle.h2.copyWith(color: Colors.blue),
             ),
-            onTap: () => context
-                .pop(_orderSearch.copyWith(dateFrom: null, dateTo: null)),
+            onTap: () => context.pop(OrderSearch(
+                storeID: _orderSearch.storeID,
+                page: _orderSearch.page,
+                shipOrderStatus: _orderSearch.shipOrderStatus,
+                orderID: _orderSearch.orderID,
+                userName: _orderSearch.userName)),
           ),
           DataCell(
             Text(

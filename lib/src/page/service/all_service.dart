@@ -38,6 +38,8 @@ class _AllServicePageState extends State<AllServicePage> {
   late ServiceSearch search;
   late Store store;
   late User user;
+  TextEditingController fromController = TextEditingController();
+  TextEditingController toController = TextEditingController();
   DateTime? from;
   DateTime? to;
   @override
@@ -73,28 +75,64 @@ class _AllServicePageState extends State<AllServicePage> {
             return Column(
               children: [
                 //search
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (!search.isDefault())
-                      IconButton(
-                          onPressed: () {
-                            search = widget.search;
-                            context
-                                .read<ServiceBuyCubit>()
-                                .loadService(token: user.token, search: search);
-                            from = null;
-                            to = null;
-                          },
-                          icon: const Icon(Icons.arrow_back_outlined)),
-                    SizedBox(
-                      height: 54,
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  side: const BorderSide(width: 5))),
-                          onPressed: () async {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (!search.isDefault())
+                        IconButton(
+                            onPressed: () {
+                              search = widget.search;
+                              context.read<ServiceBuyCubit>().loadService(
+                                  token: user.token, search: search);
+                              from = null;
+                              to = null;
+                            },
+                            icon: const Icon(Icons.arrow_back_outlined)),
+                      // SizedBox(
+                      //   height: 54,
+                      //   child: OutlinedButton(
+                      //       style: OutlinedButton.styleFrom(
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(40.0),
+                      //               side: const BorderSide(width: 5))),
+                      //       onPressed: () async {
+                      //         DateTime? dateTime = await showDatePicker(
+                      //           context: context,
+                      //           locale: const Locale("vi", "VN"),
+                      //           initialDate: DateTime.now(),
+                      //           firstDate: DateTime(2018),
+                      //           lastDate: DateTime.now(),
+                      //         );
+                      //         if (dateTime != null) {
+                      //           setState(() {
+                      //             from = dateTime;
+                      //           });
+                      //         }
+                      //       },
+                      //       child: Text(
+                      //         (from != null)
+                      //             ? Utils.convertDateTimeToString(from!)
+                      //             : 'Từ ngày',
+                      //         style: AppStyle.textButtom,
+                      //       )),
+                      // ),
+                      SizedBox(
+                        width: 150,
+                        height: 54,
+                        child: TextField(
+                          controller:
+                              fromController, //editing controller of this TextField
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              prefixIcon: Icon(
+                                  Icons.calendar_today), //icon of text field
+                              labelText: "Từ ngày" //label text of field
+                              ),
+                          readOnly: true,
+                          onTap: () async {
                             DateTime? dateTime = await showDatePicker(
                               context: context,
                               locale: const Locale("vi", "VN"),
@@ -105,27 +143,31 @@ class _AllServicePageState extends State<AllServicePage> {
                             if (dateTime != null) {
                               setState(() {
                                 from = dateTime;
+                                fromController.text =
+                                    Utils.convertDateTimeToString(dateTime);
                               });
                             }
                           },
-                          child: Text(
-                            (from != null)
-                                ? Utils.convertDateTimeToString(from!)
-                                : 'Từ ngày',
-                            style: AppStyle.textButtom,
-                          )),
-                    ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    SizedBox(
-                      height: 54,
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  side: const BorderSide(width: 5))),
-                          onPressed: () async {
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      SizedBox(
+                        width: 150,
+                        height: 54,
+                        child: TextField(
+                          controller:
+                              toController, //editing controller of this TextField
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              prefixIcon: Icon(
+                                  Icons.calendar_today), //icon of text field
+                              labelText: "Đến ngày" //label text of field
+                              ),
+                          readOnly: true,
+                          onTap: () async {
                             DateTime? dateTime = await showDatePicker(
                               context: context,
                               locale: const Locale("vi", "VN"),
@@ -137,47 +179,82 @@ class _AllServicePageState extends State<AllServicePage> {
                             if (dateTime != null) {
                               setState(() {
                                 to = dateTime;
+                                toController.text =
+                                    Utils.convertDateTimeToString(dateTime);
                               });
                             }
                           },
-                          child: Text(
-                            (to != null)
-                                ? Utils.convertDateTimeToString(to!)
-                                : 'Đến ngày',
-                            style: AppStyle.textButtom,
-                          )),
-                    ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          context.read<ServiceBuyCubit>().loadService(
-                              token: user.token,
-                              search: search.copyWith(
-                                from: (from != null)
-                                    ? Utils.convertDateTimeToString(from!)
-                                    : null,
-                                to: (to != null)
-                                    ? Utils.convertDateTimeToString(to!)
-                                    : null,
-                              ));
-                          setState(() {
-                            search = search.copyWith(
-                              from: (from != null)
-                                  ? Utils.convertDateTimeToString(from!)
-                                  : null,
-                              to: (to != null)
-                                  ? Utils.convertDateTimeToString(to!)
-                                  : null,
-                            );
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.blue,
-                        )),
-                  ],
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: 54,
+                      //   child: OutlinedButton(
+                      //       style: OutlinedButton.styleFrom(
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(40.0),
+                      //               side: const BorderSide(width: 5))),
+                      //       onPressed: () async {
+                      //         DateTime? dateTime = await showDatePicker(
+                      //           context: context,
+                      //           locale: const Locale("vi", "VN"),
+                      //           initialDate: DateTime.now(),
+                      //           firstDate:
+                      //               (from != null) ? from! : DateTime(2018),
+                      //           lastDate: DateTime.now(),
+                      //         );
+                      //         if (dateTime != null) {
+                      //           setState(() {
+                      //             to = dateTime;
+                      //           });
+                      //         }
+                      //       },
+                      //       child: Text(
+                      //         (to != null)
+                      //             ? Utils.convertDateTimeToString(to!)
+                      //             : 'Đến ngày',
+                      //         style: AppStyle.textButtom,
+                      //       )),
+                      // ),
+
+                      Expanded(
+                        child: Container(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: SizedBox(
+                            height: 54,
+                            child: ElevatedButton(
+                                style: AppStyle.myButtonStyle,
+                                onPressed: () {
+                                  context.read<ServiceBuyCubit>().loadService(
+                                      token: user.token,
+                                      search: search.copyWith(
+                                        from: (from != null)
+                                            ? Utils.convertDateTimeToString(
+                                                from!)
+                                            : null,
+                                        to: (to != null)
+                                            ? Utils.convertDateTimeToString(to!)
+                                            : null,
+                                      ));
+                                  setState(() {
+                                    search = search.copyWith(
+                                      from: (from != null)
+                                          ? Utils.convertDateTimeToString(from!)
+                                          : null,
+                                      to: (to != null)
+                                          ? Utils.convertDateTimeToString(to!)
+                                          : null,
+                                    );
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.search,
+                                  color: Colors.blue,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 //data
                 Expanded(
