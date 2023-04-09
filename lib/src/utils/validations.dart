@@ -256,8 +256,25 @@ class Validations {
       if (warrantiesTime < 0) {
         return 'Thời gian bảo hành của sản phẩm phải lơn hơn 0';
       }
-      if (warrantiesTime >= 50000000) {
-        return 'Thời gian bảo hành của sản phẩm phải nhỏ hơn 50 triệu';
+      if (warrantiesTime >= 70) {
+        return 'Thời gian bảo hành của sản phẩm phải nhỏ hơn 70 tháng';
+      }
+    } catch (e) {
+      return 'vui lòng nhập số';
+    }
+    return null;
+  }
+
+  static String? valReturnAndExchange(String? value) {
+    if (value == null) return 'Vui lòng nhập thời gian đổi trả';
+    if (value.isEmpty) return 'Vui lòng nhập thời gian đổi trả';
+    try {
+      int returnAndExchange = int.parse(value);
+      if (returnAndExchange < 0) {
+        return 'Thời gian đổi trả của sản phẩm phải lơn hơn 0';
+      }
+      if (returnAndExchange >= 40) {
+        return 'Thời gian đổi trả của sản phẩm phải nhỏ hơn 40 Ngày';
       }
     } catch (e) {
       return 'vui lòng nhập số';

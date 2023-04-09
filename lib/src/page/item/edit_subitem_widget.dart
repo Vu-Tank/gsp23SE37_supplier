@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/update_subitem/update_subitem_cubit.dart';
 import 'package:gsp23se37_supplier/src/model/item/sub_item.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/validations.dart';
 
@@ -13,7 +14,18 @@ Widget editSubItemWidget(
   TextEditingController value = TextEditingController(
       text: (type == 'amount')
           ? subItem.amount.toString()
-          : subItem.price.toString());
+          : (type == 'discount')
+              ? (double.parse(subItem.discount.toString()) * 100).toString()
+              : (type == 'price')
+                  ? NumberFormat.currency(
+                          locale: 'vi_VN', decimalDigits: 0, symbol: '')
+                      .format(subItem.price)
+                      .toString()
+                  : (type == 'warrantiesTime')
+                      ? subItem.warrantiesTime.toString()
+                      : (type == 'returnAndExchange')
+                          ? subItem.returnAndExchange.toString()
+                          : '');
   final formKey = GlobalKey<FormState>();
   return Dialog(
     child: StatefulBuilder(
@@ -34,6 +46,18 @@ Widget editSubItemWidget(
                   context.pop(
                       subItem.copyWith(amount: int.parse(value.text.trim())));
                 }
+                if (type == 'discount') {
+                  context.pop(subItem.copyWith(
+                      discount: double.parse(value.text.trim()) / 100));
+                }
+                if (type == 'warrantiesTime') {
+                  context.pop(subItem.copyWith(
+                      warrantiesTime: int.parse(value.text.trim())));
+                }
+                if (type == 'returnAndExchange') {
+                  context.pop(subItem.copyWith(
+                      returnAndExchange: int.parse(value.text.trim())));
+                }
               }
             },
             builder: (context, state) {
@@ -45,7 +69,17 @@ Widget editSubItemWidget(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        (type == 'amount') ? 'Chỉnh số lượng' : 'Chỉnh giá',
+                        (type == 'amount')
+                            ? 'Chỉnh số lượng'
+                            : (type == 'price')
+                                ? 'Chỉnh giá'
+                                : (type == 'discount')
+                                    ? 'Chỉnh Khuyến mãi'
+                                    : (type == 'warrantiesTime')
+                                        ? 'Chỉnh thời gian bảo hành'
+                                        : (type == 'returnAndExchange')
+                                            ? 'Chỉnh thời gian đổi trả'
+                                            : '',
                         style: AppStyle.h2,
                       ),
                       const SizedBox(
@@ -62,7 +96,7 @@ Widget editSubItemWidget(
                               CurrencyTextInputFormatter(
                                 locale: 'vi_VN',
                                 decimalDigits: 0,
-                                symbol: 'VNĐ',
+                                symbol: '',
                               )
                           ],
                           validator: (value) {
@@ -70,19 +104,55 @@ Widget editSubItemWidget(
                               return Validations.valAmount(value);
                             } else if (type == 'price') {
                               return Validations.valPrice(value);
+                            } else if (type == 'discount') {
+                              return Validations.valDiscount(value);
+                            } else if (type == 'warrantiesTime') {
+                              return Validations.valWarrantiesTime(value);
+                            } else if (type == 'returnAndExchange') {
+                              return Validations.valReturnAndExchange(value);
                             }
                             return null;
                           },
                           maxLength: 100,
                           maxLines: 1,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.phone),
                             errorStyle:
                                 AppStyle.errorStyle.copyWith(fontSize: 15),
                             label: Text(
-                              (type == 'amount') ? 'Số lượng' : 'Giá',
+                              (type == 'amount')
+                                  ? 'Số lượng'
+                                  : (type == 'price')
+                                      ? 'Giá'
+                                      : (type == 'discount')
+                                          ? 'Khuyến mãi'
+                                          : (type == 'warrantiesTime')
+                                              ? 'Bảo hành'
+                                              : (type == 'returnAndExchange')
+                                                  ? 'Đổi trả'
+                                                  : '',
                               style: AppStyle.h2,
                             ),
+                            suffix: (type == 'discount')
+                                ? Text(
+                                    '%',
+                                    style: AppStyle.h2,
+                                  )
+                                : (type == 'price')
+                                    ? Text(
+                                        'VNĐ',
+                                        style: AppStyle.h2,
+                                      )
+                                    : (type == 'warrantiesTime')
+                                        ? Text(
+                                            'Tháng',
+                                            style: AppStyle.h2,
+                                          )
+                                        : (type == 'returnAndExchange')
+                                            ? Text(
+                                                'Ngày',
+                                                style: AppStyle.h2,
+                                              )
+                                            : null,
                             border: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black)),
                             enabledBorder: const OutlineInputBorder(
@@ -91,6 +161,14 @@ Widget editSubItemWidget(
                           ),
                         ),
                       ),
+                      if (state is UpdateSubitemFailde)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            state.msg,
+                            style: AppStyle.errorStyle,
+                          ),
+                        ),
                       const SizedBox(
                         height: 8.0,
                       ),
@@ -136,6 +214,40 @@ Widget editSubItemWidget(
                                                                       'VNĐ', '')
                                                                   .replaceAll(
                                                                       '.', '')
+                                                                  .trim())));
+                                              return;
+                                            case 'discount':
+                                              context
+                                                  .read<UpdateSubitemCubit>()
+                                                  .updateSubitem(
+                                                      token: token,
+                                                      subItem: subItem.copyWith(
+                                                          discount:
+                                                              double.parse(value
+                                                                      .text
+                                                                      .trim()) /
+                                                                  100));
+                                              return;
+                                            case 'warrantiesTime':
+                                              context
+                                                  .read<UpdateSubitemCubit>()
+                                                  .updateSubitem(
+                                                      token: token,
+                                                      subItem: subItem.copyWith(
+                                                          warrantiesTime:
+                                                              int.parse(value
+                                                                  .text
+                                                                  .trim())));
+                                              return;
+                                            case 'returnAndExchange':
+                                              context
+                                                  .read<UpdateSubitemCubit>()
+                                                  .updateSubitem(
+                                                      token: token,
+                                                      subItem: subItem.copyWith(
+                                                          returnAndExchange:
+                                                              int.parse(value
+                                                                  .text
                                                                   .trim())));
                                               return;
                                             default:

@@ -312,9 +312,11 @@ class ItemRepositories {
 
   static Future<ApiResponse> updateSubItem(
       {required String token,
-      required int subItemID,
-      required int amount,
-      required double price}) async {
+      // required int subItemID,
+      // required int amount,
+      // required double discount,
+      // required double price,
+      required SubItem subItem}) async {
     ApiResponse apiResponse = ApiResponse();
     try {
       var response = await http
@@ -325,9 +327,12 @@ class ItemRepositories {
               'Authorization': 'Bearer $token',
             },
             body: jsonEncode(<String, dynamic>{
-              "subItemID": subItemID,
-              "amount": amount,
-              "price": price,
+              "subItemID": subItem.sub_ItemID,
+              "amount": subItem.amount,
+              "discount": subItem.discount,
+              "warrantiesTime": subItem.warrantiesTime,
+              "price": subItem.price,
+              "returnAndExchange": subItem.returnAndExchange
             }),
           )
           .timeout(ApiSetting.timeOut);

@@ -1341,20 +1341,24 @@ class _AddItemPageState extends State<AddItemPage> {
                                                         if (value !=
                                                             weightUnitState
                                                                 .weightUnit) {
-                                                          if (value == 'kg') {
-                                                            textEditingController
-                                                                .text = (double.parse(
-                                                                        textEditingController
-                                                                            .text) ~/
-                                                                    1000)
-                                                                .toString();
-                                                          } else {
-                                                            textEditingController
-                                                                .text = (double.parse(
-                                                                        textEditingController
-                                                                            .text) *
-                                                                    1000)
-                                                                .toString();
+                                                          if (textEditingController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                            if (value == 'kg') {
+                                                              textEditingController
+                                                                      .text =
+                                                                  (double.parse(
+                                                                              textEditingController.text) ~/
+                                                                          1000)
+                                                                      .toString();
+                                                            } else {
+                                                              textEditingController
+                                                                      .text =
+                                                                  (double.parse(
+                                                                              textEditingController.text) *
+                                                                          1000)
+                                                                      .toString();
+                                                            }
                                                           }
                                                         }
                                                         context

@@ -110,7 +110,7 @@ class Utils {
       return '';
     }
     DateTime now = DateTime.now();
-    DateFormat format = DateFormat('MM/dd/yyyy HH:mm:ss');
+    DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss');
     DateTime time = format.parse(timeString);
     if (now.day == time.day &&
         now.month == time.month &&

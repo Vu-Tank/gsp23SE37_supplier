@@ -11,11 +11,8 @@ class UpdateSubitemCubit extends Cubit<UpdateSubitemState> {
   updateSubitem({required String token, required SubItem subItem}) async {
     if (isClosed) return;
     emit(UpdateSubItemLoading());
-    ApiResponse apiResponse = await ItemRepositories.updateSubItem(
-        token: token,
-        subItemID: subItem.sub_ItemID,
-        amount: subItem.amount,
-        price: subItem.price);
+    ApiResponse apiResponse =
+        await ItemRepositories.updateSubItem(token: token, subItem: subItem);
     if (apiResponse.isSuccess!) {
       if (isClosed) return;
       emit(UpdateSubitemSuccess());

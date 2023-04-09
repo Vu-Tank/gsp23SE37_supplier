@@ -226,6 +226,7 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ),
                         Text(Utils.getTime(roomChat.time)),
+                        // Text(roomChat.time),
                       ],
                     )
                   ],

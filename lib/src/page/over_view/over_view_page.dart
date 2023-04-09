@@ -68,11 +68,11 @@ class _OverViewPageState extends State<OverViewPage> {
                     style: AppStyle.h2,
                   ),
                   Text(
-                    '(a) bạn là người thành niên và bạn có đủ khả năng và năng lực để tham gia vào Điều Khoản này; hoặc\n(b) bạn là cha mẹ hoặc người giám hộ hợp pháp của người dùng đang sử dụng Nền Tảng Lazada và đồng ý chấp thuận Điều Khoản này và đảm bảo rằng người dùng đó cũng chịu sự ràng buộc và tuân thủ Điều khoản này.',
+                    '(a) bạn là người thành niên và bạn có đủ khả năng và năng lực để tham gia vào Điều Khoản này; hoặc\n(b) bạn là cha mẹ hoặc người giám hộ hợp pháp của người dùng đang sử dụng Nền Tảng Esmp và đồng ý chấp thuận Điều Khoản này và đảm bảo rằng người dùng đó cũng chịu sự ràng buộc và tuân thủ Điều khoản này.',
                     style: AppStyle.h2,
                   ),
                   Text(
-                    '1.2 Trong trường hợp bạn là người chưa thành niên, bạn cần phải có sự chấp thuận của bố (mẹ) hoặc người giám hộ hợp pháp để mở tài khoản trên Nền Tảng Lazada. Nếu bạn là bố mẹ hoặc người giám hộ hợp pháp của người vị thanh niên, bạn cần đồng ý và tuân thủ Điều Khoản này với tư cách là người đại điện của người chưa thành niên đó và phải chịu trách nhiệm với bất kỳ chi phí phát sinh nào có liên quan đến việc sử dụng Nền Tảng Lazada hoặc việc sử dụng Dịch Vụ của người chưa thành niên đó. Nếu bạn không được đồng ý của cha mẹ hoặc người giám hộ hợp pháp, bạn phải ngừng việc sử dụng / truy cập vào Nền Tảng Lazada và / hoặc Dịch Vụ.',
+                    '1.2 Trong trường hợp bạn là người chưa thành niên, bạn cần phải có sự chấp thuận của bố (mẹ) hoặc người giám hộ hợp pháp để mở tài khoản trên Nền Tảng Esmp. Nếu bạn là bố mẹ hoặc người giám hộ hợp pháp của người vị thanh niên, bạn cần đồng ý và tuân thủ Điều Khoản này với tư cách là người đại điện của người chưa thành niên đó và phải chịu trách nhiệm với bất kỳ chi phí phát sinh nào có liên quan đến việc sử dụng Nền Tảng Esmp hoặc việc sử dụng Dịch Vụ của người chưa thành niên đó. Nếu bạn không được đồng ý của cha mẹ hoặc người giám hộ hợp pháp, bạn phải ngừng việc sử dụng / truy cập vào Nền Tảng Esmp và / hoặc Dịch Vụ.',
                     style: AppStyle.h2,
                   ),
                   Text(

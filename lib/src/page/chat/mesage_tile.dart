@@ -35,6 +35,7 @@ class _MessageTileState extends State<MessageTile> {
       alignment: widget.sentByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Tooltip(
         key: tooltipkey,
+        // message: widget.time,
         message: Utils.getTime(widget.time),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

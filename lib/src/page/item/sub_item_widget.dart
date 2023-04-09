@@ -118,30 +118,81 @@ Widget subItemWidget(
                           'Khuyến mãi',
                           style: AppStyle.h2,
                         )),
-                        DataCell(Text(
-                          '${subItem.discount}%',
-                          style: AppStyle.h2,
-                        )),
+                        DataCell(
+                            Text(
+                              '${subItem.discount}%',
+                              style: AppStyle.h2,
+                            ), onTap: () async {
+                          SubItem? sub = await showDialog<SubItem>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => editSubItemWidget(
+                                subItem: subItem,
+                                token: token,
+                                type: 'discount'),
+                          );
+
+                          if (sub != null) {
+                            setState(() {
+                              isUpdate = true;
+                              subItem = sub;
+                            });
+                          }
+                        }),
                       ]),
                       DataRow(cells: [
                         DataCell(Text(
                           'Bảo hành',
                           style: AppStyle.h2,
                         )),
-                        DataCell(Text(
-                          '${subItem.warrantiesTime} Tháng',
-                          style: AppStyle.h2,
-                        )),
+                        DataCell(
+                            Text(
+                              '${subItem.warrantiesTime} Tháng',
+                              style: AppStyle.h2,
+                            ), onTap: () async {
+                          SubItem? sub = await showDialog<SubItem>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => editSubItemWidget(
+                                subItem: subItem,
+                                token: token,
+                                type: 'warrantiesTime'),
+                          );
+
+                          if (sub != null) {
+                            setState(() {
+                              isUpdate = true;
+                              subItem = sub;
+                            });
+                          }
+                        }),
                       ]),
                       DataRow(cells: [
                         DataCell(Text(
                           'Đổi trả',
                           style: AppStyle.h2,
                         )),
-                        DataCell(Text(
-                          '${subItem.returnAndExchange} Ngày',
-                          style: AppStyle.h2,
-                        )),
+                        DataCell(
+                            Text(
+                              '${subItem.returnAndExchange} Ngày',
+                              style: AppStyle.h2,
+                            ), onTap: () async {
+                          SubItem? sub = await showDialog<SubItem>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => editSubItemWidget(
+                                subItem: subItem,
+                                token: token,
+                                type: 'returnAndExchange'),
+                          );
+
+                          if (sub != null) {
+                            setState(() {
+                              isUpdate = true;
+                              subItem = sub;
+                            });
+                          }
+                        }),
                       ]),
                       DataRow(cells: [
                         DataCell(TextButton(
