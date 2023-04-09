@@ -16,11 +16,11 @@ Widget searchItemWidget(
         IconButton(
             onPressed: () {
               onSearch(ItemSearch(
-                  sortBy: itemSearch.sortBy,
-                  storeID: itemSearch.storeID,
-                  page: itemSearch.page,
-                  itemStatusID: itemSearch.itemStatusID,
-                  search: itemSearch.search));
+                sortBy: itemSearch.sortBy,
+                storeID: itemSearch.storeID,
+                page: itemSearch.page,
+                itemStatusID: itemSearch.itemStatusID,
+              ));
             },
             icon: const Icon(Icons.arrow_back_outlined)),
       Expanded(
