@@ -49,25 +49,26 @@ Widget feedbackOrderDialog(
         const SizedBox(
           height: 8.0,
         ),
-        SizedBox(
-          height: 300,
-          width: 300,
-          child: Center(
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: orderDetail.listImageFb.length,
-              itemBuilder: (context, index) {
-                var image = orderDetail.listImageFb[index];
-                return SizedBox(
-                  child: Image.network(
-                    image.path,
-                    fit: BoxFit.contain,
-                  ),
-                );
-              },
+        if (orderDetail.listImageFb.isNotEmpty)
+          SizedBox(
+            height: 300,
+            width: 300,
+            child: Center(
+              child: PageView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: orderDetail.listImageFb.length,
+                itemBuilder: (context, index) {
+                  var image = orderDetail.listImageFb[index];
+                  return SizedBox(
+                    child: Image.network(
+                      image.path,
+                      fit: BoxFit.contain,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
         const SizedBox(
           height: 8.0,
         ),

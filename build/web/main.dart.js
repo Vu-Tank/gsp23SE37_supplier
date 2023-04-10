@@ -30682,7 +30682,12 @@ s=t.p
 q=A.b7(A.a([m,B.bz,A.i(A.e(n?0:o),r,r,r,r,r,q,r,r)],s),B.f,B.n,B.I,r)
 o=b.e
 if(o==null)o="Kh\xf4ng c\xf3 n\u1ed9i dung"
-return A.dO(r,r,new A.a2(B.x,A.am(A.a([p,B.p,q,B.p,A.i(o,r,r,r,r,r,$.z(),r,r),B.p,new A.ae(300,300,A.bJ(A.axJ(B.B,r,new A.b22(b),b.as.length,r,r,!0,!0,r,!1,r,B.Z),r,r),r),B.p,A.i("Ng\xe0y \u0111\xe1nh gi\xe1: "+A.e(b.r.split("T")[0]),r,r,r,r,r,$.z(),r,r)],s),B.f,B.n,B.I,r),r),B.i,r,B.aB,r,r,r)},
+s=A.a([p,B.p,q,B.p,A.i(o,r,r,r,r,r,$.z(),r,r),B.p],s)
+q=b.as.length
+if(q!==0)s.push(new A.ae(300,300,A.bJ(A.axJ(B.B,r,new A.b22(b),q,r,r,!0,!0,r,!1,r,B.Z),r,r),r))
+s.push(B.p)
+s.push(A.i("Ng\xe0y \u0111\xe1nh gi\xe1: "+A.e(b.r.split("T")[0]),r,r,r,r,r,$.z(),r,r))
+return A.dO(r,r,new A.a2(B.x,A.am(s,B.f,B.n,B.I,r),r),B.i,r,B.aB,r,r,r)},
 b21:function b21(){},
 b22:function b22(a){this.a=a},
 HZ:function HZ(a,b){this.c=a
