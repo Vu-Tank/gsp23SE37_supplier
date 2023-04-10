@@ -447,6 +447,20 @@ class _AllOrderPageState extends State<AllOrderPage> {
         },
         builder: (context, orderTicketState) {
           return InkWell(
+            onTap: (orderTicketState is OrderPackingVideoLoading)
+                ? null
+                : () async {
+                    if (order.packingLink != null) {
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              VideoDialog(url: order.packingLink!));
+                    } else {
+                      context
+                          .read<OrderPackingVideoCubit>()
+                          .pickVideo(token: user.token, orderID: order.orderID);
+                    }
+                  },
             child: (orderTicketState is OrderPackingVideoLoading)
                 ? const CircularProgressIndicator()
                 : Tooltip(
@@ -458,17 +472,6 @@ class _AllOrderPageState extends State<AllOrderPage> {
                       color: Colors.blue,
                     ),
                   ),
-            onTap: () async {
-              if (order.packingLink != null) {
-                showDialog(
-                    context: context,
-                    builder: (context) => VideoDialog(url: order.packingLink!));
-              } else {
-                context
-                    .read<OrderPackingVideoCubit>()
-                    .pickVideo(token: user.token, orderID: order.orderID);
-              }
-            },
           );
         },
       ),
