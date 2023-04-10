@@ -20,7 +20,12 @@ Widget itemFeedback(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider(
           create: (context) => FeedbackActivityCubit(),
-          child: BlocBuilder<FeedbackActivityCubit, FeedbackActivityState>(
+          child: BlocConsumer<FeedbackActivityCubit, FeedbackActivityState>(
+            listener: (context, state) {
+              if (state is FeedbackActivitySuccess) {
+                reload();
+              }
+            },
             builder: (context, state) {
               return Container(
                 color: (feedback.feedback_Status.item_StatusID == 3)
@@ -150,7 +155,6 @@ Widget itemFeedback(
                                             orderDetailID:
                                                 feedback.orderDetaiID);
                                   }
-                                  reload();
                                 },
                                 icon: (state is FeedbackActivityLoading)
                                     ? const CircularProgressIndicator()
