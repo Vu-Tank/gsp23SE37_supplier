@@ -211,8 +211,8 @@ class Validations {
       value = value.replaceAll('.', '').replaceAll(',', '.').trim();
       double weight = double.parse(value);
       if (weight <= 0) return 'Khối lượng sản phẩm phải lơn hơn 0';
-      if (weightUnit == 'kg' && weight > 20) {
-        return 'Khối lượng sản phẩm phải nhỏ hơn hoặc bằng 20kg';
+      if (weightUnit == 'kg' && weight >= 20) {
+        return 'Khối lượng sản phẩm phải nhỏ hơn 20kg';
       }
       if (weightUnit == 'kg' && weight < 0.01) {
         return 'Khối lượng sản phẩm phải lớn hơn hoặc bằng 0.01 kg';
@@ -235,12 +235,15 @@ class Validations {
     try {
       value = value.replaceAll('.', '').replaceAll(',', '.').trim();
       double lwh = double.parse(value);
-      if (lwh <= 0) return 'Kích thước sản phẩm phải lơn hơn 0';
+      if (lwh <= 0) return '> 0';
       if (lwhUnit == 'cm' && lwh > 100) {
-        return 'Kích thước sản phẩm phải nhỏ hơn hoặc bằng 100cm';
+        return '<= 100cm';
+      }
+      if (lwhUnit == 'mm' && lwh > 1000) {
+        return '<= 1000mm';
       }
       if (lwhUnit == 'm' && lwh > 1) {
-        return 'Kích thước sản phẩm phải nhỏ hơn hoặc bằng 1m';
+        return '<= 1m';
       }
     } catch (e) {
       return 'vui lòng nhập số';

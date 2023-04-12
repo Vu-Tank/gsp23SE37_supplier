@@ -379,11 +379,15 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '${listSpecifi[index * 2].value}${(listSpecifi[index * 2].specificationID == 2) ? ' Grams' : ''}',
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        style: AppStyle.h2,
+                      child: Tooltip(
+                        message:
+                            '${listSpecifi[index * 2].value}${(listSpecifi[index * 2].specificationID == 2) ? ' Grams' : ''}',
+                        child: Text(
+                          '${listSpecifi[index * 2].value}${(listSpecifi[index * 2].specificationID == 2) ? ' Grams' : ''}',
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
+                          style: AppStyle.h2,
+                        ),
                       ),
                     ),
                     if (index * 2 + 1 <= listSpecifi.length)
@@ -397,11 +401,15 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                     if (index * 2 + 1 <= listSpecifi.length)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '${listSpecifi[index * 2 + 1].value}${(listSpecifi[index * 2 + 1].specificationID == 2) ? ' Grams' : ''}',
-                          maxLines: 1,
-                          overflow: TextOverflow.fade,
-                          style: AppStyle.h2,
+                        child: Tooltip(
+                          message:
+                              '${listSpecifi[index * 2 + 1].value}${(listSpecifi[index * 2 + 1].specificationID == 2) ? ' Grams' : ''}',
+                          child: Text(
+                            '${listSpecifi[index * 2 + 1].value}${(listSpecifi[index * 2 + 1].specificationID == 2) ? ' Grams' : ''}',
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            style: AppStyle.h2,
+                          ),
                         ),
                       ),
                   ],

@@ -1459,10 +1459,13 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Center(
-                                                  child: Text(
-                                                    'x',
-                                                    style: AppStyle.h2,
+                                                SizedBox(
+                                                  height: 54.0,
+                                                  child: Center(
+                                                    child: Text(
+                                                      'x',
+                                                      style: AppStyle.h2,
+                                                    ),
                                                   ),
                                                 ),
                                                 Expanded(
@@ -1507,10 +1510,13 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     ),
                                                   ),
                                                 ),
-                                                Center(
-                                                  child: Text(
-                                                    'x',
-                                                    style: AppStyle.h2,
+                                                SizedBox(
+                                                  height: 54.0,
+                                                  child: Center(
+                                                    child: Text(
+                                                      'x',
+                                                      style: AppStyle.h2,
+                                                    ),
                                                   ),
                                                 ),
                                                 Expanded(

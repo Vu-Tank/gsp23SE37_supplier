@@ -74,9 +74,12 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             // ElevatedButton(
             //     onPressed: () async {
-            //       await CloudFirestoreService(uid: store.firebaseID)
+            //       await CloudFirestoreService(
+            //               uid: 'u3ujev7Xotgl6VcBbmOa12Bhpjm1')
             //           .createUserCloud(
-            //               userName: store.storeName, imageUrl: store.image.path)
+            //               userName: 'tuấn vũ',
+            //               imageUrl:
+            //                   'https://firebasestorage.googleapis.com/v0/b/esmp-4b85e.appspot.com/o/images%2F16-22e0c36c-6ac2-4818-8773-b1af0e56170e?alt=media&token=45e8880a-b8dc-46c8-b2c4-fce2bdf87eb2')
             //           .then((value) {
             //         MyDialog.showSnackBar(context, 'thành công');
             //       }).catchError((e) {

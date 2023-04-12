@@ -39,7 +39,8 @@ class RegisterStoreBloc extends Bloc<RegisterStoreEvent, RegisterStoreState> {
       if (check) {
         try {
           String? placeID = await GoongRepositories().getPlaceIdFromText(
-              '${event.contextAddress}, ${event.province!.value}, ${event.district!.value}, ${event.ward!.value}');
+              // '${event.contextAddress}, ${event.province!.value}, ${event.district!.value}, ${event.ward!.value}');
+              event.province!.value);
           if (placeID == null) throw Exception('Không thể lấy địa chỉ');
           GoongAddress? goongAddress =
               await GoongRepositories().getPlace(placeID);

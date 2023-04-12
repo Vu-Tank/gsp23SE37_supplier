@@ -81,7 +81,8 @@ class UpdateStoreInfoCubit extends Cubit<UpdateStoreInfoState> {
     if (isClosed) return;
     emit(UpdateStoreInfoLoading());
     String? placeID = await GoongRepositories().getPlaceIdFromText(
-        '${address.context}, ${address.ward}, ${address.district}, ${address.province}');
+        // '${address.context}, ${address.ward}, ${address.district}, ${address.province}');
+        address.province);
     if (placeID == null) {
       if (isClosed) return;
       emit(const UpdateStoreInfoFailed('Không thể lấy địa chỉ'));
