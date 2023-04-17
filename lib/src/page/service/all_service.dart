@@ -88,6 +88,8 @@ class _AllServicePageState extends State<AllServicePage> {
                                   token: user.token, search: search);
                               from = null;
                               to = null;
+                              fromController.clear();
+                              toController.clear();
                             },
                             icon: const Icon(Icons.arrow_back_outlined)),
                       // SizedBox(
