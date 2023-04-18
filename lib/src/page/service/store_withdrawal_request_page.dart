@@ -44,7 +44,8 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
       if (user.storeID != -1) {
         ShopState shopState = context.read<ShopBloc>().state;
         if (shopState is ShopCreated) {
-          if (shopState.store.store_Status.item_StatusID == 1) {
+          if (shopState.store.store_Status.item_StatusID == 1 ||
+              shopState.store.store_Status.item_StatusID == 4) {
             store = shopState.store;
             search = WithdrawalSearch(storeID: store.storeID, page: 1);
           }
@@ -177,6 +178,7 @@ class _StoreWithdrawalRequestPage extends State<StoreWithdrawalRequestPage> {
               value: status ?? AppConstants.listWithdrawalStatus.first,
               icon: const Icon(Icons.arrow_downward),
               decoration: InputDecoration(
+                errorMaxLines: 2,
                 enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.grey, width: 2),
                     borderRadius: BorderRadius.circular(40)),

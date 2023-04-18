@@ -27,7 +27,7 @@ class Validations {
     if (value == null || value.isEmpty) {
       validationItem = ValidationItem(null, 'Không được bỏ trống');
     } else if (value.length <= 5) {
-      validationItem = ValidationItem(null, 'Họ và tên phải nhiều hơn 5 ký tụ');
+      validationItem = ValidationItem(null, 'Phải nhiều hơn 5 ký tụ');
     } else if (value.length > 50) {
       validationItem = ValidationItem(null, 'Tên quá dài (50 ký tự)');
     } else {
@@ -192,8 +192,8 @@ class Validations {
   }
 
   static String? valDiscount(String? value) {
-    if (value == null) return 'Vui lòng Khuyến mãi (0-100)';
-    if (value.isEmpty) return 'Vui lòng Khuyến mãi (0-100)';
+    if (value == null) return 'Vui lòng nhập Khuyến mãi (0-100)';
+    if (value.isEmpty) return 'Vui lòng nhập Khuyến mãi (0-100)';
     try {
       double price = double.parse(value);
       if (price < 0) return 'Khuyến mãi của sản phẩm phải lơn hơn hoặc bằng 0';

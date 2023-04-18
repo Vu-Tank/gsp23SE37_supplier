@@ -195,6 +195,7 @@ class _AddItemPageState extends State<AddItemPage> {
                               LengthLimitingTextInputFormatter(100),
                             ],
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               errorText: null,
                               errorStyle:
                                   AppStyle.errorStyle.copyWith(fontSize: 15),
@@ -283,6 +284,7 @@ class _AddItemPageState extends State<AddItemPage> {
                             validator: Validations.valItemDescription,
                             maxLength: 1000,
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               errorText: null,
                               errorStyle:
                                   AppStyle.errorStyle.copyWith(fontSize: 15),
@@ -348,6 +350,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                         // },
                                         icon: const Icon(Icons.arrow_downward),
                                         decoration: InputDecoration(
+                                          errorMaxLines: 2,
                                           border: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: AppStyle.appColor,
@@ -663,6 +666,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     maxLines: 1,
                     validator: Validations.valItemName,
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -694,6 +698,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       )
                     ],
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -749,6 +754,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       FilteringTextInputFormatter.digitsOnly,
                     ],
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -776,6 +782,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       LengthLimitingTextInputFormatter(3)
                     ],
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -808,6 +815,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       LengthLimitingTextInputFormatter(3)
                     ],
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -841,6 +849,7 @@ class _AddItemPageState extends State<AddItemPage> {
                     ],
                     validator: Validations.valWarrantiesTime,
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       errorText: null,
                       errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                       label: Text(
@@ -1020,6 +1029,7 @@ class _AddItemPageState extends State<AddItemPage> {
           value: selected,
           icon: const Icon(Icons.arrow_downward),
           decoration: InputDecoration(
+            errorMaxLines: 2,
             border: OutlineInputBorder(
                 borderSide: BorderSide(color: AppStyle.appColor, width: 2),
                 borderRadius: BorderRadius.circular(40)),
@@ -1080,6 +1090,7 @@ class _AddItemPageState extends State<AddItemPage> {
               },
               icon: const Icon(Icons.arrow_downward),
               decoration: InputDecoration(
+                errorMaxLines: 2,
                 border: OutlineInputBorder(
                     borderSide: BorderSide(color: AppStyle.appColor, width: 2),
                     borderRadius: BorderRadius.circular(40)),
@@ -1259,6 +1270,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                             weightUnitState
                                                                 .weightUnit),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       errorText: null,
                                                       errorStyle: AppStyle
                                                           .errorStyle
@@ -1292,6 +1304,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     icon: const Icon(
                                                         Icons.arrow_downward),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       border: OutlineInputBorder(
                                                           borderSide: BorderSide(
                                                               color: AppStyle
@@ -1436,6 +1449,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                             lwhUnitState
                                                                 .lwhUnit),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       errorText: null,
                                                       errorStyle: AppStyle
                                                           .errorStyle
@@ -1487,6 +1501,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                             lwhUnitState
                                                                 .lwhUnit),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       errorText: null,
                                                       errorStyle: AppStyle
                                                           .errorStyle
@@ -1538,6 +1553,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                             lwhUnitState
                                                                 .lwhUnit),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       errorText: null,
                                                       errorStyle: AppStyle
                                                           .errorStyle
@@ -1568,6 +1584,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                                     icon: const Icon(
                                                         Icons.arrow_downward),
                                                     decoration: InputDecoration(
+                                                      errorMaxLines: 2,
                                                       border: OutlineInputBorder(
                                                           borderSide: BorderSide(
                                                               color: AppStyle
@@ -1663,6 +1680,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                       validator:
                                           Validations.valSpecificationString,
                                       decoration: InputDecoration(
+                                        errorMaxLines: 2,
                                         errorText: null,
                                         errorStyle: AppStyle.errorStyle
                                             .copyWith(fontSize: 15),
@@ -1727,6 +1745,7 @@ class _AddItemPageState extends State<AddItemPage> {
                                               validator: Validations
                                                   .valSpecificationString,
                                               decoration: InputDecoration(
+                                                errorMaxLines: 2,
                                                 errorText: null,
                                                 errorStyle: AppStyle.errorStyle
                                                     .copyWith(fontSize: 15),
@@ -1827,6 +1846,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                                               ],
                                                               decoration:
                                                                   InputDecoration(
+                                                                errorMaxLines:
+                                                                    2,
                                                                 errorText: null,
                                                                 errorStyle: AppStyle
                                                                     .errorStyle
@@ -1877,6 +1898,8 @@ class _AddItemPageState extends State<AddItemPage> {
                                                               ],
                                                               decoration:
                                                                   InputDecoration(
+                                                                errorMaxLines:
+                                                                    2,
                                                                 errorText: null,
                                                                 errorStyle: AppStyle
                                                                     .errorStyle

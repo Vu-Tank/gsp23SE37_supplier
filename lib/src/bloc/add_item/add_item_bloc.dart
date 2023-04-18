@@ -85,7 +85,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
                 : null,
             subImageError: subImageError,
             selectedModelError: (event.listModel.isEmpty)
-                ? 'Vui lòng chọn phương tiện được hổ trợ'
+                ? 'Vui lòng chọn phương tiện được hỗ trợ'
                 : null));
       }
     });

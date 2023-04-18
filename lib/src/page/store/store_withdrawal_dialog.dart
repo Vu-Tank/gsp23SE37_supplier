@@ -59,6 +59,7 @@ Widget storeWithdraWalDialog(
                           value: bankSelecte,
                           icon: const Icon(Icons.arrow_downward),
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 2),
@@ -106,6 +107,7 @@ Widget storeWithdraWalDialog(
                           ],
                           validator: Validations.valBankNumber,
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             prefixIcon: const Icon(Icons.payment),
                             label: Text(
                               'Số tài khoản',
@@ -136,6 +138,7 @@ Widget storeWithdraWalDialog(
                           textCapitalization: TextCapitalization.characters,
                           validator: Validations.valAccountName,
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             prefixIcon:
                                 const Icon(Icons.account_balance_outlined),
                             label: Text(
@@ -170,6 +173,7 @@ Widget storeWithdraWalDialog(
                             )
                           ],
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             prefixIcon: const Icon(Icons.attach_money_rounded),
                             label: Text(
                               'Số tiền muốn rút',

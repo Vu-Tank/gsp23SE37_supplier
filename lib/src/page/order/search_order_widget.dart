@@ -44,6 +44,7 @@ Widget searchOrderWidget(
                     : AppConstants.listOrderSearch[0],
                 icon: const Icon(Icons.arrow_downward),
                 decoration: InputDecoration(
+                  errorMaxLines: 2,
                   border: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: AppStyle.appColor, width: 2),
@@ -128,6 +129,7 @@ Widget searchOrderWidget(
                   }
                 },
                 decoration: InputDecoration(
+                  errorMaxLines: 2,
                   suffixIcon: IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {

@@ -116,6 +116,7 @@ Widget editSubItemWidget(
                           maxLength: 100,
                           maxLines: 1,
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             errorStyle:
                                 AppStyle.errorStyle.copyWith(fontSize: 15),
                             label: Text(

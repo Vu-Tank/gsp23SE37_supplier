@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -193,6 +195,54 @@ class _StoreInfoDialogState extends State<StoreInfoDialog> {
                               style: AppStyle.h2,
                             ),
                           ],
+                        ),
+                      ),
+                    ]),
+                    DataRow(cells: [
+                      DataCell(Text(
+                        'Tạm nghỉ bán',
+                        style: AppStyle.h2,
+                      )),
+                      DataCell(
+                        BlocProvider(
+                          create: (context) => UpdateStoreInfoCubit(),
+                          child: BlocConsumer<UpdateStoreInfoCubit,
+                              UpdateStoreInfoState>(
+                            listener: (context, state) {
+                              // TODO: implement listener
+                              if (state is UpdateStoreInfoSuccess) {
+                                log(state.toString());
+                                context
+                                    .read<ShopBloc>()
+                                    .add(ShopUpdate(state.store));
+                              }
+                            },
+                            builder: (context, state) {
+                              return Tooltip(
+                                message: store.store_Status.statusName,
+                                child: (state is UpdateStoreInfoLoading)
+                                    ? const CircularProgressIndicator()
+                                    : Switch(
+                                        value:
+                                            (store.store_Status.item_StatusID ==
+                                                    1)
+                                                ? false
+                                                : true,
+                                        onChanged: (value) {
+                                          context
+                                              .read<UpdateStoreInfoCubit>()
+                                              .updateStatus(
+                                                  token: user.token,
+                                                  status: value,
+                                                  store: store);
+                                        },
+                                        activeTrackColor:
+                                            Colors.lightGreenAccent,
+                                        activeColor: Colors.green,
+                                      ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ]),

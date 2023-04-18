@@ -105,6 +105,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                           value: state.selected,
                           icon: const Icon(Icons.arrow_downward),
                           decoration: InputDecoration(
+                            errorMaxLines: 2,
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: AppStyle.appColor, width: 2),
@@ -161,6 +162,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                               value: state.subCategory,
                               icon: const Icon(Icons.arrow_downward),
                               decoration: InputDecoration(
+                                errorMaxLines: 2,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: AppStyle.appColor, width: 2),
@@ -239,6 +241,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                             value: state.brand,
                             icon: const Icon(Icons.arrow_downward),
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: AppStyle.appColor, width: 2),
@@ -295,6 +298,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                                 value: state.modelBrand,
                                 icon: const Icon(Icons.arrow_downward),
                                 decoration: InputDecoration(
+                                  errorMaxLines: 2,
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color: AppStyle.appColor, width: 2),
@@ -379,6 +383,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                                 value: search.sortBy,
                                 icon: const Icon(Icons.arrow_downward),
                                 decoration: InputDecoration(
+                                  errorMaxLines: 2,
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color: AppStyle.appColor, width: 2),
@@ -455,6 +460,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                               ],
                               onFieldSubmitted: (value) {},
                               decoration: InputDecoration(
+                                errorMaxLines: 2,
                                 errorText: null,
                                 suffix: Text(
                                   'VNĐ',
@@ -510,6 +516,7 @@ class _FilterSeachItemState extends State<FilterSeachItem> {
                               ],
                               onFieldSubmitted: (value) {},
                               decoration: InputDecoration(
+                                errorMaxLines: 2,
                                 errorText: null,
                                 suffix: Text(
                                   'VNĐ',

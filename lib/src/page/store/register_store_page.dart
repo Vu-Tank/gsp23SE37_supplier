@@ -147,6 +147,12 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                               },
                             ),
                           ),
+                          if (state is RegisterStoreFailed &&
+                              state.imageError != null)
+                            Text(
+                              state.imageError!,
+                              style: AppStyle.errorStyle,
+                            ),
                           // store name
                           const SizedBox(
                             height: 8.0,
@@ -157,6 +163,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                             style: AppStyle.h2,
                             maxLines: 1,
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               prefixIcon: const Icon(Icons.store),
                               errorText: (state is RegisterStoreFailed &&
                                       state.storeNameError != null)
@@ -186,6 +193,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                             maxLines: 1,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               prefixIcon: const Icon(Icons.mail),
                               label: Text(
                                 'Email',
@@ -249,6 +257,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         value: provinceState.province,
                                         icon: const Icon(Icons.arrow_downward),
                                         decoration: InputDecoration(
+                                          errorMaxLines: 2,
                                           enabledBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Colors.grey, width: 2),
@@ -347,6 +356,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                                           Icons.arrow_downward),
                                                       decoration:
                                                           InputDecoration(
+                                                        errorMaxLines: 2,
                                                         enabledBorder: OutlineInputBorder(
                                                             borderSide:
                                                                 const BorderSide(
@@ -478,6 +488,8 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                                                     },
                                                                     decoration:
                                                                         InputDecoration(
+                                                                      errorMaxLines:
+                                                                          2,
                                                                       enabledBorder: OutlineInputBorder(
                                                                           borderSide: const BorderSide(
                                                                               color: Colors.grey,
@@ -550,6 +562,8 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                                                             1,
                                                                         decoration:
                                                                             InputDecoration(
+                                                                          errorMaxLines:
+                                                                              2,
                                                                           prefixIcon:
                                                                               const Icon(Icons.phone),
                                                                           errorStyle: AppStyle

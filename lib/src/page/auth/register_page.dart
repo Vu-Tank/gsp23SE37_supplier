@@ -82,6 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                       ],
                       decoration: InputDecoration(
+                        errorMaxLines: 2,
                         prefixIcon: const Icon(Icons.phone),
                         label: Text(
                           'Số điện thoại',

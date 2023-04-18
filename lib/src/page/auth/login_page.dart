@@ -136,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                       RegExp('[0-9]')),
                                 ],
                                 decoration: InputDecoration(
+                                  errorMaxLines: 2,
                                   prefixIcon: const Icon(Icons.phone),
                                   label: Text(
                                     'Số điện thoại',

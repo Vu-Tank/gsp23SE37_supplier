@@ -108,6 +108,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                             maxLines: 1,
                             validator: Validations.valAccountName,
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               prefixIcon: const Icon(Icons.person),
                               // errorText: (state is RegisterSupplierFailed &&
                               //         state.fullNameError != null)
@@ -147,6 +148,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                             maxLines: 1,
                             validator: Validations.valSupplierEmail,
                             decoration: InputDecoration(
+                              errorMaxLines: 2,
                               prefixIcon: const Icon(Icons.email_outlined),
                               errorStyle:
                                   AppStyle.errorStyle.copyWith(fontSize: 15),
@@ -260,6 +262,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                     value: _gender,
                                     icon: const Icon(Icons.arrow_downward),
                                     decoration: InputDecoration(
+                                      errorMaxLines: 2,
                                       enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Colors.grey, width: 2),
@@ -332,6 +335,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                         value: provinceState.province,
                                         icon: const Icon(Icons.arrow_downward),
                                         decoration: InputDecoration(
+                                          errorMaxLines: 2,
                                           enabledBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Colors.grey, width: 2),
@@ -429,6 +433,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                                           Icons.arrow_downward),
                                                       decoration:
                                                           InputDecoration(
+                                                        errorMaxLines: 2,
                                                         enabledBorder: OutlineInputBorder(
                                                             borderSide:
                                                                 const BorderSide(
@@ -563,6 +568,8 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                                                     },
                                                                     decoration:
                                                                         InputDecoration(
+                                                                      errorMaxLines:
+                                                                          2,
                                                                       enabledBorder: OutlineInputBorder(
                                                                           borderSide: const BorderSide(
                                                                               color: Colors.grey,
@@ -635,6 +642,8 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                                                             1,
                                                                         decoration:
                                                                             InputDecoration(
+                                                                          errorMaxLines:
+                                                                              2,
                                                                           prefixIcon:
                                                                               const Icon(Icons.phone),
                                                                           errorStyle: AppStyle

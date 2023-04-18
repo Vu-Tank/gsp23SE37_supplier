@@ -29,7 +29,8 @@ class _ReturnPageState extends State<ReturnPage> {
       if (user.storeID != -1) {
         ShopState shopState = context.read<ShopBloc>().state;
         if (shopState is ShopCreated) {
-          if (shopState.store.store_Status.item_StatusID == 1) {
+          if (shopState.store.store_Status.item_StatusID == 1 ||
+              shopState.store.store_Status.item_StatusID == 4) {
             store = shopState.store;
           }
         }

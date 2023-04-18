@@ -39,6 +39,7 @@ Widget searchItemWidget(
             onSearch(itemSearch.copyWith(search: value));
           },
           decoration: InputDecoration(
+            errorMaxLines: 2,
             suffixIcon: IconButton(
                 onPressed: () {
                   onSearch(itemSearch.copyWith(

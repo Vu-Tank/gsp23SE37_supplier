@@ -52,7 +52,8 @@ class _AllServicePageState extends State<AllServicePage> {
       if (user.storeID != -1) {
         ShopState shopState = context.read<ShopBloc>().state;
         if (shopState is ShopCreated) {
-          if (shopState.store.store_Status.item_StatusID == 1) {
+          if (shopState.store.store_Status.item_StatusID == 1 ||
+              shopState.store.store_Status.item_StatusID == 4) {
             store = shopState.store;
             search = widget.search;
           }
@@ -127,6 +128,7 @@ class _AllServicePageState extends State<AllServicePage> {
                           controller:
                               fromController, //editing controller of this TextField
                           decoration: const InputDecoration(
+                              errorMaxLines: 2,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               prefixIcon: Icon(
@@ -162,6 +164,7 @@ class _AllServicePageState extends State<AllServicePage> {
                           controller:
                               toController, //editing controller of this TextField
                           decoration: const InputDecoration(
+                              errorMaxLines: 2,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black)),
                               prefixIcon: Icon(

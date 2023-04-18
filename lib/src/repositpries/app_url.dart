@@ -90,6 +90,8 @@ class AppUrl {
   static const String storeReveneu = '$baseUrl/Asset/store_chart_reveneu';
   static const String getService = '$baseUrl/AfterBuyService';
   static const String updateStoreAddress = '$baseUrl/Store/update_address';
+  static const String storeHidden = '$baseUrl/Store/hidden_store';
+  static const String storeUnHidden = '$baseUrl/Store/unhidden_store';
   static const String getWithdrawal = '$baseUrl/Asset/get_store_withdrawal';
   static const String cancelService = '$baseUrl/AfterBuyService/cancel';
   static const String accpectService = '$baseUrl/AfterBuyService/accepct';

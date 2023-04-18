@@ -42,6 +42,7 @@ class _CustomerBarChartState extends State<CustomerBarChart> {
                         : state.time!.toString(),
                     icon: const Icon(Icons.arrow_downward),
                     decoration: InputDecoration(
+                      errorMaxLines: 2,
                       enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Colors.grey, width: 2),

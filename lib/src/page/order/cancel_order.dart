@@ -51,6 +51,7 @@ Widget cancelOrderDialog(
                       },
                       maxLength: 1000,
                       decoration: InputDecoration(
+                        errorMaxLines: 2,
                         errorText: null,
                         errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
                         hintText: 'Lý do huỷ đơn hàng',

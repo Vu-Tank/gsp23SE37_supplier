@@ -157,6 +157,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   sendMessage();
                                 },
                                 decoration: const InputDecoration(
+                                  errorMaxLines: 2,
                                   hintText: "nhắn tin",
                                   hintStyle: TextStyle(
                                       color: Colors.black, fontSize: 16),

@@ -171,7 +171,8 @@ class _HomePageState extends State<HomePage>
                         builder: (context, state) {
                           if (state is ShopCreated) {
                             Store store = state.store;
-                            if (store.store_Status.item_StatusID == 1) {
+                            if (store.store_Status.item_StatusID == 1 ||
+                                store.store_Status.item_StatusID == 4) {
                               return shopView(context, state.store);
                             } else {
                               return Column(

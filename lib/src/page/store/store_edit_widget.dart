@@ -106,6 +106,7 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                                   maxLength: 100,
                                   maxLines: 1,
                                   decoration: InputDecoration(
+                                    errorMaxLines: 2,
                                     prefixIcon: const Icon(Icons.phone),
                                     errorStyle: AppStyle.errorStyle
                                         .copyWith(fontSize: 15),
@@ -241,6 +242,7 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                   value: provinceState.province,
                   icon: const Icon(Icons.arrow_downward),
                   decoration: InputDecoration(
+                    errorMaxLines: 2,
                     enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.grey, width: 2),
@@ -307,6 +309,7 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                                 value: districtState.district,
                                 icon: const Icon(Icons.arrow_downward),
                                 decoration: InputDecoration(
+                                  errorMaxLines: 2,
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                           color: Colors.grey, width: 2),
@@ -387,6 +390,7 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                                                 return null;
                                               },
                                               decoration: InputDecoration(
+                                                errorMaxLines: 2,
                                                 enabledBorder:
                                                     OutlineInputBorder(
                                                         borderSide:
@@ -444,6 +448,7 @@ class _StoreEditWidgetState extends State<StoreEditWidget> {
                                                   maxLength: 100,
                                                   maxLines: 1,
                                                   decoration: InputDecoration(
+                                                    errorMaxLines: 2,
                                                     prefixIcon:
                                                         const Icon(Icons.phone),
                                                     errorStyle: AppStyle
