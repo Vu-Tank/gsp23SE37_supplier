@@ -60,6 +60,8 @@ class _OverViewPageState extends State<OverViewPage> {
                     height: 10.0,
                   ),
                   ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
                     itemCount: listText.length,
                     itemBuilder: (context, index) {
                       if (listText[index].contains('I')) {
