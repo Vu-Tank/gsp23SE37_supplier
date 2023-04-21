@@ -390,11 +390,19 @@ class _AddItemPageState extends State<AddItemPage> {
                                                 (Brand value) {
                                           return DropdownMenuItem<Brand>(
                                             value: value,
-                                            child: Text(
-                                              value.name,
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 1,
-                                              style: AppStyle.h2,
+                                            child: Tooltip(
+                                              message: (value.brandID == -1)
+                                                  ? (Utils.branhCheckAll(
+                                                          brandState.list))
+                                                      ? "Hủy chon tất cả"
+                                                      : "Chọn tất cả"
+                                                  : "",
+                                              child: Text(
+                                                value.name,
+                                                overflow: TextOverflow.fade,
+                                                maxLines: 1,
+                                                style: AppStyle.h2,
+                                              ),
                                             ),
                                           );
                                         }).toList(),
@@ -712,34 +720,6 @@ class _AddItemPageState extends State<AddItemPage> {
                       ),
                     ),
                   ),
-
-                  // TextFormField(
-                  //   controller: subItemState.listSub[index].subPrice,
-                  //   textAlign: TextAlign.left,
-                  //   style: AppStyle.h2,
-                  //   maxLines: 1,
-                  //   inputFormatters: [
-                  //     CurrencyTextInputFormatter(
-                  //       locale: 'vi_VN',
-                  //       decimalDigits: 0,
-                  //       symbol: 'VNĐ',
-                  //     )
-                  //   ],
-                  //   validator: Validations.valPrice,
-                  //   decoration: InputDecoration(
-                  //     errorText: null,
-                  //     errorStyle: AppStyle.errorStyle.copyWith(fontSize: 15),
-                  //     label: Text(
-                  //       'Giá',
-                  //       style: AppStyle.h2,
-                  //     ),
-                  //     border: const OutlineInputBorder(
-                  //         borderSide: BorderSide(color: Colors.black)),
-                  //     enabledBorder: const OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.black),
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -847,7 +827,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(3)
                     ],
-                    validator: Validations.valWarrantiesTime,
+                    validator: Validations.valReturnAndExchange,
                     decoration: InputDecoration(
                       errorMaxLines: 2,
                       errorText: null,
@@ -2045,7 +2025,11 @@ class _AddItemPageState extends State<AddItemPage> {
                                   brands.brand.listModel[index];
                               return InkWell(
                                   onTap: (modelBrand.brand_ModelID == -1)
-                                      ? null
+                                      ? () {
+                                          context
+                                              .read<BrandCubit>()
+                                              .selectAllModelBrand(list, brand);
+                                        }
                                       : () {
                                           modelBrand.isActive =
                                               !modelBrand.isActive;
@@ -2054,17 +2038,24 @@ class _AddItemPageState extends State<AddItemPage> {
                                               .selectModelBrand(
                                                   list, brand, modelBrand);
                                         },
-                                  child: ListTile(
-                                    title: Text(
-                                      modelBrand.name,
-                                      style: AppStyle.h2,
+                                  child: Tooltip(
+                                    message: (modelBrand.brand_ModelID == -1)
+                                        ? (brand.checkSelectedAll())
+                                            ? "Hủy chọn tất cá"
+                                            : "Chọn tất cả"
+                                        : "",
+                                    child: ListTile(
+                                      title: Text(
+                                        modelBrand.name,
+                                        style: AppStyle.h2,
+                                      ),
+                                      leading: (modelBrand.brand_ModelID == -1)
+                                          ? null
+                                          : Checkbox(
+                                              value: modelBrand.isActive,
+                                              onChanged: (value) {},
+                                            ),
                                     ),
-                                    leading: (modelBrand.brand_ModelID == -1)
-                                        ? null
-                                        : Checkbox(
-                                            value: modelBrand.isActive,
-                                            onChanged: (value) {},
-                                          ),
                                   ));
                             },
                           );

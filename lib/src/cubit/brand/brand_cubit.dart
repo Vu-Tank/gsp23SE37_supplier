@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsp23se37_supplier/src/model/api_response.dart';
 import 'package:gsp23se37_supplier/src/model/item/model_brand.dart';
 import 'package:gsp23se37_supplier/src/repositpries/brand_repositoriea.dart';
+import 'package:gsp23se37_supplier/src/utils/utils.dart';
 import '../../model/item/brand.dart';
 
 part 'brand_state.dart';
@@ -54,6 +55,19 @@ class BrandCubit extends Cubit<BrandState> {
       return;
     }
     emit(BrandLoading());
+    if (brand.brandID == -1) {
+      if (!Utils.branhCheckAll(list)) {
+        for (var element in list) {
+          element.seletedAllListModel();
+        }
+      } else {
+        for (var element in list) {
+          element.unSeletedAllListModel();
+        }
+      }
+      if (isClosed) return;
+      emit(BrandLoaded(list: list, brand: brand));
+    }
     for (var i = 0; i < list.length; i++) {
       if (list[i].brandID == brand.brandID) {
         ModelBrand? modelBrand;
@@ -82,6 +96,27 @@ class BrandCubit extends Cubit<BrandState> {
                 list: list, brand: list[i], modelBrand: modelBrand));
           }
         }
+      }
+    }
+  }
+
+  selectAllModelBrand(List<Brand> list, Brand brand) async {
+    if (_isDisposed) {
+      return;
+    }
+    emit(BrandLoading());
+    await Future.delayed(const Duration(milliseconds: 10));
+
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].brandID == brand.brandID) {
+        if (!list[i].checkSelectedAll()) {
+          list[i].seletedAllListModel();
+        } else {
+          list[i].unSeletedAllListModel();
+        }
+        if (isClosed) return;
+        emit(BrandLoaded(list: list, brand: list[i]));
+        break;
       }
     }
   }

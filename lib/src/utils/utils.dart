@@ -179,4 +179,11 @@ class Utils {
     }
     return list;
   }
+
+  static bool branhCheckAll(List<Brand> list) {
+    for (var element in list) {
+      if (!element.checkSelectedAll()) return false;
+    }
+    return true;
+  }
 }

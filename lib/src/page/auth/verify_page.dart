@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +40,7 @@ class _VerifyPageState extends State<VerifyPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.read<AuthBloc>().state is AuthAuthenticated) {
+        log(context.read<AuthBloc>().state.toString());
         GoRouter.of(context).pushReplacement('/');
       }
     });
@@ -171,8 +174,8 @@ class _VerifyPageState extends State<VerifyPage> {
                           } else {
                             return TextButton(
                               child: Text('Gửi lại',
-                                  style: AppStyle.h2
-                                      .copyWith(color: AppStyle.appColor)),
+                                  style:
+                                      AppStyle.h2.copyWith(color: Colors.blue)),
                               onPressed: () {
                                 context.read<TimerCubit>().startTimer(60);
                                 context.read<VerifyBloc>().add(ReSendPressed(

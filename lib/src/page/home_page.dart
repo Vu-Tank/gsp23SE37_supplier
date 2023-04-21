@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/page_seleted/page_seleted_cubit.dart';
 import 'package:gsp23se37_supplier/src/page/item_page.dart';
 import 'package:gsp23se37_supplier/src/page/first_page.dart';
+import 'package:gsp23se37_supplier/src/page/notify_list_widget.dart';
 import 'package:gsp23se37_supplier/src/page/order_page.dart';
 import 'package:gsp23se37_supplier/src/page/over_view/over_view_page.dart';
 import 'package:gsp23se37_supplier/src/page/service/store_withdrawal_request_page.dart';
@@ -113,6 +114,28 @@ class _HomePageState extends State<HomePage>
                 automaticallyImplyLeading: false,
                 centerTitle: true,
                 actions: [
+                  TextButton(
+                      onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    maxHeight: 500,
+                                    maxWidth: 500,
+                                    minHeight: 500,
+                                    minWidth: 500),
+                                child: MinSize(
+                                  minHeight: 500,
+                                  minWidth: 500,
+                                  child: NotifyListWidget(user: user),
+                                ),
+                              ),
+                            ),
+                          ),
+                      child: Text(
+                        'Thông báo',
+                        style: AppStyle.buttom,
+                      )),
                   Row(
                     children: [
                       Text(

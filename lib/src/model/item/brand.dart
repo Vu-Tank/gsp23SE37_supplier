@@ -6,12 +6,30 @@ import 'package:gsp23se37_supplier/src/model/item/model_brand.dart';
 class Brand {
   final int brandID;
   final String name;
-  final List<ModelBrand> listModel;
+  List<ModelBrand> listModel;
   Brand({
     required this.brandID,
     required this.name,
     required this.listModel,
   });
+  void seletedAllListModel() {
+    for (var element in listModel) {
+      element.isActive = true;
+    }
+  }
+
+  void unSeletedAllListModel() {
+    for (var element in listModel) {
+      element.isActive = false;
+    }
+  }
+
+  bool checkSelectedAll() {
+    for (var element in listModel) {
+      if (element.isActive == false) return false;
+    }
+    return true;
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

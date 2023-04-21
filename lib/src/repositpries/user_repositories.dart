@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gsp23se37_supplier/src/model/notify.dart';
 import 'package:gsp23se37_supplier/src/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -26,7 +27,7 @@ class UserRepositories {
         if (apiResponse.isSuccess!) {
           if (body['data'] != 'Supplier') {
             apiResponse.isSuccess = false;
-            apiResponse.msg = 'Số điện thoại không hợp lệ';
+            apiResponse.msg = 'Không thể đăng nhập bằng số điện thoại này';
           }
         }
       } else {
@@ -439,6 +440,40 @@ class UserRepositories {
     } catch (error) {
       apiResponse.isSuccess = false;
       apiResponse.msg = "Lỗi máy chủ";
+    }
+    return apiResponse;
+  }
+
+  static Future<ApiResponse> getNotify(
+      {required int userID, required String token, required int page}) async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final queryParams = {
+        'userID': userID.toString(),
+        'page': page.toString()
+      };
+      String queryString = Uri(queryParameters: queryParams).query;
+      final response = await http
+          .get(Uri.parse('${AppUrl.getNotify}?$queryString'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }).timeout(ApiSetting.timeOut);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        apiResponse.isSuccess = body['success'];
+        apiResponse.msg = body['message'];
+        apiResponse.totalPage = int.parse(body['totalPage'].toString());
+        if (apiResponse.isSuccess!) {
+          apiResponse.data = List<Notify>.from((body['data'] as List)
+              .map<Notify>((x) => Notify.fromMap(x as Map<String, dynamic>)));
+        }
+      } else {
+        apiResponse.isSuccess = false;
+        apiResponse.msg = json.decode(response.body)['errors'].toString();
+      }
+    } catch (e) {
+      apiResponse.isSuccess = false;
+      apiResponse.msg = e.toString();
     }
     return apiResponse;
   }

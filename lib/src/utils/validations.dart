@@ -13,7 +13,7 @@ class Validations {
     String pattern = r'^(0|84|\+84){1}([3|5|7|8|9]){1}([0-9]{8})\b';
     RegExp regExp = RegExp(pattern);
     if (value == null || value.isEmpty) {
-      validationItem = ValidationItem(null, "Vui lòng Nhập số điện thoại");
+      validationItem = ValidationItem(null, "Vui lòng nhập số điện thoại");
     } else if (!regExp.hasMatch(value)) {
       validationItem = ValidationItem(null, "Số điện thoại không chính xác");
     } else {
@@ -27,7 +27,7 @@ class Validations {
     if (value == null || value.isEmpty) {
       validationItem = ValidationItem(null, 'Không được bỏ trống');
     } else if (value.length <= 5) {
-      validationItem = ValidationItem(null, 'Phải nhiều hơn 5 ký tụ');
+      validationItem = ValidationItem(null, 'Phải nhiều hơn 5 ký tự');
     } else if (value.length > 50) {
       validationItem = ValidationItem(null, 'Tên quá dài (50 ký tự)');
     } else {

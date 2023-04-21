@@ -442,6 +442,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
             MyDialog.showSnackBar(context, state.msg);
           }
           if (state is OrderPackingVideoUpLoaded) {
+            MyDialog.showSnackBar(context, "Đàng video đóng hàng thành công");
             context.read<AllOrderBloc>().add(
                 AllOrderLoad(orderSearch: _orderSearch, token: user.token));
           }
@@ -452,10 +453,16 @@ class _AllOrderPageState extends State<AllOrderPage> {
                 ? null
                 : () async {
                     if (order.packingLink != null) {
-                      showDialog(
-                          context: context,
-                          builder: (context) =>
-                              VideoDialog(url: order.packingLink!));
+                      if (_orderSearch.shipOrderStatus == 1 ||
+                          _orderSearch.shipOrderStatus == 2) {
+                        showDialog(
+                            context: context,
+                            builder: (context) =>
+                                VideoDialog(url: order.packingLink!));
+                      } else {
+                        MyDialog.showSnackBar(context,
+                            "Không thể đăng video cho những đơn hàng này");
+                      }
                     } else {
                       context
                           .read<OrderPackingVideoCubit>()

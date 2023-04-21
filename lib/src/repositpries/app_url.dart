@@ -34,6 +34,8 @@ class AppUrl {
 
   static const String storePayment = '$baseUrl/Payment/store_pay_url';
 
+  static const String getNotify = '$baseUrl/Notification';
+
   static const String storeWithdrawal = '$baseUrl/Asset/store_withdrawal';
 
   static const String getCategory = '$baseUrl/Category';
