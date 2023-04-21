@@ -98,4 +98,40 @@ class OrderDetail {
 
   factory OrderDetail.fromJson(String source) =>
       OrderDetail.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  OrderDetail copyWith({
+    int? orderDetailID,
+    double? pricePurchase,
+    double? discountPurchase,
+    int? amount,
+    String? feedback_Title,
+    double? feedback_Rate,
+    String? feedBack_Date,
+    int? sub_ItemID,
+    String? sub_ItemName,
+    String? sub_ItemImage,
+    int? itemID,
+    FeedbackStatus? feedback_Status,
+    List<Image>? listImageFb,
+    int? warrantiesTime,
+    int? returnAndExchange,
+  }) {
+    return OrderDetail(
+      orderDetailID: orderDetailID ?? this.orderDetailID,
+      pricePurchase: pricePurchase ?? this.pricePurchase,
+      discountPurchase: discountPurchase ?? this.discountPurchase,
+      amount: amount ?? this.amount,
+      feedback_Title: feedback_Title ?? this.feedback_Title,
+      feedback_Rate: feedback_Rate ?? this.feedback_Rate,
+      feedBack_Date: feedBack_Date ?? this.feedBack_Date,
+      sub_ItemID: sub_ItemID ?? this.sub_ItemID,
+      sub_ItemName: sub_ItemName ?? this.sub_ItemName,
+      sub_ItemImage: sub_ItemImage ?? this.sub_ItemImage,
+      itemID: itemID ?? this.itemID,
+      feedback_Status: feedback_Status ?? this.feedback_Status,
+      listImageFb: listImageFb ?? this.listImageFb,
+      warrantiesTime: warrantiesTime ?? this.warrantiesTime,
+      returnAndExchange: returnAndExchange ?? this.returnAndExchange,
+    );
+  }
 }

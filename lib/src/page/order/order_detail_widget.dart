@@ -157,7 +157,13 @@ Widget orderDetailWidget(
                         ? () => showDialog(
                               context: context,
                               builder: (context) => feedbackOrderDialog(
-                                  context: context, orderDetail: detail),
+                                  context: context,
+                                  orderDetail: detail,
+                                  token: token,
+                                  relaod: (OrderDetail orderDetail) {
+                                    // order.details[index] = orderDetail;
+                                    order.details[index] = orderDetail;
+                                  }),
                             )
                         : null,
                   ),

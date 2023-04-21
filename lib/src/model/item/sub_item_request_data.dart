@@ -22,7 +22,7 @@ class SubItemRequestData {
       'sub_ItemName': sub_ItemName,
       'amount': amount,
       'price': price,
-      'dicount': dicount,
+      'discount': dicount,
       'warrantiesTime': warrantiesTime,
       'returnandexchange': ReturnAndExchange,
     };

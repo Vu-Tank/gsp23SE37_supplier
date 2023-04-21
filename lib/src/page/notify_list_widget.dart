@@ -73,10 +73,13 @@ class _NotifyListWidgetState extends State<NotifyListWidget> {
                                     children: [
                                       SizedBox(
                                         width: 300,
-                                        child: Text(
-                                          notify.title,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: AppStyle.h2,
+                                        child: Tooltip(
+                                          message: notify.title,
+                                          child: Text(
+                                            notify.title,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppStyle.h2,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(

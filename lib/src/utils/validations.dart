@@ -188,7 +188,7 @@ class Validations {
       value = value.replaceAll('VNĐ', '').replaceAll('.', '').trim();
       double price = double.parse(value);
       if (price <= 0) return 'Giá sản phẩm phải lơn hơn 0';
-      if (price >= 50000000) return 'Giá sản phẩm phải nhỏ hơn 50 triệu';
+      if (price >= 20000000) return 'Giá sản phẩm phải nhỏ hơn 20 triệu';
     } catch (e) {
       return 'vui lòng nhập số';
     }

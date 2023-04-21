@@ -48,7 +48,7 @@ class AddItemBloc extends Bloc<AddItemEvent, AddItemState> {
               amount: int.parse(element.subAmount.text.trim()),
               ReturnAndExchange:
                   int.parse(element.subReturnAndExchange.text.trim()),
-              dicount: double.parse(element.subDiscount.text) * 0.01,
+              dicount: double.parse(element.subDiscount.text),
               warrantiesTime:
                   int.parse(element.subWarrantiesTime.text.trim())));
         }
