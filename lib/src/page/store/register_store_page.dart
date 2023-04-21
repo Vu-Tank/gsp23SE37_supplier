@@ -99,21 +99,16 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: BlocBuilder<PickImageCubit, PickImageState>(
-                              builder: (context, state) {
-                                if (state is PickImageing) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
+                            child: BlocConsumer<PickImageCubit, PickImageState>(
+                              listener: (context, state) {
+                                if (state is PickImageSuccess) {
+                                  _image = state.image;
                                 } else if (state is PickImageFailed) {
-                                  return Center(
-                                    child: Text(
-                                      state.msg,
-                                      style: AppStyle.errorStyle,
-                                    ),
-                                  );
-                                } else if (state is PickImageSuccess) {
-                                  _image ??= state.image;
+                                  MyDialog.showSnackBar(context, state.msg);
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is PickImageSuccess) {
                                   return Stack(
                                     alignment:
                                         AlignmentDirectional.bottomCenter,

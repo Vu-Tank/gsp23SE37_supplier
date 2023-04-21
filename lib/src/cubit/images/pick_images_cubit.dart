@@ -20,6 +20,12 @@ class PickImagesCubit extends Cubit<PickImagesState> {
 
       XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
+        String? type = image.mimeType;
+        if (type == null || !type.contains('image')) {
+          if (isClosed) return;
+          emit(const PickImagesFailed('Vui lòng chọn file ảnh'));
+          return;
+        }
         final data = await image.readAsBytes();
         images.add(image);
         datas.add(data);

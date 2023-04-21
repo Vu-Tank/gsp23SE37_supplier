@@ -4,7 +4,8 @@ import '../model/item/sort_model.dart';
 
 class AppConstants {
   static const String defaultAvatar =
-      'https://firebasestorage.googleapis.com/v0/b/esmp-4b85e.appspot.com/o/images%2FdefaultAvatar.png?alt=media&token=c5175878-3cef-4c02-9b60-8ac9cc23b69a';
+      'https://firebasestorage.googleapis.com/v0/b/esmp-4b85e.appspot.com/o/images%2F2-5d887447-257a-4b45-8fbd-11e299762b65?alt=media&token=acc782a0-8136-4eaa-8276-1969870e7937&fbclid=IwAR2pmwGz2USS8bg7g27EeSsTQBsOJ_pBQL97lpA4J6hn4b5re209iZSqyt0';
+
   static const List<String> listWeightUnit = ['grams', 'kg'];
   static const List<String> listLwhtUnit = [
     'mm',
