@@ -283,9 +283,13 @@ class _AllOrderPageState extends State<AllOrderPage> {
                   order.value.orderID.toString(),
                   style: AppStyle.h2,
                 )),
-                DataCell(Text(
-                  order.value.create_Date.split('T').first,
-                  style: AppStyle.h2,
+                DataCell(Tooltip(
+                  message:
+                      '${(order.value.pick_Time != null) ? 'Ngày lấy hàng dựng kiến: ${order.value.pick_Time}${(order.value.deliver_time != null) ? '\n' : ''}' : ''}${(order.value.deliver_time != null) ? 'Ngày nhận hàng dự kiến: ${order.value.deliver_time}' : ''}',
+                  child: Text(
+                    order.value.create_Date.split('T').first,
+                    style: AppStyle.h2,
+                  ),
                 )),
                 DataCell(Tooltip(
                   message:

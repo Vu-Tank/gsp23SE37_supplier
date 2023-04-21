@@ -28,6 +28,7 @@ class Order {
   final OrderShip orderShip;
   final String? reason;
   final String? pick_Time;
+  final String? deliver_time;
   final String? firebaseID;
   final String paymentMethod;
   final String? packingLink;
@@ -54,6 +55,7 @@ class Order {
       required this.orderShip,
       this.reason,
       this.pick_Time,
+      this.deliver_time,
       this.firebaseID,
       required this.paymentMethod,
       this.packingLink});
@@ -82,6 +84,7 @@ class Order {
       'orderShip': orderShip.toMap(),
       'reason': reason,
       'pick_Time': pick_Time,
+      'deliver_time': deliver_time,
       'firebaseID': firebaseID,
       'paymentMethod': paymentMethod,
       'packingLink': packingLink,
@@ -117,6 +120,8 @@ class Order {
       orderShip: OrderShip.fromMap(map['orderShip'] as Map<String, dynamic>),
       reason: map['reason'] != null ? map['reason'] as String : null,
       pick_Time: map['pick_Time'] != null ? map['pick_Time'] as String : null,
+      deliver_time:
+          map['deliver_time'] != null ? map['deliver_time'] as String : null,
       firebaseID:
           map['firebaseID'] != null ? map['firebaseID'] as String : null,
       paymentMethod: map['paymentMethod'] as String,
@@ -132,6 +137,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, firebaseID: $firebaseID, paymentMethod: $paymentMethod, packingLink: $packingLink)';
+    return 'Order(orderID: $orderID, create_Date: $create_Date, orderStatus: $orderStatus, userID: $userID, priceItem: $priceItem, feeShip: $feeShip, pick_Province: $pick_Province, pick_District: $pick_District, pick_Ward: $pick_Ward, pick_Address: $pick_Address, pick_Tel: $pick_Tel, pick_Name: $pick_Name, name: $name, tel: $tel, province: $province, district: $district, ward: $ward, address: $address, details: $details, orderShip: $orderShip, reason: $reason, pick_Time: $pick_Time, deliver_time: $deliver_time, firebaseID: $firebaseID, paymentMethod: $paymentMethod, packingLink: $packingLink)';
   }
 }

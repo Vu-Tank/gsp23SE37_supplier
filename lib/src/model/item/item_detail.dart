@@ -25,6 +25,7 @@ class ItemDetail {
   final List<SpecificationTag> specification_Tag;
   final List<SubItem> listSubItem;
   final List<Brand> listModel;
+  final String? statusText;
   ItemDetail({
     required this.itemID,
     required this.name,
@@ -42,6 +43,7 @@ class ItemDetail {
     required this.specification_Tag,
     required this.listSubItem,
     required this.listModel,
+    this.statusText,
   });
 
   Map<String, dynamic> toMap() {
@@ -100,6 +102,8 @@ class ItemDetail {
           (x) => Brand.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      statusText:
+          map['statusText'] != null ? map['statusText'] as String : null,
     );
   }
 
@@ -107,11 +111,6 @@ class ItemDetail {
 
   factory ItemDetail.fromJson(String source) =>
       ItemDetail.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'ItemDetail(itemID: $itemID, name: $name, description: $description, rate: $rate, maxPrice: $maxPrice, minPrice: $minPrice, discount: $discount, num_Sold: $num_Sold, num_Feedback: $num_Feedback, create_date: $create_date, sub_Category: $sub_Category, item_Status: $item_Status, list_Image: $list_Image, specification_Tag: $specification_Tag, listSubItem: $listSubItem, listModel: $listModel)';
-  }
 
   ItemDetail copyWith({
     int? itemID,
@@ -130,6 +129,7 @@ class ItemDetail {
     List<SpecificationTag>? specification_Tag,
     List<SubItem>? listSubItem,
     List<Brand>? listModel,
+    String? statusText,
   }) {
     return ItemDetail(
       itemID: itemID ?? this.itemID,
@@ -148,6 +148,12 @@ class ItemDetail {
       specification_Tag: specification_Tag ?? this.specification_Tag,
       listSubItem: listSubItem ?? this.listSubItem,
       listModel: listModel ?? this.listModel,
+      statusText: statusText ?? this.statusText,
     );
+  }
+
+  @override
+  String toString() {
+    return 'ItemDetail(itemID: $itemID, name: $name, description: $description, rate: $rate, maxPrice: $maxPrice, minPrice: $minPrice, discount: $discount, num_Sold: $num_Sold, num_Feedback: $num_Feedback, create_date: $create_date, sub_Category: $sub_Category, item_Status: $item_Status, list_Image: $list_Image, specification_Tag: $specification_Tag, listSubItem: $listSubItem, listModel: $listModel, statusText: $statusText)';
   }
 }

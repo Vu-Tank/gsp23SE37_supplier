@@ -109,6 +109,16 @@ class _ItemDetailWidgetState extends State<ItemDetailWidget> {
                                         CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      if (itemDetailState.itemDetail.item_Status
+                                              .item_StatusID ==
+                                          2)
+                                        Card(
+                                          child: Text(
+                                            'Lý do vi phạm: ${itemDetailState.itemDetail.statusText}',
+                                            style: AppStyle.h2
+                                                .copyWith(color: Colors.red),
+                                          ),
+                                        ),
                                       Card(
                                         shape: const RoundedRectangleBorder(
                                           side: BorderSide(

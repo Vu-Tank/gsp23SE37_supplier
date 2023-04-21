@@ -124,13 +124,21 @@ class Validations {
     if (value.length <= 5) {
       return 'Tên sản phẩm phải dài hơn 5 ký tự';
     }
+    if (value.length > 1000) {
+      return 'Tên sản phẩm phải nhỏ hơn 1000 ký tự';
+    }
     return null;
   }
 
   static String? valSupplierName(String? value) {
     if (value == null) return 'Vui lòng nhập họ và tên';
     if (value.isEmpty) return 'Vui lòng nhập họ và tên';
-
+    if (value.length <= 5) {
+      return 'Họ tên phải dài hơn 5 ký tự';
+    }
+    if (value.length > 1000) {
+      return 'Họ tên phải nhỏ hơn 1000 ký tự';
+    }
     return null;
   }
 
@@ -139,6 +147,9 @@ class Validations {
     if (value.isEmpty) return 'Vui lòng nhập thông tin cho sản phẩm';
     if (value.length <= 10) {
       return 'Mô tả sản phẩm phải dài hơn 10 ký tự';
+    }
+    if (value.length > 1000) {
+      return 'nhỏ hơn 1000 ký tự';
     }
     return null;
   }
@@ -149,12 +160,18 @@ class Validations {
     // if (value.length <= 5) {
     //   return 'Phải dài hơn 5 ký tự';
     // }
+    if (value.length > 1000) {
+      return 'nhỏ hơn 1000 ký tự';
+    }
     return null;
   }
 
   static String? valSpecificationName(String? value, List<Specification> list) {
     if (value == null) return 'Không thể bỏ trống';
     if (value.isEmpty) return 'Không thể bỏ trống';
+    if (value.length > 1000) {
+      return 'nhỏ hơn 1000 ký tự';
+    }
     for (var element in list) {
       if (VNConvert.unsigned(element.specificationName.toLowerCase()) ==
           VNConvert.unsigned(value.toLowerCase().trim())) {
@@ -289,6 +306,9 @@ class Validations {
     if (value == null || value.isEmpty) {
       return 'Không được bỏ trống';
     } else {
+      if (value.length > 1000) {
+        return 'nhỏ hơn 1000 ký tự';
+      }
       String pattern =
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
       RegExp regExp = RegExp(pattern);
@@ -303,12 +323,18 @@ class Validations {
     if (value == null || value.isEmpty) {
       return 'Không được bỏ trống';
     }
+    if (value.length > 1000) {
+      return 'nhỏ hơn 1000 ký tự';
+    }
     return null;
   }
 
   static String? valAccountName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Không được bỏ trống';
+    }
+    if (value.length > 1000) {
+      return 'nhỏ hơn 1000 ký tự';
     }
     return null;
   }
@@ -330,9 +356,10 @@ class Validations {
   static String? valAddressString(String? value) {
     if (value == null || value.isEmpty) {
       return "Vui lòng nhập địa chỉ của bạn";
-    } else if (value.length > 100) {
+    } else if (value.length > 500) {
       return "Địa chỉ quá dài (Tối đa 100 ký tự)";
     }
+
     return null;
   }
 }
