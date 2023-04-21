@@ -71,7 +71,9 @@ class Utils {
     List<int> list = [];
     for (var element in listModel) {
       for (var model in element.listModel) {
-        if (model.isActive) list.add(model.brand_ModelID);
+        if (model.brand_ModelID != -1) {
+          if (model.isActive) list.add(model.brand_ModelID);
+        }
       }
     }
     return list;

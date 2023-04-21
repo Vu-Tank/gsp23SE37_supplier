@@ -99,6 +99,18 @@ class _StoreInfoDialogState extends State<StoreInfoDialog> {
                   ], rows: [
                     DataRow(cells: [
                       DataCell(Text(
+                        'Mã cửa hàng',
+                        style: AppStyle.h2,
+                      )),
+                      DataCell(
+                        Text(
+                          store.storeID.toString(),
+                          style: AppStyle.h2,
+                        ),
+                      ),
+                    ]),
+                    DataRow(cells: [
+                      DataCell(Text(
                         'Tên cửa hàng',
                         style: AppStyle.h2,
                       )),
