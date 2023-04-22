@@ -14,6 +14,7 @@ import 'package:gsp23se37_supplier/src/page/service_page.dart';
 import 'package:gsp23se37_supplier/src/page/sidebar_widget.dart';
 import 'package:gsp23se37_supplier/src/page/user/user_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/min_size.dart';
+import 'package:intl/intl.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 // ignore: avoid_web_libraries_in_flutter
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage>
                                     height: 8.0,
                                   ),
                                   Text(
-                                    'Bạn cần thanh toán ${state.priceActice}VNĐ',
+                                    'Bạn cần thanh toán ${NumberFormat.currency(locale: 'vi_VN', decimalDigits: 0, symbol: '').format(state.priceActice)}VNĐ',
                                     style: AppStyle.h2,
                                   ),
                                   const SizedBox(
