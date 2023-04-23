@@ -457,20 +457,19 @@ class _AllOrderPageState extends State<AllOrderPage> {
                 ? null
                 : () async {
                     if (order.packingLink != null) {
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              VideoDialog(url: order.packingLink!));
+                    } else {
                       if (_orderSearch.shipOrderStatus == 1 ||
                           _orderSearch.shipOrderStatus == 2) {
-                        showDialog(
-                            context: context,
-                            builder: (context) =>
-                                VideoDialog(url: order.packingLink!));
+                        context.read<OrderPackingVideoCubit>().pickVideo(
+                            token: user.token, orderID: order.orderID);
                       } else {
                         MyDialog.showSnackBar(context,
                             "Không thể đăng video cho những đơn hàng này");
                       }
-                    } else {
-                      context
-                          .read<OrderPackingVideoCubit>()
-                          .pickVideo(token: user.token, orderID: order.orderID);
                     }
                   },
             child: (orderTicketState is OrderPackingVideoLoading)
