@@ -571,11 +571,8 @@ class _AllServicePageState extends State<AllServicePage> {
                         builder: (context, state) {
                           return InkWell(
                             onTap:
-                                (serviceBuy.value.servicestatus.item_StatusID ==
-                                            2 ||
-                                        serviceBuy.value.servicestatus
-                                                .item_StatusID ==
-                                            5)
+                                (serviceBuy.value.servicestatus.item_StatusID !=
+                                        3)
                                     ? null
                                     : (state is ServiceActiviting)
                                         ? null
@@ -594,11 +591,8 @@ class _AllServicePageState extends State<AllServicePage> {
                                   : Icon(
                                       Icons.done,
                                       color: (serviceBuy.value.servicestatus
-                                                      .item_StatusID ==
-                                                  2 ||
-                                              serviceBuy.value.servicestatus
-                                                      .item_StatusID ==
-                                                  5)
+                                                  .item_StatusID !=
+                                              3)
                                           ? Colors.grey
                                           : Colors.green,
                                     ),
@@ -608,9 +602,7 @@ class _AllServicePageState extends State<AllServicePage> {
                       ),
                     ),
                     InkWell(
-                      onTap: (serviceBuy.value.servicestatus.item_StatusID ==
-                                  2 ||
-                              serviceBuy.value.servicestatus.item_StatusID == 5)
+                      onTap: (serviceBuy.value.servicestatus.item_StatusID != 3)
                           ? null
                           : () async {
                               var check = await showDialog(
@@ -634,11 +626,8 @@ class _AllServicePageState extends State<AllServicePage> {
                         child: Icon(
                           Icons.cancel,
                           color:
-                              (serviceBuy.value.servicestatus.item_StatusID ==
-                                          2 ||
-                                      serviceBuy.value.servicestatus
-                                              .item_StatusID ==
-                                          5)
+                              (serviceBuy.value.servicestatus.item_StatusID !=
+                                      3)
                                   ? Colors.grey
                                   : Colors.red,
                         ),
