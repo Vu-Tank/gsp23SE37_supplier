@@ -105046,7 +105046,9 @@ return A.w($.b9z().nb(null,B.kN,B.dP),$async$qy)
 case 7:l=a1
 s=l!=null?8:10
 break
-case 8:k=l.a
+case 8:if((n.gS().c&4)!==0){s=1
+break}n.N(new A.Ku())
+k=l.a
 s=k!=null&&J.oy(k,"video")?11:13
 break
 case 11:s=14
@@ -105062,9 +105064,7 @@ return A.w(new A.Xn(A.bc5(new A.cR(e))).yW(j,l.b),$async$qy)
 case 18:i=a1
 s=i!=null?19:21
 break
-case 19:if((n.gS().c&4)!==0){s=1
-break}n.N(new A.Ku())
-s=22
+case 19:s=22
 return A.w(A.axK(a,b,i),$async$qy)
 case 22:h=a1
 f=h.b

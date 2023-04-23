@@ -18,6 +18,8 @@ class OrderPackingVideoCubit extends Cubit<OrderPackingVideoState> {
       final ImagePicker picker = ImagePicker();
       XFile? result = await picker.pickVideo(source: ImageSource.gallery);
       if (result != null) {
+        if (isClosed) return;
+        emit(OrderPackingVideoLoading());
         // PlatformFile file = result.files.first;
         // var data = file.bytes;
         String? type = result.mimeType;
@@ -27,8 +29,6 @@ class OrderPackingVideoCubit extends Cubit<OrderPackingVideoState> {
             String? url = await FirebaseStorageService()
                 .uploadFileVideo(data, result.name);
             if (url != null) {
-              if (isClosed) return;
-              emit(OrderPackingVideoLoading());
               ApiResponse apiResponse =
                   await OrderRepositories.updatePakingLink(
                       token: token, orderID: orderID, url: url);
