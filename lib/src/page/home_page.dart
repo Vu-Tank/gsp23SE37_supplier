@@ -50,6 +50,15 @@ class _HomePageState extends State<HomePage>
     controller = SidebarXController(selectedIndex: 0, extended: true);
     controller.addListener(() {
       if (controller.selectedIndex == 0) {
+        AuthState authState = context.read<AuthBloc>().state;
+        if (authState is AuthAuthenticated) {
+          User user = authState.user;
+          if (user.storeID != -1) {
+            context
+                .read<ShopBloc>()
+                .add(ShopLogin(userID: user.userID, token: user.token));
+          }
+        }
         setState(() {
           tiltie = "Trang Chủ";
         });
