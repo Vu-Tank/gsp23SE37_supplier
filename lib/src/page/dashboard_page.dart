@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../bloc/auth/auth_bloc.dart';
-import '../bloc/shop/shop_bloc.dart';
 import '../cubit/item_hot/item_hot_cubit.dart';
 import '../cubit/load_home/load_home_cubit.dart';
 import '../model/item/item.dart';
@@ -131,7 +130,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                             );
                                           },
                                           child: Text(
-                                            'Dòng tiền',
+                                            'Doanh thu',
                                             style: AppStyle.textButtom,
                                           )),
                                     ),

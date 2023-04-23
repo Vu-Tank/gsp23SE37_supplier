@@ -107077,7 +107077,7 @@ l=this.b
 n=$.mO()
 s=t.p
 r=t.Eb
-return new A.d9(new A.am(300,300,300,b.d),A.an(A.a([A.iz(new A.ad(q,200,A.an(A.a([p,B.p,o,B.p,A.b4(A.a([A.bF(A.cI(A.k("R\xfat ti\u1ec1n",q,q,q,q,q,n,q,q),new A.aP4(m,l),q),1),A.bF(A.cI(A.k("D\xf2ng ti\u1ec1n",q,q,q,q,q,n,q,q),new A.aP5(m,l),q),1)],s),B.f,B.n,B.k,q)],s),B.f,B.c7,B.k,q),q),q,q,q),A.bF(A.iz(new A.a1(B.w,A.an(A.a([A.bJ(A.k("Top s\u1ea3n ph\u1ea9m",q,q,q,q,q,$.z(),q,q),q,q),A.bF(A.bt(A.eF(q,q,new A.aP6(m),r,t.Hx),new A.aP7(m),r),1)],s),B.f,B.n,B.k,q),q),q,q,q),1)],s),B.f,B.n,B.k,q),q)},
+return new A.d9(new A.am(300,300,300,b.d),A.an(A.a([A.iz(new A.ad(q,200,A.an(A.a([p,B.p,o,B.p,A.b4(A.a([A.bF(A.cI(A.k("R\xfat ti\u1ec1n",q,q,q,q,q,n,q,q),new A.aP4(m,l),q),1),A.bF(A.cI(A.k("Doanh thu",q,q,q,q,q,n,q,q),new A.aP5(m,l),q),1)],s),B.f,B.n,B.k,q)],s),B.f,B.c7,B.k,q),q),q,q,q),A.bF(A.iz(new A.a1(B.w,A.an(A.a([A.bJ(A.k("Top s\u1ea3n ph\u1ea9m",q,q,q,q,q,$.z(),q,q),q,q),A.bF(A.bt(A.eF(q,q,new A.aP6(m),r,t.Hx),new A.aP7(m),r),1)],s),B.f,B.n,B.k,q),q),q,q,q),1)],s),B.f,B.n,B.k,q),q)},
 $S:228}
 A.aP4.prototype={
 $0(){var s,r=this.a,q=r.d
