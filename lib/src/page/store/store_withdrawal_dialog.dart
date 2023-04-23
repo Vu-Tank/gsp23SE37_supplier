@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/store_withdrawal/store_withdrawal_cubit.dart';
 import 'package:gsp23se37_supplier/src/utils/app_constants.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 import 'package:gsp23se37_supplier/src/utils/validations.dart';
 import 'package:intl/intl.dart';
 
@@ -31,6 +32,7 @@ Widget storeWithdraWalDialog(
             listener: (context, storeWithdrawalState) {
               if (storeWithdrawalState is StoreWithdrawalSuccess) {
                 context.pop();
+                MyDialog.showAlertDialog(context, "Gửi yêu cầu thành công");
               }
             },
             builder: (context, storeWithdrawalState) {
