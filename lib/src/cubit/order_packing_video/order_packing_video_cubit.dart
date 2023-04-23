@@ -12,8 +12,6 @@ part 'order_packing_video_state.dart';
 class OrderPackingVideoCubit extends Cubit<OrderPackingVideoState> {
   OrderPackingVideoCubit() : super(OrderPackingVideoInitial());
   pickVideo({required String token, required int orderID}) async {
-    if (isClosed) return;
-    emit(OrderPackingVideoLoading());
     try {
       // FilePickerResult? result =
       //     await FilePicker.platform.pickFiles(type: FileType.video);
@@ -29,6 +27,8 @@ class OrderPackingVideoCubit extends Cubit<OrderPackingVideoState> {
             String? url = await FirebaseStorageService()
                 .uploadFileVideo(data, result.name);
             if (url != null) {
+              if (isClosed) return;
+              emit(OrderPackingVideoLoading());
               ApiResponse apiResponse =
                   await OrderRepositories.updatePakingLink(
                       token: token, orderID: orderID, url: url);
