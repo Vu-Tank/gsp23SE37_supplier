@@ -27,6 +27,8 @@ Widget orderDetailWidget(
           ),
           DataTable(
             showCheckboxColumn: false,
+            headingRowColor:
+                MaterialStateColor.resolveWith((states) => Colors.blue),
             columns: [
               DataColumn(
                   label: Text(
