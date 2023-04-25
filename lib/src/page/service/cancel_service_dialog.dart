@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gsp23se37_supplier/src/cubit/service_cancel/service_cancel_cubit.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
+import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
 
 Widget cancelServiceDialog(
     {required BuildContext context,
@@ -18,6 +19,7 @@ Widget cancelServiceDialog(
       child: BlocConsumer<ServiceCancelCubit, ServiceCancelState>(
         listener: (context, state) {
           context.pop(true);
+          MyDialog.showSnackBar(context, "Từ chối thành công");
         },
         builder: (context, state) {
           return Padding(
