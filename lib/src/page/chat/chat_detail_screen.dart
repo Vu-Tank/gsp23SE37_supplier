@@ -254,7 +254,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   sendMessage() async {
-    if (messageController.text.isNotEmpty) {
+    if (messageController.text.trim().isNotEmpty) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
       Map<String, dynamic> chatMessageMap = {

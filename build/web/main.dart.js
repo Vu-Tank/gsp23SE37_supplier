@@ -106781,7 +106781,7 @@ aqr(){return A.b7Q(new A.aNV(this),this.e,t.cG)},
 uT(){var s=0,r=A.u(t.z),q=this,p,o,n,m,l,k
 var $async$uT=A.p(function(a,b){if(a===1)return A.q(b,r)
 while(true)switch(s){case 0:k=q.d
-s=k.a.a.length!==0?2:3
+s=B.b.bt(k.a.a).length!==0?2:3
 break
 case 2:p=Date.now()
 o=A.dy("yyyy-MM-dd HH:mm:ss",null).bH(new A.at(p,!1))
@@ -109032,7 +109032,7 @@ $S:792}
 A.aKZ.prototype={
 $2(a,b){var s,r,q
 if(b instanceof A.px)A.hj(a,b.a)
-if(b instanceof A.Kz){A.hj(a,"\u0110\xe0ng video \u0111\xf3ng h\xe0ng th\xe0nh c\xf4ng")
+if(b instanceof A.Kz){A.hj(a,"")
 s=A.V(a,!1,t._L)
 r=this.a
 q=r.f
