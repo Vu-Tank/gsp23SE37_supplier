@@ -111606,18 +111606,20 @@ $1(a){return A.boN(t.P.a(a))},
 $S:863}
 A.If.prototype={
 uC(a,b,c){return this.aAo(a,b,c)},
-aAo(a,b,c){var s=0,r=A.u(t.H),q=1,p,o=this,n,m
+aAo(a,b,c){var s=0,r=A.u(t.H),q=1,p,o=this,n,m,l,k
 var $async$uC=A.p(function(d,e){if(d===1){p=e
 s=q}while(true)switch(s){case 0:q=3
 s=6
 return A.w(o.a.gvz().oQ(0,null,new A.aqG(),new A.aqH(b),null,null,null,c,B.ON,new A.aqI(),new A.aqJ(a)),$async$uC)
-case 6:q=1
+case 6:n=window.document.getElementById("__ff-recaptcha-container")
+if(n!=null){m=n.style
+m.visibility="hidden"}q=1
 s=5
 break
 case 3:q=2
-m=p
-if(A.a2(m) instanceof A.nc)throw m
-else throw m
+k=p
+if(A.a2(k) instanceof A.nc)throw k
+else throw k
 s=5
 break
 case 2:s=1

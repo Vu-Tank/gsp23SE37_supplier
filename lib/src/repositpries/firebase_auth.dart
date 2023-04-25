@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../repositpries/user_repositories.dart';
@@ -32,6 +34,10 @@ class FirebaseAuthService {
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
+      final el = window.document.getElementById('__ff-recaptcha-container');
+      if (el != null) {
+        el.style.visibility = 'hidden';
+      }
     } on FirebaseAuthException catch (_) {
       rethrow;
     }
