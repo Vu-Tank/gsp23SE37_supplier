@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage>
       }
       if (controller.selectedIndex == 6) {
         setState(() {
-          tiltie = "Giới thiệu";
+          tiltie = "Chính sách";
         });
       }
     });
