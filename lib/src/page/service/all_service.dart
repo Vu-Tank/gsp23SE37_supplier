@@ -418,7 +418,7 @@ class _AllServicePageState extends State<AllServicePage> {
         ),
         DataColumn(
           label: Text(
-            'Ngày đặt',
+            'Thời gian',
             style: AppStyle.h2,
           ),
         ),
@@ -468,7 +468,8 @@ class _AllServicePageState extends State<AllServicePage> {
                   style: AppStyle.h2,
                 )),
                 DataCell(Text(
-                  serviceBuy.value.create_Date.split('T').first,
+                  // serviceBuy.value.create_Date.split('T').first,
+                  Utils.getTime(serviceBuy.value.create_Date),
                   style: AppStyle.h2,
                 )),
                 DataCell(Text(

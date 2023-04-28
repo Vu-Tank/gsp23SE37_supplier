@@ -14,6 +14,7 @@ import 'package:gsp23se37_supplier/src/page/order/search_order_widget.dart';
 import 'package:gsp23se37_supplier/src/page/order/ship_order_widget.dart';
 import 'package:gsp23se37_supplier/src/utils/app_style.dart';
 import 'package:gsp23se37_supplier/src/utils/my_dialog.dart';
+import 'package:gsp23se37_supplier/src/utils/utils.dart';
 import 'package:gsp23se37_supplier/src/widget/bloc_load_failed.dart';
 import 'package:intl/intl.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -287,7 +288,8 @@ class _AllOrderPageState extends State<AllOrderPage> {
                   message:
                       '${(order.value.pick_Time != null) ? 'Ngày lấy hàng dựng kiến: ${order.value.pick_Time}${(order.value.deliver_time != null) ? '\n' : ''}' : ''}${(order.value.deliver_time != null) ? 'Ngày nhận hàng dự kiến: ${order.value.deliver_time}' : ''}',
                   child: Text(
-                    order.value.create_Date.split('T').first,
+                    // order.value.create_Date.split('T').first,
+                    Utils.getTime(order.value.create_Date),
                     style: AppStyle.h2,
                   ),
                 )),
