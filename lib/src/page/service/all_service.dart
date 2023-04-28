@@ -469,7 +469,7 @@ class _AllServicePageState extends State<AllServicePage> {
                 )),
                 DataCell(Text(
                   // serviceBuy.value.create_Date.split('T').first,
-                  Utils.getTime(serviceBuy.value.create_Date),
+                  Utils.getTimeSQL(serviceBuy.value.create_Date),
                   style: AppStyle.h2,
                 )),
                 DataCell(Text(

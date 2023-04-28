@@ -289,7 +289,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
                       '${(order.value.pick_Time != null) ? 'Ngày lấy hàng dựng kiến: ${order.value.pick_Time}${(order.value.deliver_time != null) ? '\n' : ''}' : ''}${(order.value.deliver_time != null) ? 'Ngày nhận hàng dự kiến: ${order.value.deliver_time}' : ''}',
                   child: Text(
                     // order.value.create_Date.split('T').first,
-                    Utils.getTime(order.value.create_Date),
+                    Utils.getTimeSQL(order.value.create_Date),
                     style: AppStyle.h2,
                   ),
                 )),
