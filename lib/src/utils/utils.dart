@@ -115,28 +115,6 @@ class Utils {
     DateTime now = DateTime.now();
     DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss');
     DateTime time = format.parse(timeString);
-    return '${time.day}/${time.month}/${time.year} - ${time.hour}:${time.minute}';
-    // if (now.day == time.day &&
-    //     now.month == time.month &&
-    //     now.year == time.year) {
-    //   return '${time.hour}:${time.minute}';
-    //   // } else if (false) {
-    //   //   return time.weekday.toString();
-    // } else if (now.year == time.year) {
-    //   return '${time.day} Tháng ${time.month} - ${time.hour}:${time.minute}';
-    // } else {
-    //   return '${time.day} Tháng ${time.month}, ${time.year}';
-    // }
-  }
-
-  static String getTimeSQL(String timeString) {
-    if (timeString.isEmpty || timeString == '0') {
-      return '';
-    }
-
-    DateTime now = DateTime.now();
-    DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss');
-    DateTime time = format.parse(timeString.replaceAll("T", " "));
     if (now.day == time.day &&
         now.month == time.month &&
         now.year == time.year) {
@@ -148,6 +126,15 @@ class Utils {
     } else {
       return '${time.day} thg ${time.month}, ${time.year}';
     }
+  }
+
+  static String getTimeSQL(String timeString) {
+    if (timeString.isEmpty || timeString == '0') {
+      return '';
+    }
+    DateFormat format = DateFormat('yyyy-MM-dd HH:mm:ss');
+    DateTime time = format.parse(timeString.replaceAll("T", " "));
+    return '${time.day}/${time.month}/${time.year} - ${time.hour}:${time.minute}';
   }
 
   static String createFile() {
