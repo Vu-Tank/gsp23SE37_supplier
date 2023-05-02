@@ -181,7 +181,8 @@ class _CashFlowDialogState extends State<CashFlowDialog> {
                                                     .loadCashFlow(
                                                         token: widget.token,
                                                         search: search.copyWith(
-                                                            page: search.page -
+                                                            page: state
+                                                                    .curentPage -
                                                                 1)),
                                             icon: const Icon(
                                               Icons.arrow_back_outlined,
@@ -204,7 +205,8 @@ class _CashFlowDialogState extends State<CashFlowDialog> {
                                                     .loadCashFlow(
                                                         token: widget.token,
                                                         search: search.copyWith(
-                                                            page: search.page +
+                                                            page: state
+                                                                    .curentPage +
                                                                 1)),
                                             icon: const Icon(
                                               Icons.arrow_forward_outlined,
