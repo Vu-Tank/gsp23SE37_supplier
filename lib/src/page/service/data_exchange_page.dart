@@ -140,6 +140,14 @@ class _DataExchangePageState extends State<DataExchangePage> {
   Widget dataExchangeView(
       {required BuildContext context, required DataExchangeSuccess state}) {
     List<DataExchange> list = state.list;
+    if (list.isEmpty) {
+      return Center(
+        child: Text(
+          'Danh sách đối soát đang trống',
+          style: AppStyle.h2,
+        ),
+      );
+    }
     return DataTable(
         showCheckboxColumn: false,
         headingRowColor:
