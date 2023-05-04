@@ -932,7 +932,7 @@ class _AddItemPageState extends State<AddItemPage> {
                             style: AppStyle.myButtonStyle,
                             child: Text(
                               'Xoá tất cả',
-                              style: AppStyle.h2.copyWith(color: Colors.white),
+                              style: AppStyle.h2,
                             ),
                           ),
                           const SizedBox(
@@ -946,7 +946,7 @@ class _AddItemPageState extends State<AddItemPage> {
                             style: AppStyle.myButtonStyle,
                             child: Text(
                               'Chọn thêm',
-                              style: AppStyle.h2.copyWith(color: Colors.white),
+                              style: AppStyle.h2,
                             ),
                           )
                         ],

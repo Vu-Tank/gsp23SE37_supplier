@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,6 +62,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
         if (state is AuthAuthenticated && state.user.storeID != -1) {
           GoRouter.of(context)
               .pushReplacementNamed(AppRouterConstants.homeRouteName);
+          log("back home");
         }
       },
       builder: (context, state) {
@@ -130,8 +133,7 @@ class _RegisterStorePageState extends State<RegisterStorePage> {
                                         style: AppStyle.myButtonStyle,
                                         child: Text(
                                           'Chọn lại',
-                                          style: AppStyle.h2
-                                              .copyWith(color: Colors.white),
+                                          style: AppStyle.h2,
                                         ),
                                       )
                                     ],
