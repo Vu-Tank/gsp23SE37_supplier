@@ -106,7 +106,7 @@ class _NotifyListWidgetState extends State<NotifyListWidget> {
                                             .loadNotify(
                                                 userid: widget.user.userID,
                                                 token: widget.user.token,
-                                                page: page--),
+                                                page: state.currentPage - 1),
                                     icon: const Icon(
                                       Icons.arrow_back_outlined,
                                       // color: Colors.black,
@@ -120,15 +120,15 @@ class _NotifyListWidgetState extends State<NotifyListWidget> {
                                   ),
                                 ),
                                 IconButton(
-                                    onPressed:
-                                        (state.currentPage == state.totalPage)
-                                            ? null
-                                            : () => context
-                                                .read<NotifyCubit>()
-                                                .loadNotify(
-                                                    userid: widget.user.userID,
-                                                    token: widget.user.token,
-                                                    page: page++),
+                                    onPressed: (state.currentPage ==
+                                            state.totalPage)
+                                        ? null
+                                        : () => context
+                                            .read<NotifyCubit>()
+                                            .loadNotify(
+                                                userid: widget.user.userID,
+                                                token: widget.user.token,
+                                                page: state.currentPage + 1),
                                     icon: const Icon(
                                       Icons.arrow_forward_outlined,
                                       // color: Colors.black,
