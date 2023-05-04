@@ -59,65 +59,93 @@ class _DataExchangePageState extends State<DataExchangePage> {
             //data
             Expanded(
               child: (state is DataExchangeSuccess)
-                  ? Container(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LayoutBuilder(builder:
-                            (BuildContext context, BoxConstraints constraints) {
-                          return ScrollConfiguration(
-                            behavior: ScrollConfiguration.of(context)
-                                .copyWith(dragDevices: {
-                              PointerDeviceKind.mouse,
-                              PointerDeviceKind.touch,
+                  ? (state.list.isEmpty)
+                      ? Center(
+                          child: Text(
+                            'Danh sách đối soát đang trống',
+                            style: AppStyle.h2,
+                          ),
+                        )
+                      : Container(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: LayoutBuilder(builder: (BuildContext context,
+                                BoxConstraints constraints) {
+                              return ScrollConfiguration(
+                                behavior: ScrollConfiguration.of(context)
+                                    .copyWith(dragDevices: {
+                                  PointerDeviceKind.mouse,
+                                  PointerDeviceKind.touch,
+                                }),
+                                child: SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  child: Column(
+                                    children: [
+                                      ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              minWidth: constraints.maxWidth),
+                                          child: dataExchangeView(
+                                              context: context, state: state)),
+                                      if (state.totalPage != 1)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            IconButton(
+                                                onPressed:
+                                                    (state.currentPage == 1)
+                                                        ? null
+                                                        : () {
+                                                            context.read<DataExchangeCubit>().load(
+                                                                search: search
+                                                                    .copyWith(
+                                                                        page: state.currentPage -
+                                                                            1),
+                                                                token:
+                                                                    user.token);
+                                                          },
+                                                icon: const Icon(
+                                                  Icons.arrow_back_outlined,
+                                                  // color: Colors.black,
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, right: 8.0),
+                                              child: Text(
+                                                state.currentPage.toString(),
+                                                style: AppStyle.h2,
+                                              ),
+                                            ),
+                                            IconButton(
+                                                onPressed:
+                                                    (state.currentPage ==
+                                                            state.totalPage)
+                                                        ? null
+                                                        : () {
+                                                            context.read<DataExchangeCubit>().load(
+                                                                search: search
+                                                                    .copyWith(
+                                                                        page: state.currentPage +
+                                                                            1),
+                                                                token:
+                                                                    user.token);
+                                                          },
+                                                icon: const Icon(
+                                                  Icons.arrow_forward_outlined,
+                                                  // color: Colors.black,
+                                                )),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              );
                             }),
-                            child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              child: Column(
-                                children: [
-                                  ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          minWidth: constraints.maxWidth),
-                                      child: dataExchangeView(
-                                          context: context, state: state)),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.center,
-                                  //   children: [
-                                  //     IconButton(
-                                  //         onPressed: (state.currentPage == 1)
-                                  //             ? null
-                                  //             : () {},
-                                  //         icon: const Icon(
-                                  //           Icons.arrow_back_outlined,
-                                  //           // color: Colors.black,
-                                  //         )),
-                                  //     Padding(
-                                  //       padding: const EdgeInsets.only(
-                                  //           left: 8.0, right: 8.0),
-                                  //       child: Text(
-                                  //         state.currentPage.toString(),
-                                  //         style: AppStyle.h2,
-                                  //       ),
-                                  //     ),
-                                  //     IconButton(
-                                  //         onPressed: (state.currentPage ==
-                                  //                 state.totalPage)
-                                  //             ? null
-                                  //             : () {},
-                                  //         icon: const Icon(
-                                  //           Icons.arrow_forward_outlined,
-                                  //           // color: Colors.black,
-                                  //         )),
-                                  //   ],
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    )
+                          ),
+                        )
                   : (state is DataExchangeFailed)
                       ? blocLoadFailed(
                           msg: state.msg,
@@ -140,14 +168,6 @@ class _DataExchangePageState extends State<DataExchangePage> {
   Widget dataExchangeView(
       {required BuildContext context, required DataExchangeSuccess state}) {
     List<DataExchange> list = state.list;
-    if (list.isEmpty) {
-      return Center(
-        child: Text(
-          'Danh sách đối soát đang trống',
-          style: AppStyle.h2,
-        ),
-      );
-    }
     return DataTable(
         showCheckboxColumn: false,
         headingRowColor:
