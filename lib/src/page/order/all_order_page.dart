@@ -448,7 +448,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
             MyDialog.showSnackBar(context, state.msg);
           }
           if (state is OrderPackingVideoUpLoaded) {
-            MyDialog.showSnackBar(context, "");
+            MyDialog.showSnackBar(context, "Đăng video đóng hàng thành công");
             context.read<AllOrderBloc>().add(
                 AllOrderLoad(orderSearch: _orderSearch, token: user.token));
           }
