@@ -1,3 +1,3 @@
 class ApiSetting {
-  static Duration timeOut = const Duration(seconds: 15);
+  static Duration timeOut = const Duration(seconds: 60);
 }
