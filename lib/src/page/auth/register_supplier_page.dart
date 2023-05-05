@@ -212,7 +212,7 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                   context: context,
                                   locale: const Locale("vi", "VN"),
                                   initialDate: DateTime(
-                                      DateTime.now().year - 14,
+                                      DateTime.now().year - 18,
                                       DateTime.now().month,
                                       DateTime.now().day),
                                   firstDate: DateTime(1900),
@@ -220,14 +220,14 @@ class _RegisterSupplierPageState extends State<RegisterSupplierPage> {
                                   helpText: 'Ngày sinh',
                                   selectableDayPredicate: (DateTime? date) {
                                     if (DateTime.now().year - date!.year >=
-                                        14) {
+                                        18) {
                                       if (DateTime.now().year - date.year ==
-                                              14 &&
+                                              18 &&
                                           DateTime.now().month < date.month) {
                                         return false;
                                       } else if (DateTime.now().year -
                                                   date.year ==
-                                              14 &&
+                                              18 &&
                                           DateTime.now().month == date.month &&
                                           DateTime.now().day < date.day) {
                                         return false;

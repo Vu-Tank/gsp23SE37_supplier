@@ -105,6 +105,7 @@ class _OverViewPageState extends State<OverViewPage> {
     '1.	Đối với vai trò bán hàng:',
     '-	Có đủ năng lực hành vi dân sự để thực hiện các giao dịch thương mại đối với sản phẩm bán trên hệ thống ESMP.',
     '-	Cung cấp đầy đủ thông tin cá nhân và thông tin về sản phẩm, dịch vụ cần bán.',
+    '-	Cần trả một khoản phí cho hệ thống ESMP',
     '2.	Đối với vai trò mua hàng:',
     '-	Có đủ năng lực hành vi dân sự để thực hiện các giao dịch thương mại trên hệ thống ESMP.',
     '-	Cung cấp đầy đủ thông tin cá nhân và thông tin về địa chỉ giao hàng.',
@@ -118,14 +119,17 @@ class _OverViewPageState extends State<OverViewPage> {
     '-	Thực hiện thanh toán đầy đủ và đúng thời hạn đối với đơn hàng đã mua trên ESMP.',
     '-	Tuân thủ quy trình, quy định và hướng dẫn của ESMP trong việc mua hàng, đặt hàng, nhận hàng và đổi trả hàng hóa.',
     'III.	Quyền lợi và nghĩa vụ',
-    '1.	Quyền lợi của người mua hàng:',
+    '1.	Quyền lợi và nghĩa vụ của người mua hàng:',
     '-	Được đảm bảo quyền lợi khi mua hàng trên hệ thống ESMP, bao gồm quyền lợi đổi trả, bảo vệ thông tin cá nhân và các thông tin giao dịch.',
     '-	Được cung cấp thông tin sản phẩm chính xác và đầy đủ, đảm bảo tính minh bạch và công bằng cho người mua.',
+    '-	Khi bên mua nhận được hàng có trách nghiệm kiểm tra đơn hàng và quay video mở hàng để bảo vệ quyền lợi của mình',
     '-	Được hỗ trợ khi gặp sự cố trong quá trình mua hàng trên hệ thống ESMP.',
-    '2.	Quyền lợi của người bán hàng:',
+    '2.	Quyền lợi và nghĩa vụ của người bán hàng:',
     '-	Được cung cấp nền tảng bán hàng trực tuyến tiện lợi, phát triển kinh doanh và mở rộng thị trường.',
     '-	Được hỗ trợ trong việc tạo và quản lý gian hàng trên hệ thống ESMP.',
     '-	Được bảo vệ quyền sở hữu trí tuệ và ngăn chặn hành vi sao chép sản phẩm của người khác.',
+    '-	Khi bên bán hàng nhận được đơn hàng mới, người bán cần cập nhật video gói hàng cho đơn hàng đó để bảo vệ quyền lợi của mình.',
+    '-	Khi không liên lạc được với người mua, bên bán hàng sẽ được hoàn về tiền vận chuyển và 4% tiền hàng',
     '-	Được đảm bảo quyền lợi khi bán hàng trên hệ thống ESMP, bao gồm quyền lợi về thanh toán và đổi trả hàng hóa.'
   ];
 }
